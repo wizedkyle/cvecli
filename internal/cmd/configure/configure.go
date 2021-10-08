@@ -6,7 +6,6 @@ import (
 	"github.com/manifoldco/promptui"
 	"github.com/spf13/cobra"
 	"github.com/wizedkyle/cvesub/config"
-	"github.com/wizedkyle/cvesub/internal/authentication"
 	"github.com/wizedkyle/cvesub/internal/encryption"
 	"github.com/wizedkyle/cvesub/internal/logging"
 	"os"
@@ -20,9 +19,9 @@ func NewCmdConfigure() *cobra.Command {
 		Short: "Sets cvesub credentials",
 		Long:  "Interactively sets the cvesub API user, API key and organization information",
 		Run: func(cmd *cobra.Command, args []string) {
-			fmt.Println("cvesub requires and api user, api key and organization for correct functioning. " +
-				"cvesub will encrypt and store the api user, api key and organization in " +
-				"the following file for use by subsequent commands: " + authentication.ConfigPath())
+			fmt.Println("cvesub requires and api user, api key, organization, GitHub Username and GitHub PAT for correct functioning. " +
+				"cvesub will encrypt and store the api user, api key, organization, GitHub username and GitHub PAT in " +
+				"the following file for use by subsequent commands: " + config.Path(true, false))
 			if userConfirmation() == true {
 				setCredentials()
 			} else {
@@ -34,7 +33,7 @@ func NewCmdConfigure() *cobra.Command {
 }
 
 func setCredentials() {
-	var credentails config.CredentialFile
+	var credentials config.CredentialFile
 	promptApiUser := promptui.Prompt{
 		Label: "Please enter your api username",
 	}
@@ -44,6 +43,13 @@ func setCredentials() {
 	}
 	promptOrganization := promptui.Prompt{
 		Label: "Please enter your CNA organization name",
+	}
+	promptGitHubUsername := promptui.Prompt{
+		Label: "Please enter your GitHub username",
+	}
+	promptGitHubPat := promptui.Prompt{
+		Label: "Please enter a GitHub Personal Access Token (PAT)",
+		Mask:  '*',
 	}
 	apiUser, err := promptApiUser.Run()
 	if err != nil {
@@ -57,25 +63,35 @@ func setCredentials() {
 	if err != nil {
 		logging.ConsoleLogger().Error().Err(err).Msg("failed to prompt for an organization")
 	}
-	credentails.APIUser = encryption.EncryptData(apiUser)
-	credentails.APIKey = encryption.EncryptData(apiKey)
-	credentails.Organization = encryption.EncryptData(organization)
-	configFilePath := filepath.Dir(authentication.ConfigPath())
+	githubUsername, err := promptGitHubUsername.Run()
+	if err != nil {
+		logging.ConsoleLogger().Error().Err(err).Msg("failed to prompt for a GitHub username")
+	}
+	githubPat, err := promptGitHubPat.Run()
+	if err != nil {
+		logging.ConsoleLogger().Error().Err(err).Msg("failed to prompt for a GitHub PAT")
+	}
+	credentials.APIUser = encryption.EncryptData(apiUser)
+	credentials.APIKey = encryption.EncryptData(apiKey)
+	credentials.Organization = encryption.EncryptData(organization)
+	credentials.GitHubUsername = encryption.EncryptData(githubUsername)
+	credentials.GitHubPat = encryption.EncryptData(githubPat)
+	configFilePath := filepath.Dir(config.Path(true, false))
 	if _, err := os.Stat(configFilePath); os.IsNotExist(err) {
 		err := os.MkdirAll(configFilePath, 0755)
 		if err != nil {
 			logging.ConsoleLogger().Error().Err(err).Msg("failed to create folder structure for credentails file")
 		}
 	}
-	credentialsFile, err := json.MarshalIndent(credentails, "", "    ")
+	credentialsFile, err := json.MarshalIndent(credentials, "", "    ")
 	if err != nil {
 		logging.ConsoleLogger().Error().Err(err).Msg("failed to marshal credentials")
 	}
-	err = os.WriteFile(authentication.ConfigPath(), credentialsFile, 0644)
+	err = os.WriteFile(config.Path(true, false), credentialsFile, 0644)
 	if err != nil {
-		logging.ConsoleLogger().Error().Err(err).Msg("failed to write credentials file to " + authentication.ConfigPath())
+		logging.ConsoleLogger().Error().Err(err).Msg("failed to write credentials file to " + config.Path(true, false))
 	} else {
-		fmt.Println("Credentials file saved to: " + authentication.ConfigPath())
+		fmt.Println("Credentials file saved to: " + config.Path(true, false))
 	}
 }
 
