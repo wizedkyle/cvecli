@@ -345,6 +345,8 @@ github.com/wizedkyle/cveservices-go-sdk v0.1.1-0.20211007053050-e167d751ba4d h1:
 github.com/wizedkyle/cveservices-go-sdk v0.1.1-0.20211007053050-e167d751ba4d/go.mod h1:CdgMOdH2Zme7m4s4WpC1e9r13riC+iY9gR5qBQww1qs=
 github.com/wizedkyle/cveservices-go-sdk v0.2.0 h1:hFSigGvv1l5+/Lo5ffPgBrEK6dnB50zfwPzssqwl+aE=
 github.com/wizedkyle/cveservices-go-sdk v0.2.0/go.mod h1:sy3Xwy/zNnXKJ3ecVADLbVkmwUsKr3lI0cGg+0sml3U=
+github.com/wizedkyle/cveservices-go-sdk v0.2.1-0.20211009031925-744ebbdbef98 h1:dKMmyql7CLLr2LaC9W+VUP5KiYpnga4nlWxkmbsRly0=
+github.com/wizedkyle/cveservices-go-sdk v0.2.1-0.20211009031925-744ebbdbef98/go.mod h1:sy3Xwy/zNnXKJ3ecVADLbVkmwUsKr3lI0cGg+0sml3U=
 github.com/xanzy/ssh-agent v0.3.0 h1:wUMzuKtKilRgBAD1sUb8gOwwRr2FGoBVumcjoOACClI=
 github.com/xanzy/ssh-agent v0.3.0/go.mod h1:3s9xbODqPuuhK9JV1R321M/FlMZSBvE5aY6eAcqrDh0=
 github.com/yuin/goldmark v1.1.25/go.mod h1:3hX8gzYuyVAZsxl0MRgGTJEmQBFcNTphYh9decYSb74=
