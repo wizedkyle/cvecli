@@ -1,7 +1,6 @@
 package get_user
 
 import (
-	"encoding/json"
 	"fmt"
 	"github.com/spf13/cobra"
 	"github.com/wizedkyle/cveservices-go-sdk"
@@ -17,7 +16,7 @@ func NewCmdGetUser(client *cveservices_go_sdk.APIClient) *cobra.Command {
 	)
 	cmd := &cobra.Command{
 		Use:   "get-user",
-		Short: "",
+		Short: "Retrieves information about a user in the organization.",
 		Run: func(cmd *cobra.Command, args []string) {
 			getUser(client, username, output)
 		},
@@ -30,7 +29,7 @@ func NewCmdGetUser(client *cveservices_go_sdk.APIClient) *cobra.Command {
 }
 
 func getUser(client *cveservices_go_sdk.APIClient, username string, output string) {
-	if outputValidation(output) == false {
+	if output != "" && outputValidation(output) == false {
 		logging.ConsoleLogger().Error().Msg("Please select a valid output.")
 		os.Exit(1)
 	}
@@ -66,11 +65,7 @@ func getUser(client *cveservices_go_sdk.APIClient, username string, output strin
 		} else if output == "uuid" {
 			fmt.Println(data.UUID)
 		} else {
-			dataJson, err := json.MarshalIndent(data, "", "    ")
-			if err != nil {
-				logging.ConsoleLogger().Error().Err(err).Msg("failed to marshall response")
-			}
-			fmt.Println(string(dataJson))
+			fmt.Println(string(cmdutils.OutputJson(data)))
 		}
 	}
 }

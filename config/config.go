@@ -19,7 +19,7 @@ var (
 	cveServicesProdUrl = "https://cveawg.mitre.org/api"
 	cveServicesDevUrl  = "https://cveawg-test.mitre.org/api"
 	credentialFilePath = ".cvesub/credentials/creds.json"
-	repoFilePath       = "./cvesub/repos"
+	repoFilePath       = ".cvesub/repos"
 )
 
 func Path(credentialFile bool, repoPath bool) string {

@@ -80,7 +80,7 @@ func setCredentials() {
 	if _, err := os.Stat(configFilePath); os.IsNotExist(err) {
 		err := os.MkdirAll(configFilePath, 0755)
 		if err != nil {
-			logging.ConsoleLogger().Error().Err(err).Msg("failed to create folder structure for credentails file")
+			logging.ConsoleLogger().Error().Err(err).Msg("failed to create folder structure for credentials file")
 		}
 	}
 	credentialsFile, err := json.MarshalIndent(credentials, "", "    ")
@@ -97,7 +97,7 @@ func setCredentials() {
 
 func userConfirmation() bool {
 	prompt := promptui.Prompt{
-		Label: "Do you want to proceed?",
+		Label: "Do you want to proceed (yes/no)?",
 	}
 	result, err := prompt.Run()
 	if err != nil {
