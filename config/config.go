@@ -1,6 +1,7 @@
 package config
 
 import (
+	cveservices_go_sdk "github.com/wizedkyle/cveservices-go-sdk"
 	"github.com/wizedkyle/cvesub/internal/logging"
 	"os"
 	"path/filepath"
@@ -15,6 +16,7 @@ type CredentialFile struct {
 }
 
 var (
+	client             *cveservices_go_sdk.APIClient
 	cveListRemote      = "https://github.com/CVEProject/cvelist.git"
 	cveServicesProdUrl = "https://cveawg.mitre.org/api"
 	cveServicesDevUrl  = "https://cveawg-test.mitre.org/api"
@@ -39,4 +41,12 @@ func Path(credentialFile bool, repoPath bool) string {
 
 func GetCveListRemote() string {
 	return cveListRemote
+}
+
+func GetClient() *cveservices_go_sdk.APIClient {
+	return client
+}
+
+func SetClient(newClient *cveservices_go_sdk.APIClient) {
+	client = newClient
 }

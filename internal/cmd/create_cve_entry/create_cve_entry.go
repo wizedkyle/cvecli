@@ -52,7 +52,7 @@ func NewCmdCreateCveEntry(client *cveservices_go_sdk.APIClient) *cobra.Command {
 
 func createCveEntry(client *cveservices_go_sdk.APIClient, assigner string, cveYear int32, githubRepo string) {
 	var (
-		cveEntry types.CveJson4
+		//cveEntry types.CveJson4
 		repoName string
 	)
 	data, response, err := client.ReserveCveId(1, cveYear, &types.ReserveCveIdOpts{})
@@ -129,7 +129,7 @@ func createCveEntry(client *cveservices_go_sdk.APIClient, assigner string, cveYe
 			pterm.Error.WithFatal().Println()
 		}
 	}
-	cveEntry.CVEDataMeta.ID = data.CveIds[0].CveId
+	//cveEntry.CVEDataMeta.ID = data.CveIds[0].CveId
 	// ask for information regarding the CVE entry and update the cveEntry array
 	// set upstream, update etc
 	// Find cve id json file
@@ -141,5 +141,5 @@ func createCveEntry(client *cveservices_go_sdk.APIClient, assigner string, cveYe
 }
 
 func referenceSourceValidation(referenceSource string) bool {
-
+	return true
 }

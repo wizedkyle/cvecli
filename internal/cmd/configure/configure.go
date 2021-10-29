@@ -23,7 +23,7 @@ func NewCmdConfigure() *cobra.Command {
 				"cvesub will encrypt and store the api user, api key, organization, GitHub username and GitHub PAT in " +
 				"the following file for use by subsequent commands: " + config.Path(true, false))
 			if userConfirmation() == true {
-				setCredentials()
+				SetCredentials()
 			} else {
 				os.Exit(1)
 			}
@@ -32,7 +32,7 @@ func NewCmdConfigure() *cobra.Command {
 	return cmd
 }
 
-func setCredentials() {
+func SetCredentials() {
 	var credentials config.CredentialFile
 	promptApiUser := promptui.Prompt{
 		Label: "Please enter your api username",

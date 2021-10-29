@@ -11,6 +11,17 @@ import (
 	"time"
 )
 
+func CheckCredentialsPath() bool {
+	viper.SetConfigName("creds")
+	viper.AddConfigPath(filepath.Dir(config.Path(true, false)))
+	err := viper.ReadInConfig()
+	if err != nil {
+		return false
+	} else {
+		return true
+	}
+}
+
 func GetCVEServicesSDKConfig() *cveservices_go_sdk.APIClient {
 	apiUser, apiKey, organization := ReadAuthCredentials()
 	client := cveservices_go_sdk.APIClient{
