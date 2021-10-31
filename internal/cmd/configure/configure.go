@@ -16,11 +16,11 @@ import (
 func NewCmdConfigure() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "configure",
-		Short: "Sets cvesub credentials",
-		Long:  "Interactively sets the cvesub API user, API key and organization information",
+		Short: "Sets credentials that cvecli requires",
+		Long:  "Interactively sets the cvecli API user, API key, organization information and GitHub credentials.",
 		Run: func(cmd *cobra.Command, args []string) {
-			fmt.Println("cvesub requires and api user, api key, organization, GitHub Username and GitHub PAT for correct functioning. " +
-				"cvesub will encrypt and store the api user, api key, organization, GitHub username and GitHub PAT in " +
+			fmt.Println("cvecli requires and api user, api key, organization, GitHub Username and GitHub PAT for correct functioning. " +
+				"cvecli will encrypt and store the api user, api key, organization, GitHub username and GitHub PAT in " +
 				"the following file for use by subsequent commands: " + config.Path(true, false))
 			if userConfirmation() == true {
 				SetCredentials()

@@ -50,6 +50,7 @@ func createUser(client *cveservices_go_sdk.APIClient, firstName string, lastName
 		logging.ConsoleLogger().Error().Msg("Please select a valid output.")
 		os.Exit(1)
 	}
+
 	data, response, err := client.CreateUser(types.CreateUserRequest{
 		Username: username,
 		Name: &types.OrgShortNameUserName{

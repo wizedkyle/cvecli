@@ -32,7 +32,7 @@ func GetCVEServicesSDKConfig() *cveservices_go_sdk.APIClient {
 			},
 			BasePath:     "https://cveawg-test.mitre.org/api",
 			Organization: organization,
-			UserAgent:    "cvesub",
+			UserAgent:    "cvecli",
 			HTTPClient: &http.Client{
 				Timeout: time.Second * 20,
 			},

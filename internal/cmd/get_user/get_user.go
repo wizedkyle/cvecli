@@ -6,6 +6,7 @@ import (
 	"github.com/wizedkyle/cveservices-go-sdk"
 	"github.com/wizedkyle/cvesub/internal/cmdutils"
 	"github.com/wizedkyle/cvesub/internal/logging"
+	"github.com/wizedkyle/cvesub/internal/validation"
 	"os"
 )
 
@@ -29,7 +30,7 @@ func NewCmdGetUser(client *cveservices_go_sdk.APIClient) *cobra.Command {
 }
 
 func getUser(client *cveservices_go_sdk.APIClient, username string, output string) {
-	if output != "" && outputValidation(output) == false {
+	if output != "" && validation.UserOutputValidation(output) == false {
 		logging.ConsoleLogger().Error().Msg("Please select a valid output.")
 		os.Exit(1)
 	}
@@ -68,18 +69,4 @@ func getUser(client *cveservices_go_sdk.APIClient, username string, output strin
 			fmt.Println(string(cmdutils.OutputJson(data)))
 		}
 	}
-}
-
-func outputValidation(output string) bool {
-	switch output {
-	case
-		"active",
-		"activeroles",
-		"name",
-		"orguuid",
-		"username",
-		"uuid":
-		return true
-	}
-	return false
 }

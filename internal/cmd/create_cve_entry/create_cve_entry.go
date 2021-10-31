@@ -36,6 +36,7 @@ func NewCmdCreateCveEntry(client *cveservices_go_sdk.APIClient) *cobra.Command {
 		Run: func(cmd *cobra.Command, args []string) {
 			createCveEntry(client, assigner, cveYear, githubRepo)
 		},
+		Hidden: true,
 	}
 	cmd.Flags().StringVar(&assigner, "assigner", "", "Specify the assigner email address.")
 	cmd.Flags().Int32Var(&cveYear, "cveYear", 0, "The year the CVE IDs will be reserved for.")

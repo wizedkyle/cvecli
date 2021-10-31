@@ -1,7 +1,7 @@
 package config
 
 import (
-	cveservices_go_sdk "github.com/wizedkyle/cveservices-go-sdk"
+	"github.com/wizedkyle/cveservices-go-sdk"
 	"github.com/wizedkyle/cvesub/internal/logging"
 	"os"
 	"path/filepath"
@@ -20,8 +20,8 @@ var (
 	cveListRemote      = "https://github.com/CVEProject/cvelist.git"
 	cveServicesProdUrl = "https://cveawg.mitre.org/api"
 	cveServicesDevUrl  = "https://cveawg-test.mitre.org/api"
-	credentialFilePath = ".cvesub/credentials/creds.json"
-	repoFilePath       = ".cvesub/repos"
+	credentialFilePath = ".cvecli/credentials/creds.json"
+	repoFilePath       = ".cvecli/repos"
 )
 
 func Path(credentialFile bool, repoPath bool) string {

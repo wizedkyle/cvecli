@@ -18,7 +18,7 @@ import (
 
 func NewCmdRoot() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "cvesub",
+		Use:   "cvecli",
 		Short: "CVE Submission CLI",
 		Long: "A CLI tool that allows easy submissions of CVEs to MITREs GitHub repo (for CNAs). " +
 			"This tool currently supports the ID Reservation Service.",
