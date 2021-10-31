@@ -10,7 +10,7 @@ require (
 	github.com/rs/zerolog v1.25.0
 	github.com/spf13/cobra v1.2.1
 	github.com/spf13/viper v1.9.0
-	github.com/wizedkyle/cveservices-go-sdk v0.2.1-0.20211015062255-41b8afb30e38
+	github.com/wizedkyle/cveservices-go-sdk v1.0.0
 	golang.org/x/sys v0.0.0-20210823070655-63515b42dcdf
 )
 

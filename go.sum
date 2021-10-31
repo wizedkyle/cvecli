@@ -359,6 +359,8 @@ github.com/subosito/gotenv v1.2.0 h1:Slr1R9HxAlEKefgq5jn9U+DnETlIUa6HfgEzj0g5d7s
 github.com/subosito/gotenv v1.2.0/go.mod h1:N0PQaV/YGNqwC0u51sEeR/aUtSLEXKX9iv69rRypqCw=
 github.com/wizedkyle/cveservices-go-sdk v0.2.1-0.20211015062255-41b8afb30e38 h1:qNouSUkYqB432qCyw2a5jQmRGD5tAoqyaLnMVU/yN+Y=
 github.com/wizedkyle/cveservices-go-sdk v0.2.1-0.20211015062255-41b8afb30e38/go.mod h1:sy3Xwy/zNnXKJ3ecVADLbVkmwUsKr3lI0cGg+0sml3U=
+github.com/wizedkyle/cveservices-go-sdk v1.0.0 h1:uab2Xuu2MsXDH/zCdZAIWw79V5fqb9fjVbJGKn9/ydk=
+github.com/wizedkyle/cveservices-go-sdk v1.0.0/go.mod h1:sy3Xwy/zNnXKJ3ecVADLbVkmwUsKr3lI0cGg+0sml3U=
 github.com/xanzy/ssh-agent v0.3.0 h1:wUMzuKtKilRgBAD1sUb8gOwwRr2FGoBVumcjoOACClI=
 github.com/xanzy/ssh-agent v0.3.0/go.mod h1:3s9xbODqPuuhK9JV1R321M/FlMZSBvE5aY6eAcqrDh0=
 github.com/xo/terminfo v0.0.0-20210125001918-ca9a967f8778 h1:QldyIu/L63oPpyvQmHgvgickp1Yw510KJOqX7H24mg8=
