@@ -1,35 +1,52 @@
 package config
 
 import (
-	cveservices_go_sdk "github.com/wizedkyle/cveservices-go-sdk"
-	"github.com/wizedkyle/cvesub/internal/authentication"
-	"net/http"
-	"time"
+	"github.com/wizedkyle/cveservices-go-sdk"
+	"github.com/wizedkyle/cvesub/internal/logging"
+	"os"
+	"path/filepath"
 )
 
 type CredentialFile struct {
-	APIUser      string `json:"apiUser"`
-	APIKey       string `json:"apiKey"`
-	Organization string `json:"organization"`
+	APIUser        string `json:"apiUser"`
+	APIKey         string `json:"apiKey"`
+	Organization   string `json:"organization"`
+	GitHubUsername string `json:"githubUsername"`
+	GitHubPat      string `json:"githubPat"`
 }
 
-var cveUrl = "https://cveawg.mitre.org/api"
+var (
+	client             *cveservices_go_sdk.APIClient
+	cveListRemote      = "https://github.com/CVEProject/cvelist.git"
+	cveServicesProdUrl = "https://cveawg.mitre.org/api"
+	cveServicesDevUrl  = "https://cveawg-test.mitre.org/api"
+	credentialFilePath = ".cvecli/credentials/creds.json"
+	repoFilePath       = ".cvecli/repos"
+)
 
-func GetCVEServicesSDKConfig() *cveservices_go_sdk.APIClient {
-	apiUser, apiKey, organization := authentication.ReadAuthCredentials()
-	client := cveservices_go_sdk.APIClient{
-		Cfg: &cveservices_go_sdk.Configuration{
-			Authentication: cveservices_go_sdk.BasicAuth{
-				APIUser: apiUser,
-				APIKey:  apiKey,
-			},
-			BasePath:     "https://cveawg-test.mitre.org/api",
-			Organization: organization,
-			UserAgent:    "cvesub",
-			HTTPClient: &http.Client{
-				Timeout: time.Second * 20,
-			},
-		},
+func Path(credentialFile bool, repoPath bool) string {
+	homeDirectory, err := os.UserHomeDir()
+	if err != nil {
+		logging.ConsoleLogger().Error().Err(err).Msg("unable to retrieve user home directory")
 	}
-	return &client
+	if credentialFile == true {
+		configFile := filepath.Join(homeDirectory, credentialFilePath)
+		return configFile
+	} else if repoPath == true {
+		configFile := filepath.Join(homeDirectory, repoFilePath)
+		return configFile
+	}
+	return ""
+}
+
+func GetCveListRemote() string {
+	return cveListRemote
+}
+
+func GetClient() *cveservices_go_sdk.APIClient {
+	return client
+}
+
+func SetClient(newClient *cveservices_go_sdk.APIClient) {
+	client = newClient
 }
