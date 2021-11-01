@@ -15,7 +15,6 @@ builds:
       - darwin
     main: ./cmd/cvecli
 universal_binaries:
-  name_template: '{{.ProjectName}}'
   replace: true
 archives:
   - replacements:
