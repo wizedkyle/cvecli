@@ -45,10 +45,10 @@ func SetCredentials() {
 		Label: "Please enter your CNA organization name",
 	}
 	promptGitHubUsername := promptui.Prompt{
-		Label: "Please enter your GitHub username",
+		Label: "Please enter your GitHub username (this is optional and only used for the create-cve-entry command)",
 	}
 	promptGitHubPat := promptui.Prompt{
-		Label: "Please enter a GitHub Personal Access Token (PAT)",
+		Label: "Please enter a GitHub Personal Access Token (this is optional and only used for the create-cve-entry command)",
 		Mask:  '*',
 	}
 	apiUser, err := promptApiUser.Run()
@@ -97,14 +97,15 @@ func SetCredentials() {
 
 func userConfirmation() bool {
 	prompt := promptui.Prompt{
-		Label: "Do you want to proceed (yes/no)?",
+		Label:     "Do you want to proceed",
+		IsConfirm: true,
 	}
 	result, err := prompt.Run()
 	if err != nil {
 		logging.ConsoleLogger().Error().Err(err).Msg("failed to prompt for confirmation")
 	}
 	resultLower := strings.ToLower(result)
-	if resultLower == "yes" {
+	if resultLower == "y" {
 		return true
 	} else {
 		fmt.Println("Configuration cancelled")

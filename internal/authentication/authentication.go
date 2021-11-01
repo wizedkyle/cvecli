@@ -30,6 +30,7 @@ func GetCVEServicesSDKConfig() *cveservices_go_sdk.APIClient {
 				APIUser: apiUser,
 				APIKey:  apiKey,
 			},
+			// TODO: Need to add support to choose which environment
 			BasePath:     "https://cveawg-test.mitre.org/api",
 			Organization: organization,
 			UserAgent:    "cvecli",
