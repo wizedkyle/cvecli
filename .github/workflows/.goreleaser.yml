@@ -13,6 +13,10 @@ builds:
       - linux
       - windows
       - darwin
+    main: ./cmd/cvecli
+universal_binaries:
+  name_template: '{{.ProjectName}}'
+  replace: true
 archives:
   - replacements:
       darwin: Darwin
