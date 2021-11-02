@@ -37,13 +37,23 @@ jobs:
         run: |
           cd dist
           ls -la
-          cd cvecli_windows_amd64
+          cd cvecli_darwin_all
           ls -la
+      - name: Upload Windows 386 binary
+        uses: actions/upload-artifact@v2
+        with:
+          name: cvecli_windows_386
+          path: ./dist/cvecli_windows_386/cvecli.exe
       - name: Upload Windows amd64 binary
         uses: actions/upload-artifact@v2
         with:
           name: cvecli_windows_amd64
           path: ./dist/cvecli_windows_amd64/cvecli.exe
+      - name: Upload Windows arm64 binary
+        uses: actions/upload-artifact@v2
+        with:
+          name: cvecli_windows_arm64
+          path: ./dist/cvecli_windows_arm64/cvecli.exe
 
   sign_windows_binary:
     name: Sign and Timestamp Windows Binary
