@@ -37,6 +37,8 @@ jobs:
         run: |
           cd dist
           ls -la
+          cd cvecli_darwin_arm64
+          ls -la
       - name: Upload Windows 386 binary
         uses: actions/upload-artifact@v2
         with:
