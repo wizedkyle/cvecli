@@ -41,7 +41,7 @@ jobs:
         run: |
           cd dist
           ls -la
-          cd cvecli-windows-amd64
+          cd cvecli_windows_amd64
           ls -la
 
   sign_windows_binary:
