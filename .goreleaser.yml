@@ -3,22 +3,13 @@ before:
     - go mod tidy
     - go generate ./...
 builds:
-  - id: linux
-    env:
+  - env:
       - CGO_ENABLED=0
     goos:
       - linux
-    main: ./cmd/cvecli
-
-  - id: windows
-    env:
-      - CGO_ENABLED=0
-    goos:
       - windows
     main: ./cmd/cvecli
-    hooks:
-      post:
-        -
+
 universal_binaries:
   - replace: true
 archives:
