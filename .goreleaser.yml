@@ -6,12 +6,10 @@ builds:
   - env:
       - CGO_ENABLED=0
     goos:
+      - darwin
       - linux
       - windows
     main: ./cmd/cvecli
-
-universal_binaries:
-  - replace: true
 archives:
   - replacements:
       darwin: Darwin
