@@ -39,6 +39,7 @@ jobs:
         name: Check Directories
         shell: bash
         run: |
+          cd dist
           ls -la
 
   sign_windows_binary:
