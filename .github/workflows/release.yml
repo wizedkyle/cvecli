@@ -16,18 +16,15 @@ jobs:
     name: Build and Release
     runs-on: ubuntu-latest
     steps:
-      -
-        name: Checkout
+      - name: Checkout
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
-      -
-        name: Setup Go
+      - name: Setup Go
         uses: actions/setup-go@v2
         with:
           go-version: 1.17.2
-      -
-        name: Run GoReleaser
+      - name: Run GoReleaser
         uses: goreleaser/goreleaser-action@v2
         with:
           distribution: goreleaser
@@ -35,27 +32,29 @@ jobs:
           args: release -f .goreleaser.yml --rm-dist
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      -
-        name: Check Directories
+      - name: Check Directories
         shell: bash
         run: |
           cd dist
           ls -la
           cd cvecli_windows_amd64
           ls -la
+      - name: Upload Windows amd64 binary
+        uses: actions/upload-artifact@v2
+        with:
+          name: cvecli_windows_amd64
+          path: ./dist/cvecli_windows_amd64/cvecli.exe
 
   sign_windows_binary:
     name: Sign and Timestamp Windows Binary
     needs: build_and_release
     runs-on: windows-latest
     steps:
-      -
-        name: Setup Dotnet
+      - name: Setup Dotnet
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: '3.x.x'
-      -
-        name: Install AzureSignTool
+      - name: Install AzureSignTool
         shell: pwsh
         run: |
           dotnet tool install --global AzureSignTool --version 3.0.0

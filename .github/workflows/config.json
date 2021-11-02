@@ -1,0 +1,18 @@
+{
+  "source": ["./cvecli"],
+  "bundle_id": "com.thepublicclouds.cvecli",
+  "apple_id": {
+    "username": "kyle.jackson733@gmail.com",
+    "password": "@env:AC_PASSWORD"
+  },
+  "sign": {
+    "application_identity": ""
+  },
+  "dmg": {
+    "output_path": "cvecli.dmg",
+    "volume_name": "cvecli"
+  },
+  "zip": {
+    "output_path": "cvecli.zip"
+  }
+}
