@@ -39,6 +39,31 @@ jobs:
           ls -la
           cd cvecli_darwin_arm64
           ls -la
+      - name: Upload Linux 386 binary
+        uses: actions/upload-artifact@v2
+        with:
+          name: cvecli_linux_386
+          path: ./dist/cvecli_linux_386/cvecli
+      - name: Upload Linux amd64 binary
+        uses: actions/upload-artifact@v2
+        with:
+          name: cvecli_linux_amd64
+          path: ./dist/cvecli_linux_amd64/cvecli
+      - name: Upload Linux arm64 binary
+        uses: actions/upload-artifact@v2
+        with:
+          name: cvecli_linux_arm64
+          path: ./dist/cvecli_linux_arm64/cvecli
+      - name: Upload macOS amd64 binary
+        uses: actions/upload-artifact@v2
+        with:
+          name: cvecli_darwin_amd64
+          path: ./dist/cvecli_darwin_amd64/cvecli
+      - name: Upload macOS arm64 binary
+        uses: actions/upload-artifact@v2
+        with:
+          name: cvecli_darwin_arm64
+          path: ./dist/cvecli_darwin_arm64/cvecli
       - name: Upload Windows 386 binary
         uses: actions/upload-artifact@v2
         with:
@@ -60,6 +85,10 @@ jobs:
     needs: build_and_release
     runs-on: windows-latest
     steps:
+      - name: Create dist directory
+        shell: pwsh
+        run: |
+          mkdir dist
       - name: Setup Dotnet
         uses: actions/setup-dotnet@v1
         with:
@@ -68,5 +97,15 @@ jobs:
         shell: pwsh
         run: |
           dotnet tool install --global AzureSignTool --version 3.0.0
-
+      - name: Download Windows 386 binary
+        uses: actions/download-artifact@v2
+        with:
+          name: cvecli_windows_386
+          path: ./dist/cvecli_windows_386/cvecli.exe
+      - name: Check Directories
+        shell: pwsh
+        run: |
+          ls
+          cd dist
+          ls
 
