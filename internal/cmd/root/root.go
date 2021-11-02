@@ -14,6 +14,7 @@ import (
 	NewCmdReserveCveId "github.com/wizedkyle/cvesub/internal/cmd/reserve_cve_id"
 	NewCmdResetSecret "github.com/wizedkyle/cvesub/internal/cmd/reset_secret"
 	NewCmdUpdateUser "github.com/wizedkyle/cvesub/internal/cmd/update_user"
+	NewCmdVersion "github.com/wizedkyle/cvesub/internal/cmd/version"
 )
 
 func NewCmdRoot() *cobra.Command {
@@ -36,5 +37,6 @@ func NewCmdRoot() *cobra.Command {
 	cmd.AddCommand(NewCmdReserveCveId.NewCmdReserveCveId(client))
 	cmd.AddCommand(NewCmdResetSecret.NewCmdResetSecret(client))
 	cmd.AddCommand(NewCmdUpdateUser.NewCmdUpdateUser(client))
+	cmd.AddCommand(NewCmdVersion.NewCmdVersion())
 	return cmd
 }

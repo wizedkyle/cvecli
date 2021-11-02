@@ -12,7 +12,8 @@ permissions:
   contents: write
 
 jobs:
-  gorelease:
+  build_and_release:
+    name: Build and Release
     runs-on: ubuntu-latest
     steps:
       -
@@ -34,3 +35,26 @@ jobs:
           args: release -f .goreleaser.yml --rm-dist
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  sign_windows_binary:
+    name: Sign and Timestamp Windows Binary
+    needs: build_and_release
+    runs-on: windows-latest
+    steps:
+      -
+        name: Setup Dotnet
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '3.x.x'
+      -
+        name: Install AzureSignTool
+        shell: pwsh
+        run: |
+          dotnet tool install --global AzureSignTool --version 3.0.0
+      -
+        name: Check Directories
+        shell: pwsh
+        run: |
+          ls
+
+
