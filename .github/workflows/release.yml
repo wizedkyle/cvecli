@@ -102,6 +102,16 @@ jobs:
         with:
           name: cvecli_windows_386
           path: ./dist/cvecli_windows_386/cvecli.exe
+      - name: Download Windows amd64 binary
+        uses: actions/download-artifact@v2
+        with:
+          name: cvecli_windows_amd64
+          path: ./dist/cvecli_windows_amd64/cvecli.exe
+      - name: Download Windows arm64 binary
+        uses: actions/download-artifact@v2
+        with:
+          name: cvecli_windows_arm64
+          path: ./dist/cvecli_windows_arm64/cvecli.exe
       - name: Check Directories
         shell: pwsh
         run: |
