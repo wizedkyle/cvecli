@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"github.com/antihax/optional"
 	"github.com/spf13/cobra"
+	"github.com/wizedkyle/cvecli/internal/cmdutils"
+	"github.com/wizedkyle/cvecli/internal/logging"
 	"github.com/wizedkyle/cveservices-go-sdk"
 	"github.com/wizedkyle/cveservices-go-sdk/types"
-	"github.com/wizedkyle/cvesub/internal/cmdutils"
-	"github.com/wizedkyle/cvesub/internal/logging"
 )
 
 func NewCmdReserveCveId(client *cveservices_go_sdk.APIClient) *cobra.Command {

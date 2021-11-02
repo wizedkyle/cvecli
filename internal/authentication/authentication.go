@@ -2,10 +2,10 @@ package authentication
 
 import (
 	"github.com/spf13/viper"
+	"github.com/wizedkyle/cvecli/config"
+	"github.com/wizedkyle/cvecli/internal/encryption"
+	"github.com/wizedkyle/cvecli/internal/logging"
 	"github.com/wizedkyle/cveservices-go-sdk"
-	"github.com/wizedkyle/cvesub/config"
-	"github.com/wizedkyle/cvesub/internal/encryption"
-	"github.com/wizedkyle/cvesub/internal/logging"
 	"net/http"
 	"path/filepath"
 	"time"

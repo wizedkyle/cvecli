@@ -3,9 +3,9 @@ package get_organization_info
 import (
 	"fmt"
 	"github.com/spf13/cobra"
+	"github.com/wizedkyle/cvecli/internal/cmdutils"
+	"github.com/wizedkyle/cvecli/internal/logging"
 	"github.com/wizedkyle/cveservices-go-sdk"
-	"github.com/wizedkyle/cvesub/internal/cmdutils"
-	"github.com/wizedkyle/cvesub/internal/logging"
 	"os"
 )
 

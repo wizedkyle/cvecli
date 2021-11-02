@@ -1,8 +1,8 @@
 package config
 
 import (
+	"github.com/wizedkyle/cvecli/internal/logging"
 	"github.com/wizedkyle/cveservices-go-sdk"
-	"github.com/wizedkyle/cvesub/internal/logging"
 	"os"
 	"path/filepath"
 )

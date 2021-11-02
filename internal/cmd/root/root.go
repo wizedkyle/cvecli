@@ -2,19 +2,19 @@ package root
 
 import (
 	"github.com/spf13/cobra"
-	"github.com/wizedkyle/cvesub/config"
-	NewCmdCheckIdQuota "github.com/wizedkyle/cvesub/internal/cmd/check_id_quota"
-	configureCmd "github.com/wizedkyle/cvesub/internal/cmd/configure"
-	NewCmdCreateCveEntry "github.com/wizedkyle/cvesub/internal/cmd/create_cve_entry"
-	NewCmdCreateUser "github.com/wizedkyle/cvesub/internal/cmd/create_user"
-	NewCmdGetOrganizationInfo "github.com/wizedkyle/cvesub/internal/cmd/get_organization_info"
-	NewCmdGetUser "github.com/wizedkyle/cvesub/internal/cmd/get_user"
-	NewCmdListCveIds "github.com/wizedkyle/cvesub/internal/cmd/list_cve_ids"
-	NewCmdListUsers "github.com/wizedkyle/cvesub/internal/cmd/list_users"
-	NewCmdReserveCveId "github.com/wizedkyle/cvesub/internal/cmd/reserve_cve_id"
-	NewCmdResetSecret "github.com/wizedkyle/cvesub/internal/cmd/reset_secret"
-	NewCmdUpdateUser "github.com/wizedkyle/cvesub/internal/cmd/update_user"
-	NewCmdVersion "github.com/wizedkyle/cvesub/internal/cmd/version"
+	"github.com/wizedkyle/cvecli/config"
+	NewCmdCheckIdQuota "github.com/wizedkyle/cvecli/internal/cmd/check_id_quota"
+	configureCmd "github.com/wizedkyle/cvecli/internal/cmd/configure"
+	NewCmdCreateCveEntry "github.com/wizedkyle/cvecli/internal/cmd/create_cve_entry"
+	NewCmdCreateUser "github.com/wizedkyle/cvecli/internal/cmd/create_user"
+	NewCmdGetOrganizationInfo "github.com/wizedkyle/cvecli/internal/cmd/get_organization_info"
+	NewCmdGetUser "github.com/wizedkyle/cvecli/internal/cmd/get_user"
+	NewCmdListCveIds "github.com/wizedkyle/cvecli/internal/cmd/list_cve_ids"
+	NewCmdListUsers "github.com/wizedkyle/cvecli/internal/cmd/list_users"
+	NewCmdReserveCveId "github.com/wizedkyle/cvecli/internal/cmd/reserve_cve_id"
+	NewCmdResetSecret "github.com/wizedkyle/cvecli/internal/cmd/reset_secret"
+	NewCmdUpdateUser "github.com/wizedkyle/cvecli/internal/cmd/update_user"
+	NewCmdVersion "github.com/wizedkyle/cvecli/internal/cmd/version"
 )
 
 func NewCmdRoot() *cobra.Command {

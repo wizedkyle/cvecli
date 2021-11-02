@@ -2,13 +2,13 @@ package create_user
 
 import (
 	"fmt"
-	"github.com/wizedkyle/cvesub/internal/logging"
+	"github.com/wizedkyle/cvecli/internal/logging"
 	"os"
 
 	"github.com/spf13/cobra"
+	"github.com/wizedkyle/cvecli/internal/cmdutils"
 	cveservices_go_sdk "github.com/wizedkyle/cveservices-go-sdk"
 	"github.com/wizedkyle/cveservices-go-sdk/types"
-	"github.com/wizedkyle/cvesub/internal/cmdutils"
 )
 
 func NewCmdCreateUser(client *cveservices_go_sdk.APIClient) *cobra.Command {

@@ -3,7 +3,7 @@ package version
 import (
 	"fmt"
 	"github.com/spf13/cobra"
-	"github.com/wizedkyle/cvesub/internal/build"
+	"github.com/wizedkyle/cvecli/internal/build"
 )
 
 func NewCmdVersion() *cobra.Command {

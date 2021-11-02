@@ -7,7 +7,7 @@ import (
 	"crypto/sha256"
 	"encoding/hex"
 	"fmt"
-	"github.com/wizedkyle/cvesub/internal/logging"
+	"github.com/wizedkyle/cvecli/internal/logging"
 	"io"
 )
 

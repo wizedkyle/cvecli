@@ -1,7 +1,7 @@
 package encryption
 
 import (
-	"github.com/wizedkyle/cvesub/internal/logging"
+	"github.com/wizedkyle/cvecli/internal/logging"
 	"os"
 	"strings"
 )

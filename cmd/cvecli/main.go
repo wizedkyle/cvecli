@@ -3,10 +3,10 @@ package main
 import (
 	"github.com/manifoldco/promptui"
 	"github.com/pterm/pterm"
-	"github.com/wizedkyle/cvesub/config"
-	"github.com/wizedkyle/cvesub/internal/authentication"
-	configureCmd "github.com/wizedkyle/cvesub/internal/cmd/configure"
-	"github.com/wizedkyle/cvesub/internal/cmd/root"
+	"github.com/wizedkyle/cvecli/config"
+	"github.com/wizedkyle/cvecli/internal/authentication"
+	configureCmd "github.com/wizedkyle/cvecli/internal/cmd/configure"
+	"github.com/wizedkyle/cvecli/internal/cmd/root"
 	"os"
 )
 
