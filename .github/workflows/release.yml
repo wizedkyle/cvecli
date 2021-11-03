@@ -109,13 +109,14 @@ jobs:
         shell: pwsh
         run: |
           $signingList = @"
-          ./dist/cvecli_windows_386/cvecli.exe
+          dist/cvecli_windows_386/cvecli.exe
           ./dist/cvecli_windows_amd64/cvecli.exe
           ./dist/cvecli_windows_arm64/cvecli.exe
           "@
           Add-Content -Path signing.txt -Value $signingList
           ls
           ls ./dist
+          cat signing.txt
           azuresigntool sign --description-url "https://github.com/wizedkyle/cvecli" --file-digest sha256 `
             --azure-key-vault-url ${{ secrets.AZURE_KEY_VAULT_URL }} `
             --azure-key-vault-client-id ${{ secrets.AZURE_KEY_VAULT_CLIENT_ID }} `
