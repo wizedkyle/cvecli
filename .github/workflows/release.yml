@@ -144,10 +144,45 @@ jobs:
     needs: build
     runs-on: macos-latest
     steps:
+      - name: Create dist directory
+        shell: bash
+        run: |
+          mkdir dist
+      - name: Download macOS amd64 binary
+        uses: actions/download-artifact@v2
+        with:
+          name: cvecli_darwin_amd64
+          path: ./dist/cvecli_darwin_amd64/cvecli
+      - name: Download macOS arm64 binary
+        uses: actions/download-artifact@v2
+        with:
+          name: cvecli_darwin_arm64
+          path: ./dist/cvecli_darwin_arm64/cvecli
       - name: Install Gon
         shell: bash
         run: |
           brew tap mitchellh/gon
           brew install mitchellh/gon/gon
+      - name: Install signing certificates
+        shell: bash
+        run: |
+          CERTIFICATE_PATH=$RUNNER_TEMP/build_certificate.p12
+          KEYCHAIN_PATH=$RUNNER_TEMP/app-signing.keychain-db
+          echo -n "$APPLE_DEV_CERT" | base64 --decode --output $CERTIFICATE_PATH
+          security create-keychain -p $KEYCHAIN_PASSWORD $KEYCHAIN_PATH
+          security set-keychain-settings -lut 21600 $KEYCHAIN_PATH
+          security unlock-keychain -p $KEYCHAIN_PASSWORD $KEYCHAIN_PATH
+          security import $CERTIFICATE_PATH -P $APPLE_DEV_CERT_PASSWORD -A -t cert -f pkcs12 -k $KEYCHAIN_PATH
+          security list-keychain -d user -s $KEYCHAIN_PATH
+        env:
+          APPLE_DEV_CERT: ${{ secrets.APPLE_DEV_CERT }}
+          APPLE_DEV_CERT_PASSWORD: ${{ secrets.APPLE_DEV_CERT_PASSWORD }}
+          KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
+      - name: Sign and notarise amd64 binary
+        shell: bash
+        run: |
+          gon -log-level=indo -log-json .github/workflows/macos_amd64_config.json
+        env:
+          AC_PASSWORD: ${{ secrets.AC_PASSWORD }}
 
 
