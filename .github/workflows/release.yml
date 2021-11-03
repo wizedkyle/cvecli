@@ -32,13 +32,6 @@ jobs:
           args: release -f .goreleaser.yml --rm-dist
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Check Directories
-        shell: bash
-        run: |
-          cd dist
-          ls -la
-          cd cvecli_darwin_arm64
-          ls -la
       - name: Upload Linux 386 binary
         uses: actions/upload-artifact@v2
         with:
@@ -120,10 +113,9 @@ jobs:
           ./dist/cvecli_windows_amd64/cvecli.exe
           ./dist/cvecli_windows_arm64/cvecli.exe
           "@
-          Add-Content -Path ./dist/signing.txt -Value $signingList
+          Add-Content -Path signing.txt -Value $signingList
           ls
           ls ./dist
-          ls ./dist/cvecli_windows_386
           azuresigntool sign --description-url "https://github.com/wizedkyle/cvecli" --file-digest sha256 `
             --azure-key-vault-url ${{ secrets.AZURE_KEY_VAULT_URL }} `
             --azure-key-vault-client-id ${{ secrets.AZURE_KEY_VAULT_CLIENT_ID }} `
@@ -132,7 +124,7 @@ jobs:
             --azure-key-vault-tenant-id ${{ secrets.AZURE_KEY_VAULT_TENANT_ID }} `
             --timestamp-rfc3161 http://timestamp.sectigo.com `
             --timestamp-digest sha256 `
-            --input-file-list ./dist/signing.txt
+            --input-file-list signing.txt
       - name: Upload Signed Windows 386 binary
         uses: actions/upload-artifact@v2
         with:
