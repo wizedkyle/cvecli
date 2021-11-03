@@ -108,10 +108,13 @@ jobs:
       - name: Sign Windows binaries
         shell: pwsh
         run: |
+          $386 = Get-ChildItem ./dist/cvecli_windows_386/cvecli.exe | % { $_.FullName }
+          $amd64 = Get-ChildItem ./dist/cvecli_windows_amd64/cvecli.exe | % { $_.FullName }
+          $arm64 = Get-ChildItem ./dist/cvecli_windows_arm64/cvecli.exe | % { $_.FullName }
           $signingList = @"
-          Get-ChildItem ./dist/cvecli_windows_386/cvecli.exe | % { $_.FullName }
-          Get-ChildItem ./dist/cvecli_windows_amd64/cvecli.exe | % { $_.FullName }
-          Get-ChildItem ./dist/cvecli_windows_arm64/cvecli.exe | % { $_.FullName }
+          `$386
+          `$amd64
+          `$arm64
           "@
           Add-Content -Path signing.txt -Value $signingList
           ls
