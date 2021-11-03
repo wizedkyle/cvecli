@@ -113,7 +113,8 @@ jobs:
           Get-ChildItem ./dist/cvecli_windows_amd64/cvecli.exe | % { $_.FullName }
           Get-ChildItem ./dist/cvecli_windows_arm64/cvecli.exe | % { $_.FullName }
           '@
-          Get-ChildItem ./dist/cvecli_windows_386/cvecli.exe | % { $_.FullName } | Add-Content -Path signing.txt -Value $signingList
+          $386 = Get-ChildItem ./dist/cvecli_windows_386/cvecli.exe | % { $_.FullName }
+          Add-Content -Path signing.txt -Value $386
           ls
           ls ./dist
           cat signing.txt
