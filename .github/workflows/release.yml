@@ -184,6 +184,10 @@ jobs:
           ls -la
           cd ..
           ls -la
+          cd ..
+          ls -la
+          cd ..
+          ls -la
           gon -log-level=indo -log-json .github/workflows/macos_amd64_config.json
         env:
           AC_PASSWORD: ${{ secrets.AC_PASSWORD }}
