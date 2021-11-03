@@ -109,9 +109,9 @@ jobs:
         shell: pwsh
         run: |
           $signingList = @"
-          dist/cvecli_windows_386/cvecli.exe
-          ./dist/cvecli_windows_amd64/cvecli.exe
-          ./dist/cvecli_windows_arm64/cvecli.exe
+          Get-ChildItem ./dist/cvecli_windows_386/cvecli.exe | % { $_.FullName }
+          Get-ChildItem ./dist/cvecli_windows_amd64/cvecli.exe | % { $_.FullName }
+          Get-ChildItem ./dist/cvecli_windows_arm64/cvecli.exe | % { $_.FullName }
           "@
           Add-Content -Path signing.txt -Value $signingList
           ls
