@@ -120,6 +120,8 @@ jobs:
           ./dist/cvecli_windows_amd64/cvecli.exe
           ./dist/cvecli_windows_arm64/cvecli.exe
           "@
+          ls
+          ls ./dist
           Add-Content -Path ./dist/signing.txt -Value $signingList
           azuresigntool sign --description-url "https://github.com/wizedkyle/cvecli" --file-digest sha256 `
             --azure-key-vault-url ${{ secrets.AZURE_KEY_VAULT_URL }} `
