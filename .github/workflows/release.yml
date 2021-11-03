@@ -12,7 +12,7 @@ permissions:
   contents: write
 
 jobs:
-  build_and_release:
+  build:
     name: Build
     runs-on: ubuntu-latest
     steps:
@@ -73,9 +73,9 @@ jobs:
           name: cvecli_windows_arm64
           path: ./dist/cvecli_windows_arm64/cvecli.exe
 
-  sign_windows_binary:
+  sign_windows_binaries:
     name: Sign and Timestamp Windows Binary
-    needs: build_and_release
+    needs: build
     runs-on: windows-latest
     steps:
       - name: Create dist directory
@@ -108,16 +108,12 @@ jobs:
       - name: Sign Windows binaries
         shell: pwsh
         run: |
-          $signingList = @'
-          Get-ChildItem ./dist/cvecli_windows_386/cvecli.exe | % { $_.FullName }
-          Get-ChildItem ./dist/cvecli_windows_amd64/cvecli.exe | % { $_.FullName }
-          Get-ChildItem ./dist/cvecli_windows_arm64/cvecli.exe | % { $_.FullName }
-          '@
           $386 = Get-ChildItem ./dist/cvecli_windows_386/cvecli.exe | % { $_.FullName }
+          $amd64 = Get-ChildItem ./dist/cvecli_windows_amd64/cvecli.exe | % { $_.FullName }
+          $arm64 = Get-ChildItem ./dist/cvecli_windows_arm64/cvecli.exe | % { $_.FullName }
           Add-Content -Path signing.txt -Value $386
-          ls
-          ls ./dist
-          cat signing.txt
+          Add-Content -Path signing.txt -Value $amd64
+          Add-Content -Path signing.txt -Value $arm64
           azuresigntool sign --description-url "https://github.com/wizedkyle/cvecli" --file-digest sha256 `
             --azure-key-vault-url ${{ secrets.AZURE_KEY_VAULT_URL }} `
             --azure-key-vault-client-id ${{ secrets.AZURE_KEY_VAULT_CLIENT_ID }} `
@@ -132,4 +128,26 @@ jobs:
         with:
           name: cvecli_windows_386_signed
           path: ./dist/cvecli_windows_386/cvecli.exe
+      - name: Upload Signed Windows amd64 binary
+        uses: actions/upload-artifact@v2
+        with:
+          name: cvecli_windows_amd64_signed
+          path: ./dist/cvecli_windows_amd64/cvecli.exe
+      - name: Upload Signed Windows arm64 binary
+        uses: actions/upload-artifact@v2
+        with:
+          name: cvecli_windows_arm64_signed
+          path: ./dist/cvecli_windows_arm64/cvecli.exe
+
+  sign_and_notarise_macos_binaries:
+    name: Sign and Notarise macOS binaries
+    needs: build
+    runs-on: macos-latest
+    steps:
+      - name: Install Gon
+        shell: bash
+        run: |
+          brew tap mitchellh/gon
+          brew install mitchellh/gon/gon
+
 
