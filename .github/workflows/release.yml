@@ -181,6 +181,7 @@ jobs:
       - name: Sign and notarise amd64 binary
         shell: bash
         run: |
+          ls -la
           gon -log-level=indo -log-json .github/workflows/macos_amd64_config.json
         env:
           AC_PASSWORD: ${{ secrets.AC_PASSWORD }}
