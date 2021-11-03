@@ -144,6 +144,10 @@ jobs:
     needs: build
     runs-on: macos-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
       - name: Create dist directory
         shell: bash
         run: |
@@ -181,12 +185,6 @@ jobs:
       - name: Sign and notarise amd64 binary
         shell: bash
         run: |
-          ls -la
-          cd ..
-          ls -la
-          cd ..
-          ls -la
-          cd ..
           ls -la
           gon -log-level=indo -log-json .github/workflows/macos_amd64_config.json
         env:
