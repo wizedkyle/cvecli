@@ -193,6 +193,7 @@ jobs:
         env:
           AC_PASSWORD: ${{ secrets.AC_PASSWORD }}
 
+
   upload_signed_binaries_to_release:
     name: Upload Signed Binaries to Release
     needs: sign_and_notarise_macos_binaries

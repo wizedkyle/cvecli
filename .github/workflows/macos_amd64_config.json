@@ -6,7 +6,7 @@
     "password": "@env:AC_PASSWORD"
   },
   "sign": {
-    "application_identity": "Developer ID Application: Kyle Jackson"
+    "application_identity": "BD7CB4E71B885802A80041006429E57709357B68"
   },
   "dmg": {
     "output_path": "cvecli.dmg",
