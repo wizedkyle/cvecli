@@ -9,7 +9,10 @@
     "application_identity": "Developer ID Application: Kyle Jackson"
   },
   "dmg": {
-    "output_path": "./dist/cvecli_darwin_amd64/cvecli.dmg",
+    "output_path": "cvecli.dmg",
     "volume_name": "cvecli"
+  },
+  "zip": {
+    "output_path": "cvecli_darwin_amd64_signed.zip"
   }
 }
