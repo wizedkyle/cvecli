@@ -1,5 +1,5 @@
 {
-  "source": ["./dist/cvecli_darwin_amd64/cvecli"],
+  "source": ["./cvecli"],
   "bundle_id": "com.thepublicclouds.cvecli",
   "apple_id": {
     "username": "kyle.jackson733@gmail.com",
@@ -13,6 +13,6 @@
     "volume_name": "cvecli"
   },
   "zip": {
-    "output_path": "cvecli_darwin_amd64_signed.zip"
+    "output_path": "cvecli.zip"
   }
 }
