@@ -11,8 +11,5 @@
   "dmg": {
     "output_path": "./dist/cvecli_darwin_amd64/cvecli.dmg",
     "volume_name": "cvecli"
-  },
-  "zip": {
-    "output_path": "cvecli_darwin_amd64_signed.zip"
   }
 }

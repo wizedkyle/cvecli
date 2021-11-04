@@ -167,7 +167,7 @@ jobs:
         run: |
           brew tap mitchellh/gon
           brew install mitchellh/gon/gon
-      - name: Signing and notarising amd64 binary
+      - name: Configuring signing certificate
         shell: bash
         run: |
           CERTIFICATE_PATH=$RUNNER_TEMP/build_certificate.p12
@@ -186,11 +186,9 @@ jobs:
       - name: Sign and notarise amd64 binary
         shell: bash
         run: |
+          gon -log-level=indo -log-json .github/workflows/macos_amd64_config.json
           ls -la
           ls -la ./dist
-          ls -la ./dist/cvecli_darwin_amd64
-          #gon -log-level=indo -log-json .github/workflows/macos_amd64_config.json
-
         env:
           AC_PASSWORD: ${{ secrets.AC_PASSWORD }}
 
