@@ -178,7 +178,6 @@ jobs:
           security unlock-keychain -p $KEYCHAIN_PASSWORD $KEYCHAIN_PATH
           security import $CERTIFICATE_PATH -P $APPLE_DEV_CERT_PASSWORD -A -t cert -f pkcs12 -k $KEYCHAIN_PATH
           security list-keychain -d user -s $KEYCHAIN_PATH
-          gon -log-level=indo -log-json .github/workflows/macos_amd64_config.json
         env:
           AC_PASSWORD: ${{ secrets.AC_PASSWORD }}
           APPLE_DEV_CERT: ${{ secrets.APPLE_DEV_CERT }}
