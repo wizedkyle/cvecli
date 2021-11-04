@@ -167,7 +167,7 @@ jobs:
         run: |
           brew tap mitchellh/gon
           brew install mitchellh/gon/gon
-      - name: Install signing certificates
+      - name: Signing and notarising amd64 binary
         shell: bash
         run: |
           CERTIFICATE_PATH=$RUNNER_TEMP/build_certificate.p12
@@ -178,17 +178,12 @@ jobs:
           security unlock-keychain -p $KEYCHAIN_PASSWORD $KEYCHAIN_PATH
           security import $CERTIFICATE_PATH -P $APPLE_DEV_CERT_PASSWORD -A -t cert -f pkcs12 -k $KEYCHAIN_PATH
           security list-keychain -d user -s $KEYCHAIN_PATH
-        env:
-          APPLE_DEV_CERT: ${{ secrets.APPLE_DEV_CERT }}
-          APPLE_DEV_CERT_PASSWORD: ${{ secrets.APPLE_DEV_CERT_PASSWORD }}
-          KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
-      - name: Sign and notarise amd64 binary
-        shell: bash
-        run: |
-          ls -la
           gon -log-level=indo -log-json .github/workflows/macos_amd64_config.json
         env:
           AC_PASSWORD: ${{ secrets.AC_PASSWORD }}
+          APPLE_DEV_CERT: ${{ secrets.APPLE_DEV_CERT }}
+          APPLE_DEV_CERT_PASSWORD: ${{ secrets.APPLE_DEV_CERT_PASSWORD }}
+          KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
 
   upload_signed_binaries_to_release:
     name: Upload Signed Binaries to Release
