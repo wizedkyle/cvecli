@@ -187,9 +187,6 @@ jobs:
         shell: bash
         run: |
           gon -log-level=indo -log-json .github/workflows/macos_amd64_config.json
-          ls -la
-          ls -la ./dist
-          codesign -vvv --deep --strict ./dist/cvecli_darwin_amd64/cvecli
         env:
           AC_PASSWORD: ${{ secrets.AC_PASSWORD }}
 
