@@ -1,5 +1,5 @@
 {
-  "source": ["./dist/cvecli_darwin_amd64/cvecli"],
+  "source": ["/Users/runner/work/cvecli/cvecli/dist/macos_darwin_amd64/cvecli"],
   "bundle_id": "com.thepublicclouds.cvecli",
   "apple_id": {
     "username": "kyle.jackson733@gmail.com",
