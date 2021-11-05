@@ -37,3 +37,4 @@ signs:
       - log-level=info
       - log-json
       - .github/workflows/macos_amd64_config.json
+    artifacts: all
