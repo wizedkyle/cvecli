@@ -153,6 +153,10 @@ jobs:
         with:
           name: cvecli_darwin_amd64
           path: ./cvecli
+      - name: CHeck Directory
+        shell: bash
+        run: |
+          ls -la
       - name: Install Gon
         shell: bash
         run: |
