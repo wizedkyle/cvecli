@@ -162,13 +162,3 @@ jobs:
           name: cvecli_windows_arm64_signed
           path: ./dist/cvecli_windows_arm64/cvecli.exe
 
-  upload_signed_binaries_to_release:
-    name: Upload Signed Binaries to Release
-    needs: sign_and_notarise_macos_binaries
-    runs-on: ubuntu-latest
-    steps:
-      - name: Test
-        shell: bash
-        run: |
-          mkdir dist
-
