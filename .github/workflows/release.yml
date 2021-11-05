@@ -43,7 +43,6 @@ jobs:
 
           security find-identity -v
         env:
-          AC_PASSWORD: ${{ secrets.AC_PASSWORD }}
           APPLE_DEV_CERT: ${{ secrets.APPLE_DEV_CERT }}
           APPLE_DEV_CERT_PASSWORD: ${{ secrets.APPLE_DEV_CERT_PASSWORD }}
           KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
@@ -54,6 +53,7 @@ jobs:
           version: latest
           args: release -f .goreleaser.yml --rm-dist
         env:
+          AC_PASSWORD: ${{ secrets.AC_PASSWORD }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Upload Linux 386 binary
         uses: actions/upload-artifact@v2
