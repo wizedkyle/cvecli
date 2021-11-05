@@ -33,8 +33,5 @@ signs:
     ids:
       - macos
     cmd: gon
-    args:
-      - log-level=info
-      - log-json
-      - .github/workflows/macos_amd64_config.json
+    args: ["--log-level", "info", "--log-json", ".github/workflows/macos_amd64_config.json"]
     artifacts: all
