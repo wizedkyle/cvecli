@@ -1,8 +1,9 @@
 builds:
-  - goos:
+  - id: macos
+    goos:
       - darwin
-      - linux
-      - windows
+    goarch:
+      - amd64
     main: ./cmd/cvecli
 archives:
   - replacements:
@@ -27,3 +28,12 @@ changelog:
     exclude:
       - '^docs:'
       - '^test:'
+signs:
+  - signature: "${artifact}.dmg"
+    ids:
+      - macos
+    cmd: gon
+    args:
+      - log-level=info
+      - log-json
+      - .github/workflows/macos_amd64_config.json
