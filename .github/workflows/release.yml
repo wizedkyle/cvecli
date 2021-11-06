@@ -60,7 +60,7 @@ jobs:
           path: /Users/runner/work/cvecli/cvecli/dist/cvecli_darwin_amd64/cvecli
 
   sign_macos_binaries:
-    name: Sign macOS binaries
+    name: Signing macOS binaries
     needs: build
     runs-on: macos-latest
     steps:
@@ -72,6 +72,11 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: cvecli_darwin_amd64
+          path: ./dist/cvecli_darwin_amd64
+      - name: Check Directory
+        shell: bash
+        run: |
+          ls -la ./dist/cvecli_darwin_amd64
       - name: Install Gon
         shell: bash
         run: |
