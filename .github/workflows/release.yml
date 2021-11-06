@@ -57,7 +57,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: cvecli_darwin_amd64
-          path: /Users/runner/work/cvecli/cvecli/dist/macos_darwin_amd64/cvecli
+          path: /Users/runner/work/cvecli/cvecli/dist/cvecli_darwin_amd64/cvecli
 
   sign_macos_binaries:
     name: Sign macOS binaries
