@@ -53,11 +53,17 @@ jobs:
         env:
           AC_PASSWORD: ${{ secrets.AC_PASSWORD }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Upload artifact
+      - name: Upload Darwin amd64
         uses: actions/upload-artifact@v2
         with:
           name: cvecli_darwin_amd64
-          path: /Users/runner/work/cvecli/cvecli/dist/cvecli_darwin_amd64/cvecli
+          path: ./dist/cvecli_darwin_amd64/cvecli
+      - name: Upload Darwin arm64
+        uses: actions/upload-artifact@v2
+        with:
+          name: cvecli_darwin_arm64
+          path: /Users/runner/work/cvecli/cvecli/dist/cvecli_darwin_arm64/cvecli
+
 
   sign_macos_binaries:
     name: Signing macOS binaries

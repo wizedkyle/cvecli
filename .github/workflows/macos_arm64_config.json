@@ -1,5 +1,5 @@
 {
-  "source": ["./dist/cvecli_darwin_amd64/cvecli"],
+  "source": ["./dist/cvecli_darwin_arm64/cvecli"],
   "bundle_id": "com.thepublicclouds.cvecli",
   "apple_id": {
     "username": "kyle.jackson733@gmail.com",
@@ -9,10 +9,10 @@
     "application_identity": "BD7CB4E71B885802A80041006429E57709357B68"
   },
   "dmg": {
-    "output_path": "cvecli_darwin_amd64.dmg",
+    "output_path": "cvecli_darwin_arm64.dmg",
     "volume_name": "cvecli"
   },
   "zip": {
-    "output_path": "cvecli_darwin_amd64.zip"
+    "output_path": "cvecli_darwin_arm64.zip"
   }
 }
