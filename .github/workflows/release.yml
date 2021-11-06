@@ -73,11 +73,16 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
-      - name: Download Binary
+      - name: Download darwin amd64 artifact
         uses: actions/download-artifact@v2
         with:
           name: cvecli_darwin_amd64
           path: ./dist/cvecli_darwin_amd64
+      - name: Download darwin arm64 artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: cvecli_darwin_arm64
+          path: ./dist/cvecli_darwin_arm64
       - name: Check Directory
         shell: bash
         run: |
