@@ -24,26 +24,6 @@ jobs:
         uses: actions/setup-go@v2
         with:
           go-version: 1.17.2
-      - name: Install Gon
-        shell: bash
-        run: |
-          brew tap mitchellh/gon
-          brew install mitchellh/gon/gon
-      - name: Configuring signing certificate
-        shell: bash
-        run: |
-          CERTIFICATE_PATH=$RUNNER_TEMP/build_certificate.p12
-          KEYCHAIN_PATH=$RUNNER_TEMP/app-signing.keychain-db
-          echo -n "$APPLE_DEV_CERT" | base64 --decode --output $CERTIFICATE_PATH
-          security create-keychain -p $KEYCHAIN_PASSWORD $KEYCHAIN_PATH
-          security set-keychain-settings -lut 21600 $KEYCHAIN_PATH
-          security unlock-keychain -p $KEYCHAIN_PASSWORD $KEYCHAIN_PATH
-          security import $CERTIFICATE_PATH -P $APPLE_DEV_CERT_PASSWORD -A -t cert -f pkcs12 -k $KEYCHAIN_PATH
-          security list-keychain -d user -s $KEYCHAIN_PATH
-        env:
-          APPLE_DEV_CERT: ${{ secrets.APPLE_DEV_CERT }}
-          APPLE_DEV_CERT_PASSWORD: ${{ secrets.APPLE_DEV_CERT_PASSWORD }}
-          KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
       - name: Run GoReleaser
         uses: goreleaser/goreleaser-action@v2
         with:
@@ -62,8 +42,27 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: cvecli_darwin_arm64
-          path: /Users/runner/work/cvecli/cvecli/dist/cvecli_darwin_arm64/cvecli
-
+          path: ./dist/cvecli_darwin_arm64/cvecli
+      - name: Upload linux amd64
+        uses: actions/upload-artifact@v2
+        with:
+          name: cvecli_linux_amd64
+          path: ./dist/cvecli_linux_amd64/cvecli
+      - name: Upload linux arm64
+        uses: actions/upload-artifact@v2
+        with:
+          nama: cvecli_linux_arm64
+          path: ./dist/cvecli_linux_arm64/cvecli
+      - name: Upload Windows amd64
+        uses: actions/upload-artifact@v2
+        with:
+          name: cvecli_windows_amd64
+          path: ./dist/cvecli_windows_amd64/cvecli.exe
+      - name: Upload Windows arm64
+        uses: actions/upload-artifact@v2
+        with:
+          name: cvecli_windows_arm64
+          path: ./dist/cvecli_windows_arm64/cvecli.exe
 
   sign_macos_binaries:
     name: Signing macOS binaries
@@ -103,27 +102,39 @@ jobs:
           APPLE_DEV_CERT: ${{ secrets.APPLE_DEV_CERT }}
           APPLE_DEV_CERT_PASSWORD: ${{ secrets.APPLE_DEV_CERT_PASSWORD }}
           KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
-      - name: Sign macOS binary
+      - name: Sign macOS amd64 binary
         shell: bash
         run: |
           gon --log-level=info --log-json .github/workflows/macos_amd64_config.json
+          gon --log-level=info --log-json .github/workflows/macos_arm64_config.json
         env:
           AC_PASSWORD: ${{ secrets.AC_PASSWORD }}
-      - name: Check Directories
-        shell: bash
-        run: |
-          ls -la
-
+      - name: Upload signed macOS amd64 dmg
+        uses: actions/upload-artifact@v2
+        with:
+          name: cvecli_darwin_amd64_signed_dmg
+          path: ./cvecli_darwin_amd64.dmg
+      - name: Upload signed macOS amd64 zip
+        uses: actions/upload-artifact@v2
+        with:
+          name: cvecli_darwin_amd64_signed_zip
+          path: ./cvecli_darwin_amd64.zip
+      - name: Upload signed macOS arm64 dmg
+        uses: actions/upload-artifact@v2
+        with:
+          name: cvecli_darwin_arm64-signed_dmg
+          path: ./dist/cvecli_darwin_arm64.dmg
+      - name: Upload signed macOS arm64 zip
+        uses: actions/upload-artifact@v2
+        with:
+          name: cvecli_darwin_arm64_signed_zip
+          path: ./dist/cvecli_darwin_arm64.zip
 
   sign_windows_binaries:
     name: Sign and Timestamp Windows Binary
     needs: sign_macos_binaries
     runs-on: windows-latest
     steps:
-      - name: Create dist directory
-        shell: pwsh
-        run: |
-          mkdir dist
       - name: Setup Dotnet
         uses: actions/setup-dotnet@v1
         with:
@@ -132,11 +143,6 @@ jobs:
         shell: pwsh
         run: |
           dotnet tool install --global AzureSignTool --version 3.0.0
-      - name: Download Windows 386 binary
-        uses: actions/download-artifact@v2
-        with:
-          name: cvecli_windows_386
-          path: ./dist/cvecli_windows_386/cvecli.exe
       - name: Download Windows amd64 binary
         uses: actions/download-artifact@v2
         with:
@@ -150,7 +156,6 @@ jobs:
       - name: Sign Windows binaries
         shell: pwsh
         run: |
-          $386 = Get-ChildItem ./dist/cvecli_windows_386/cvecli.exe | % { $_.FullName }
           $amd64 = Get-ChildItem ./dist/cvecli_windows_amd64/cvecli.exe | % { $_.FullName }
           $arm64 = Get-ChildItem ./dist/cvecli_windows_arm64/cvecli.exe | % { $_.FullName }
           Add-Content -Path signing.txt -Value $386
@@ -165,11 +170,6 @@ jobs:
             --timestamp-rfc3161 http://timestamp.sectigo.com `
             --timestamp-digest sha256 `
             --input-file-list signing.txt
-      - name: Upload Signed Windows 386 binary
-        uses: actions/upload-artifact@v2
-        with:
-          name: cvecli_windows_386_signed
-          path: ./dist/cvecli_windows_386/cvecli.exe
       - name: Upload Signed Windows amd64 binary
         uses: actions/upload-artifact@v2
         with:
