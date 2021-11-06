@@ -98,6 +98,10 @@ jobs:
           gon --log-level=info --log-json .github/workflows/macos_amd64_config.json
         env:
           AC_PASSWORD: ${{ secrets.AC_PASSWORD }}
+      - name: Check Directories
+        shell: bash
+        run: |
+          ls -la
 
 
   sign_windows_binaries:
