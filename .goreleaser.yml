@@ -28,10 +28,10 @@ changelog:
     exclude:
       - '^docs:'
       - '^test:'
-signs:
-  - signature: "${artifact}.dmg"
-    ids:
-      - macos
-    cmd: gon
-    args: ["--log-level", "info", "--log-json", ".github/workflows/macos_amd64_config.json"]
-    artifacts: all
+#signs:
+#  - signature: "${artifact}.dmg"
+#    ids:
+#      - macos
+#    cmd: gon
+#    args: ["--log-level", "info", "--log-json", ".github/workflows/macos_amd64_config.json"]
+#    artifacts: all
