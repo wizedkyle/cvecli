@@ -114,6 +114,9 @@ jobs:
           gon --log-level=info --log-json .github/workflows/macos_arm64_config.json
         env:
           AC_PASSWORD: ${{ secrets.AC_PASSWORD }}
+      - name: Check Directory
+        shell: bash
+        run: ls -la
       - name: Upload signed macOS amd64 dmg
         uses: actions/upload-artifact@v2
         with:
