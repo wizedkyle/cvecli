@@ -131,12 +131,12 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: cvecli_darwin_arm64-signed_dmg
-          path: ./dist/cvecli_darwin_arm64.dmg
+          path: ./cvecli_darwin_arm64.dmg
       - name: Upload signed macOS arm64 zip
         uses: actions/upload-artifact@v2
         with:
           name: cvecli_darwin_arm64_signed_zip
-          path: ./dist/cvecli_darwin_arm64.zip
+          path: ./cvecli_darwin_arm64.zip
 
   sign_windows_binaries:
     name: Sign and Timestamp Windows Binary
