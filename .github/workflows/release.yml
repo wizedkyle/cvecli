@@ -190,13 +190,33 @@ jobs:
       - name: Download darwin amd64 signed asset
         uses: actions/download-artifact@v2
         with:
-          name: cvecli_darwin_amd64_signed_dmg
-          path: cvecli_darwin_amd64.dmg
-      - name: Download darwin amd64 signed asset
-        uses: actions/download-artifact@v2
-        with:
           name: cvecli_darwin_amd64_signed_zip
           path: cvecli_darwin_amd64.zip
+      - name: Download darwin arm64 signed asset
+        uses: actions/download-artifact@v2
+        with:
+          name: cvecli_darwin_arm64_signed_zip
+          path: cvecli_darwin_arm64.zip
+      - name: Download linux amd64 asset
+        uses: actions/download-artifact@v2
+        with:
+          name: cvecli_linux_amd64
+          path: cvecli_linux_amd64/cvecli
+      - name: Download linux arm64 asset
+        uses: actions/download-artifact@v2
+        with:
+          name: cvecli_linux_arm64
+          path: cvecli_linux_arm64/cvecli
+      - name: Download windows amd64 signed asset
+        uses: actions/download-artifact@v2
+        with:
+          name: cvecli_windows_amd64_signed
+          path: cvecli_windows_amd64/cvecli.exe
+      - name: Download windows arm64 signed asset
+        uses: actions/download-artifact@v2
+        with:
+          name: cvecli_windows_arm64_signed
+          path: cvecli_windows_arm64/cvecli.exe
       - name: Check Directories
         shell: bash
         run: |
