@@ -67,7 +67,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: checksums.txt
-          path: checksums.txt
+          path: ./dist/checksums.txt
       - name: Check Directory
         shell: bash
         run: |
