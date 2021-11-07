@@ -1,12 +1,9 @@
 name: release
 
-#on:
-#  push:
-#    tags:
-#      - v*.*.*
-
 on:
   push:
+    tags:
+      - v*.*.*
 
 permissions:
   contents: write
@@ -83,10 +80,6 @@ jobs:
         with:
           name: cvecli_darwin_arm64
           path: ./dist/cvecli_darwin_arm64
-      - name: Check Directory
-        shell: bash
-        run: |
-          ls -la ./dist/cvecli_darwin_amd64
       - name: Install Gon
         shell: bash
         run: |
@@ -114,9 +107,6 @@ jobs:
           gon --log-level=info --log-json .github/workflows/macos_arm64_config.json
         env:
           AC_PASSWORD: ${{ secrets.AC_PASSWORD }}
-      - name: Check Directory
-        shell: bash
-        run: ls -la
       - name: Upload signed macOS amd64 dmg
         uses: actions/upload-artifact@v2
         with:
@@ -140,7 +130,7 @@ jobs:
 
   sign_windows_binaries:
     name: Sign and Timestamp Windows Binary
-    needs: sign_macos_binaries
+    needs: build
     runs-on: windows-latest
     steps:
       - name: Setup Dotnet
@@ -189,3 +179,22 @@ jobs:
           name: cvecli_windows_arm64_signed
           path: ./dist/cvecli_windows_arm64/cvecli.exe
 
+  upload_assets_to_release:
+    name: Upload Assets to Release
+    needs: [build, sign_macos_binaries, sign_windows_binaries]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download darwin amd64 signed asset
+        uses: actions/download-artifact@v2
+        with:
+          name: cvecli_darwin_amd64_signed_dmg
+          path: cvecli_darwin_amd64.dmg
+      - name: Download darwin amd64 signed asset
+        uses: actions/download-artifact@v2
+        with:
+          name: cvecli_darwin_amd64_signed_zip
+          path: cvecli_darwin_amd64.zip
+      - name: Check Directories
+        shell: bash
+        run: |
+          ls -la
