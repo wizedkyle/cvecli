@@ -63,6 +63,16 @@ jobs:
         with:
           name: cvecli_windows_arm64
           path: ./dist/cvecli_windows_arm64/cvecli.exe
+      - name: Upload checksums
+        uses: actions/upload-artifact@v2
+        with:
+          name: checksums.txt
+          path: checksums.txt
+      - name: Check Directory
+        shell: bash
+        run: |
+          ls -la
+          ls -la ./dist
 
   sign_macos_binaries:
     name: Signing macOS binaries
