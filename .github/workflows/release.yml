@@ -51,7 +51,7 @@ jobs:
       - name: Upload linux arm64
         uses: actions/upload-artifact@v2
         with:
-          nama: cvecli_linux_arm64
+          name: cvecli_linux_arm64
           path: ./dist/cvecli_linux_arm64/cvecli
       - name: Upload Windows amd64
         uses: actions/upload-artifact@v2
