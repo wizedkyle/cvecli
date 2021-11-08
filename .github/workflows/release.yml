@@ -233,6 +233,7 @@ jobs:
           cd archives
           find . -type f -exec sha256sum {} \; > checksums.txt
           cat checksums.txt
+          ls -la
       - name: Check Directories
         shell: bash
         run: |
