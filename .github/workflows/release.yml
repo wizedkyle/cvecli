@@ -194,12 +194,12 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: cvecli_darwin_amd64_signed_zip
-          path: cvecli_darwin_amd64.zip
+          path: cvecli_darwin_amd64/cvecli
       - name: Download darwin arm64 signed asset
         uses: actions/download-artifact@v2
         with:
           name: cvecli_darwin_arm64_signed_zip
-          path: cvecli_darwin_arm64.zip
+          path: cvecli_darwin_arm64/cvecli
       - name: Download linux amd64 asset
         uses: actions/download-artifact@v2
         with:
