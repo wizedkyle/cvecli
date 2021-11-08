@@ -230,8 +230,7 @@ jobs:
           tar -czf ./archives/cvecli_0.0.1_linux_arm64.tar.gz cvecli_linux_arm64/cvecli
           zip ./archives/cvecli_0.0.1_windows_amd64.zip cvecli_windows_amd64/cvecli.exe
           zip ./archives/cvecli_0.0.1_windows_arm64.zip cvecli_windows_arm64/cvecli.exe
-          cd archives
-          find . -type f -exec sha256sum {} \; > checksums.txt
+          find ./archives/. -type f -exec sha256sum {} \; > checksums.txt
           cat checksums.txt
           ls -la
       - name: Check Directories
