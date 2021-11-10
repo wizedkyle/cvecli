@@ -87,7 +87,7 @@ jobs:
         shell: bash
         run: |
           chmod +x ./scripts/release-debianpackage.sh
-          ./release-debianpackage.sh
+          ./scripts/release-debianpackage.sh
           ls -la
           ls -la scripts
 
