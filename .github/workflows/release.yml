@@ -69,6 +69,10 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
       - name: Download linux amd64 artifact
         uses: actions/download-artifact@v2
         with:
@@ -79,25 +83,13 @@ jobs:
         with:
           name: cvecli_linux_arm64
           path: ./cvecli_linux_arm64/cvecli
-      - name: Create amd64 debian package
+      - name: Run debian package script
         shell: bash
         run: |
-          mkdir -p ./deb/cvecli_0.0.1-1_amd64/usr/bin
-          cp ./cvecli_linux_amd64/cvecli ./deb/cvecli_0.0.1-1_amd64/usr/bin
-          mkdir -p ./deb/cvecli_0.0.1-1_amd64/DEBIAN
-          cat > ./deb/cvecli_0.0.1-1_amd64/DEBIAN/control << EOF
-            Package: cvecli
-            Version: 0.0.1
-            Maintainer: kyle@thepublicclouds.com
-            Architecture: amd64
-            Homepage: github.com/wizedkyle/cvecli
-            Description: A CLI tool that allows CNAs to manage their organisation and submit CVEs
-          EOF
-      - name: Check Directory
-        shell: bash
-        run: |
+          chmod +x ./scripts/release-debianpackage.sh
+          ./release-debianpackage.sh
           ls -la
-
+          ls -la scripts
 
   sign_macos_binaries:
     name: Signing macOS binaries
