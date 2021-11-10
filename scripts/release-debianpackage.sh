@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# Add args for version
+architecture=""
+version=""
+
+
 mkdir -p ./deb/cvecli_0.0.1-1_amd64/usr/bin
 cp ./cvecli_darwin_amd64/cvecli ./deb/cvecli_0.0.1-1_amd64/usr.bin
 mkdir -p ./deb/cvecli_0.0.1-1_amd64/DEBIAN

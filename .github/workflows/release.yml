@@ -90,6 +90,11 @@ jobs:
           ./scripts/release-debianpackage.sh
           ls -la deb
           ls -la scripts
+      - name: Upload deb package asset
+        uses: actions/upload-artifact@v2
+        with:
+          name: cvecli_linux_amd64_deb
+          path: ./deb/cvecli_0.0.1-1_amd64.deb
 
   sign_macos_binaries:
     name: Signing macOS binaries
