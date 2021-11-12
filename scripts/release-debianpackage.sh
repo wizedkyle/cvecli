@@ -1,9 +1,5 @@
 #!/bin/bash
 
-# Add args for version
-architecture=""
-version=""
-
 while getopts a:v: flag
 do
   case "${flag}" in
