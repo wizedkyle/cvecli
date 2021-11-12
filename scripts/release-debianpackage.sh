@@ -4,16 +4,23 @@
 architecture=""
 version=""
 
+while getopts a:v: flag
+do
+  case "${flag}" in
+    a) architecture=${OPTARG};;
+    v) version=${{OPTARG}};;
+  esac
+done
 
-mkdir -p ./deb/cvecli_0.0.1-1_amd64/usr/bin
-cp ./cvecli_darwin_amd64/cvecli ./deb/cvecli_0.0.1-1_amd64/usr.bin
-mkdir -p ./deb/cvecli_0.0.1-1_amd64/DEBIAN
-cat > ./deb/cvecli_0.0.1-1_amd64/DEBIAN/control << EOF
+mkdir -p "./deb/cvecli_$version-1_$architecture/usr/bin"
+cp ./cvecli_darwin_amd64/cvecli "./deb/cvecli_$version-1_$architecture/usr.bin"
+mkdir -p "./deb/cvecli_$version-1_$architecture/DEBIAN"
+cat > "./deb/cvecli_$version-1_$architecture/DEBIAN/control" << EOF
 Package: cvecli
-Version: 0.0.1
+Version: $version
 Maintainer: kyle@thepublicclouds.com
-Architecture: amd64
+Architecture: $architecture
 Homepage: https://github.com/wizedkyle/cvecli
 Description: A CLI tool that allows CNAs to manage their organisation and submit CVEs
 EOF
-dpkg --build ./deb/cvecli_0.0.1-1_amd64
+dpkg --build "./deb/cvecli_$version-1_$architecture"

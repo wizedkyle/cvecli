@@ -87,7 +87,8 @@ jobs:
         shell: bash
         run: |
           chmod +x ./scripts/release-debianpackage.sh
-          ./scripts/release-debianpackage.sh
+          ./scripts/release-debianpackage.sh -a amd64 -v 0.0.1
+          ./scripts/release-debianpackage.sh -a arm64 -v 0.0.1
           ls -la deb
           ls -la scripts
       - name: Upload deb package asset
@@ -216,7 +217,7 @@ jobs:
 
   upload_assets_to_release:
     name: Upload Assets to Release
-    needs: [build, sign_macos_binaries, sign_windows_binaries]
+    needs: [build, create_debian_package, sign_macos_binaries, sign_windows_binaries]
     runs-on: ubuntu-latest
     steps:
       - name: Set Version Variable
