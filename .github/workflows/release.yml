@@ -69,6 +69,9 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
+      - name: Set Versio Variable
+        run: |
+          echo "TAG=0.0.1" >> $GITHUB_ENV
       - name: Checkout
         uses: actions/checkout@v2
         with:
@@ -87,15 +90,20 @@ jobs:
         shell: bash
         run: |
           chmod +x ./scripts/release-debianpackage.sh
-          ./scripts/release-debianpackage.sh -a amd64 -v 0.0.1
-          ./scripts/release-debianpackage.sh -a arm64 -v 0.0.1
+          ./scripts/build-debianpackage.sh -a amd64 -v ${{ env.TAG }}
+          ./scripts/build-debianpackage.sh -a arm64 -v ${{ env.TAG }}
           ls -la deb
           ls -la scripts
-      - name: Upload deb package asset
+      - name: Upload debian amd package asset
         uses: actions/upload-artifact@v2
         with:
           name: cvecli_linux_amd64_deb
-          path: ./deb/cvecli_0.0.1-1_amd64.deb
+          path: ./deb/cvecli_${{ env.TAG }}-1_amd64.deb
+      - name: Upload debian arm64 package asset
+        uses: actions/upload-artifact@v2
+        with:
+          name: cvecli_linux_arm64_deb
+          path: ./deb/cvecli_
 
   sign_macos_binaries:
     name: Signing macOS binaries
