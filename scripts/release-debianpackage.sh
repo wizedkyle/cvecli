@@ -1,6 +1,6 @@
 #!/bin/bash
 
-while getopts "a:v:" flag
+while getopts "av" flag
 do
   case "$flag" in
     "a") architecture=${OPTARG};;
