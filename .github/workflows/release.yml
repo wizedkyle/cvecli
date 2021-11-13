@@ -103,7 +103,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: cvecli_linux_arm64_deb
-          path: ./deb/cvecli_
+          path: ./deb/cvecli_${{ env.TAG }}-1_arm64.deb
 
   sign_macos_binaries:
     name: Signing macOS binaries
