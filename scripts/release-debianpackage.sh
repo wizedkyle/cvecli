@@ -1,11 +1,11 @@
-#!/bin/sh
+#!/bin/bash
 
 architecture=""
 version=""
 
-while getopts "av" flag
+while getopts 'a:v:' flag;
 do
-  case "$flag" in
+  case "${flag}" in
     "a") architecture=${OPTARG};;
     "v") version=${{OPTARG}};;
   esac
