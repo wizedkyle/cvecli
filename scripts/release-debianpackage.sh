@@ -1,10 +1,10 @@
 #!/bin/bash
 
-while getopts a:v: flag
+while getopts "a:v:" flag
 do
-  case "${flag}" in
-    a) architecture=${OPTARG};;
-    v) version=${{OPTARG}};;
+  case "$flag" in
+    "a") architecture=${OPTARG};;
+    "v") version=${{OPTARG}};;
   esac
 done
 
