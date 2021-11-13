@@ -3,20 +3,22 @@
 architecture=""
 version=""
 
-while true; do
-  case "$1" in
-    -a)
-      architecture=$1
+while getopts ":a:v:" options; do
+  case "${options}" in
+    a)
+      architecture=${OPTARG}
       ;;
-    -v)
-      version=$1
+    v)
+      version=${OPTARG}
       ;;
-    --)
-      shift
-      break
+    :)
+      echo "Error: -${OPTARG} requires an argument"
+      exit 1
       ;;
-    esac
-    shift
+    *)
+      exit 1
+      ;;
+  esac
 done
 
 echo $architecture
