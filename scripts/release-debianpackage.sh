@@ -1,5 +1,8 @@
 #!/bin/bash
 
+architecture=""
+version=""
+
 while getopts "av" flag
 do
   case "$flag" in
@@ -7,6 +10,9 @@ do
     "v") version=${{OPTARG}};;
   esac
 done
+
+echo $architecture
+echo $version
 
 mkdir -p "./deb/cvecli_$version-1_$architecture/usr/bin"
 cp ./cvecli_darwin_amd64/cvecli "./deb/cvecli_$version-1_$architecture/usr.bin"
