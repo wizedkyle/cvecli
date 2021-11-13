@@ -65,7 +65,7 @@ jobs:
           path: ./dist/cvecli_windows_arm64/cvecli.exe
 
   create_debian_package:
-    name: Create debian release
+    name: Create debian package
     needs: build
     runs-on: ubuntu-latest
     steps:
@@ -89,7 +89,7 @@ jobs:
       - name: Run debian package script
         shell: bash
         run: |
-          chmod +x ./scripts/release-debianpackage.sh
+          chmod +x ./scripts/build-debianpackage.sh
           ./scripts/build-debianpackage.sh -a amd64 -v ${{ env.TAG }}
           ./scripts/build-debianpackage.sh -a arm64 -v ${{ env.TAG }}
           ls -la deb
