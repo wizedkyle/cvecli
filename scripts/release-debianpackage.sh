@@ -3,12 +3,20 @@
 architecture=""
 version=""
 
-while getopts 'a:v:' flag;
-do
-  case "${flag}" in
-    "a") architecture=${OPTARG};;
-    "v") version=${{OPTARG}};;
-  esac
+while true; do
+  case "$1" in
+    -a)
+      architecture=$1
+      ;;
+    -v)
+      version=$1
+      ;;
+    --)
+      shift
+      break
+      ;;
+    esac
+    shift
 done
 
 echo $architecture
