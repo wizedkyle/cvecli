@@ -304,12 +304,6 @@ jobs:
         shell: bash
         run: |
           sudo apt-get install dpkg-dev
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-region: ${{ secrets.AWS_REGION }}
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
       - name: Run debian release
         shell: bash
         run: |
