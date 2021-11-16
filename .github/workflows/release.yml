@@ -281,11 +281,11 @@ jobs:
           ls -la ./archives
 
   release_debian_packages:
-    name: Release Debian Pacakges
+    name: Release Debian Packages
     needs: [build, create_debian_package]
     runs-on: ubuntu-latest
     steps:
-      - name: Set Versio Variable
+      - name: Set Version Variable
         run: |
           echo "TAG=0.0.1" >> $GITHUB_ENV
       - name: Checkout
@@ -308,4 +308,4 @@ jobs:
         shell: bash
         run: |
           chmod +x ./scripts/release-debianpackage.sh
-          ./release-debianpackage.sh -a amd64 -a arm64 -v ${{ env.TAG }}
+          ./scripts/release-debianpackage.sh -a amd64 -a arm64 -v ${{ env.TAG }}
