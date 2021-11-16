@@ -26,7 +26,7 @@ mkdir ./aptcvecli
 echo "=> Syncing S3 bucket locally"
 aws s3 sync s3://aptthepublicclouds/cvecli ./aptcvecli
 echo "=> Creating pools directory"
-mkdir ./aptcvecli/pool/main
+mkdir -p ./aptcvecli/pool/main
 for architecture in "${architectures[@]}"; do
   releaseArchitectures=releaseArchitectures + architecture + " "
   echo "=> Moving $architecture debian package to local apt repo"
