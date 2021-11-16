@@ -279,3 +279,38 @@ jobs:
         run: |
           ls -la
           ls -la ./archives
+
+  release_debian_packages:
+    name: Release Debian Pacakges
+    needs: [build, create_debian_package]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set Versio Variable
+        run: |
+          echo "TAG=0.0.1" >> $GITHUB_ENV
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Download debian amd64 package
+        uses: actions/download-artifact@v2
+        with:
+          name: cvecli_linux_amd64_deb
+      - name: Download debian arm64 package
+        uses: actions/download-artifact@v2
+        with:
+          name: cvecli_linux_arm64_deb
+      - name: Installing release prerequsities
+        shell: bash
+        run: |
+          sudo apt-get install dpkg-dev
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
+      - name: Run debian release
+        shell: bash
+        run: |
+          chmod +x ./scripts/release-debianpackage.sh
+          ./release-debianpackage.sh -a amd64 -a arm64 -v ${{ env.TAG }}

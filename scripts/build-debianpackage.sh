@@ -21,9 +21,6 @@ while getopts ":a:v:" options; do
   esac
 done
 
-echo $architecture
-echo $version
-
 echo "=> Creating debian package folder structure"
 mkdir -p "./deb/cvecli_$version-1_$architecture/usr/bin"
 echo "=> Copying cvecli binary"
