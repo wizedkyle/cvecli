@@ -8,7 +8,7 @@ generate_hash() {
   hashcmd=$2
   echo "$hashname:"
   for file in $(find "./aptcvecli/dists/stable/main" -type f); do
-    file=$(echo "$file" | cut -c3-)
+    file=$(echo "$file" | cut -c16-)
     if [ "$file" = "Release" ]; then
       continue
     fi
@@ -37,7 +37,7 @@ done
 echo "=> Creating apt repo folder"
 mkdir ./aptcvecli
 echo "=> Syncing S3 bucket locally"
-aws s3 sync s3://aptthepublicclouds/cvecli ./aptcvecli
+aws s3 sync s3://aptcvecli ./aptcvecli
 echo "=> Checking pools directory"
 if [ -d "./aptcvecli/pool/main" ]; then
   echo "=> ./aptcvecli/pool/main already exists"
