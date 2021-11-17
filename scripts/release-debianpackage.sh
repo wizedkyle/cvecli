@@ -26,17 +26,35 @@ mkdir ./aptcvecli
 echo "=> Syncing S3 bucket locally"
 aws s3 sync s3://aptthepublicclouds/cvecli ./aptcvecli --debug
 echo "=> Creating pools directory"
-mkdir -p ./aptcvecli/pool/main
+if [ -d "./aptcvecli/pool/main" ]; then
+  echo "=> ./aptcvecli/pool/main already exists"
+else
+  mkdir -p ./aptcvecli/pool/main
+fi
 for architecture in "${architectures[@]}"; do
   releaseArchitectures+=architecture
   releaseArchitectures+=" "
   echo "=> Moving $architecture debian package to local apt repo"
   mv "./cvecli_$version-1_$architecture.deb" "./aptcvecli/pool/main/cvecli_$version-1_$architecture.deb"
   echo "=> Creating $architecture packages directory"
-  mkdir -p "./aptcvecli/dists/stable/main/binary-$architecture"
-  echo "=> Removing old $architecture package files"
-  rm "./aptcvecli/dists/stable/main/binary-$architecture/Packages"
-  rm "./aptcvecli/dists/stable/main/binary-$architecture/Packages.gz"
+  if [ -d "./aptcvecli/dists/stable/main/binary-$architecture" ]; then
+    echo "=> ./aptcvecli/dists/stable/main/binary-$architecture already exists"
+  else
+    mkdir -p "./aptcvecli/dists/stable/main/binary-$architecture"
+  fi
+  echo "=> Checking for old $architecture package files"
+  if [ -f "./aptcvecli/dists/stable/main/binary-$architecture/Packages" ]; then
+    echo "=> Removing ./aptcvecli/dists/stable/main/binary-$architecture/Packages"
+    rm "./aptcvecli/dists/stable/main/binary-$architecture/Packages"
+  else
+    echo "=> ./aptcvecli/dists/stable/main/binary-$architecture/Packages does not exist"
+  fi
+  if [ -f "./aptcvecli/dists/stable/main/binary-$architecture/Packages.gz" ]; then
+    echo "=> Removing ./aptcvecli/dists/stable/main/binary-$architecture/Packages.gz"
+    rm "./aptcvecli/dists/stable/main/binary-$architecture/Packages.gz"
+  else
+    echo "=> ./aptcvecli/dists/stable/main/binary-$architecture/Packages.gz does not exist"
+  fi
   echo "=> Generate new $architecture package file"
   dpkg-scanpackages --arch "$architecture" ./aptcvecli/pool/ > "./aptcvecli/dists/stable/main/binary-$architecture/Packages"
   echo "=> Compressing $architecture package file"
