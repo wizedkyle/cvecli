@@ -24,11 +24,12 @@ done
 echo "=> Creating apt repo folder"
 mkdir ./aptcvecli
 echo "=> Syncing S3 bucket locally"
-aws s3 sync s3://aptthepublicclouds/cvecli ./aptcvecli
+aws s3 sync s3://aptthepublicclouds/cvecli ./aptcvecli 2>&1
 echo "=> Creating pools directory"
 mkdir -p ./aptcvecli/pool/main
 for architecture in "${architectures[@]}"; do
-  releaseArchitectures=releaseArchitectures + architecture + " "
+  releaseArchitectures+=architecture
+  releaseArchitectures+=" "
   echo "=> Moving $architecture debian package to local apt repo"
   mv "./cvecli_$version-1_$architecture.deb" "./aptcvecli/pool/main/cvecli_$version-1_$architecture.deb"
   echo "=> Creating $architecture packages directory"
