@@ -7,7 +7,7 @@ generate_hash() {
   hashname=$1
   hashcmd=$2
   echo "$hashname:"
-  for file in $(find "./aptcvecli/dists/stable/main" -f); do
+  for file in $(find "./aptcvecli/dists/stable/main" -type f); do
     file=$(echo "$file" | cut -c3-)
     if [ "$file" = "Release" ]; then
       continue
