@@ -3,6 +3,19 @@
 releaseArchitectures=""
 version=""
 
+generate_hash() {
+  hashname=$1
+  hashcmd=$2
+  echo "$hashname:"
+  for file in $(find "./aptcvecli/dists/stable/main" -f); do
+    file=$(echo "$file" | cut -c3-)
+    if [ "$file" = "Release" ]; then
+      continue
+    fi
+    echo " $(${hashcmd} "$file" | cut -d" " -f1) $(wc -c "$file")"
+  done
+}
+
 while getopts ":a:v:" options; do
   case "${options}" in
     a)
@@ -33,7 +46,7 @@ else
   mkdir -p ./aptcvecli/pool/main
 fi
 for architecture in "${architectures[@]}"; do
-  releaseArchitectures+=architecture
+  releaseArchitectures+=$architecture
   releaseArchitectures+=" "
   echo "=> Moving $architecture debian package to local apt repo"
   mv "./cvecli_$version-1_$architecture.deb" "./aptcvecli/pool/main/cvecli_$version-1_$architecture.deb"
@@ -88,6 +101,9 @@ Version: $version
 Architectures: $releaseArchitectures
 Components: main
 Description: A CLI tool that allows CNAs to manage their organisation and submit CVEs.
-Date: $(date)
+Date: $(date -Ru)
+generate_hash "MD5Sum" "md5sum"
+generate_hash "SHA1" "sha1sum"
+generate_hash "SHA256" "sha256sum"
 EOF
 cat ./aptcvecli/dists/stable/Release
