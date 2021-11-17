@@ -24,7 +24,7 @@ done
 echo "=> Creating apt repo folder"
 mkdir ./aptcvecli
 echo "=> Syncing S3 bucket locally"
-aws s3 sync s3://aptthepublicclouds/cvecli ./aptcvecli --debug
+aws s3 sync s3://aptthepublicclouds/cvecli ./aptcvecli
 echo "=> Checking pools directory"
 if [ -d "./aptcvecli/pool/main" ]; then
   echo "=> ./aptcvecli/pool/main already exists"
@@ -80,7 +80,7 @@ if [ -f "./aptcvecli/dists/stable/InRelease" ]; then
 else
   echo "=> ./aptcvecli/dists/stable/InRelease does not exist"
 fi
-./aptcvecli/dists/stable/Release << EOF
+cat << EOF > ./aptcvecli/dists/stable/Release
 Origin: apt.thepublicclouds.com
 Suite: stable
 Codename: stable
