@@ -24,7 +24,7 @@ done
 echo "=> Creating apt repo folder"
 mkdir ./aptcvecli
 echo "=> Syncing S3 bucket locally"
-aws s3 sync s3://aptthepublicclouds/cvecli ./aptcvecli 2>&1
+aws s3 sync s3://aptthepublicclouds/cvecli ./aptcvecli --debug
 echo "=> Creating pools directory"
 mkdir -p ./aptcvecli/pool/main
 for architecture in "${architectures[@]}"; do
