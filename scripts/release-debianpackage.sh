@@ -102,8 +102,8 @@ Architectures: $releaseArchitectures
 Components: main
 Description: A CLI tool that allows CNAs to manage their organisation and submit CVEs.
 Date: $(date -Ru)
-generate_hash "MD5Sum" "md5sum"
-generate_hash "SHA1" "sha1sum"
-generate_hash "SHA256" "sha256sum"
+$(generate_hash "MD5Sum" "md5sum")
+$(generate_hash "SHA1" "sha1sum")
+$(generate_hash "SHA256" "sha256sum")
 EOF
 cat ./aptcvecli/dists/stable/Release
