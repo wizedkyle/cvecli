@@ -93,6 +93,7 @@ if [ -f "./aptcvecli/dists/stable/InRelease" ]; then
 else
   echo "=> ./aptcvecli/dists/stable/InRelease does not exist"
 fi
+echo "=> Moving directories to ./aptcvecli/dists/stable"
 cd ./aptcvecli/dists/stable || exit
 cat << EOF > Release
 Origin: apt.thepublicclouds.com
@@ -111,5 +112,8 @@ echo "=> Signing release file"
 cat ./Release | gpg --default-key "Kyle Jackson" -abs > Release.gpg
 echo "=> Creating InRelease file"
 cat ./Release | gpg --default-key "Kyle Jackson" -abs --clearsign > InRelease
+echo "=> "
+cd -
+ls -la
 echo "=> Syncing local apt repo to S3"
 aws s3 sync ./aptcvecli/ s3://aptcvecli
