@@ -112,8 +112,7 @@ echo "=> Signing release file"
 cat ./Release | gpg --default-key "Kyle Jackson" -abs > Release.gpg
 echo "=> Creating InRelease file"
 cat ./Release | gpg --default-key "Kyle Jackson" -abs --clearsign > InRelease
-echo "=> "
+echo "=> Moving back to root directory"
 cd -
-ls -la
 echo "=> Syncing local apt repo to S3"
 aws s3 sync ./aptcvecli/ s3://aptcvecli
