@@ -7,8 +7,8 @@ generate_hash() {
   hashname=$1
   hashcmd=$2
   echo "$hashname:"
-  for file in $(find "./aptcvecli/dists/stable/main" -type f); do
-    file=$(echo "$file" | cut -c16-)
+  for file in $(find -type f); do
+    file=$(echo "$file" | cut -c3-)
     if [ "$file" = "Release" ]; then
       continue
     fi
@@ -93,7 +93,8 @@ if [ -f "./aptcvecli/dists/stable/InRelease" ]; then
 else
   echo "=> ./aptcvecli/dists/stable/InRelease does not exist"
 fi
-cat << EOF > ./aptcvecli/dists/stable/Release
+cd ./aptcvecli/dists/stable || exit
+cat << EOF > Release
 Origin: apt.thepublicclouds.com
 Suite: stable
 Codename: stable
@@ -106,4 +107,4 @@ $(generate_hash "MD5Sum" "md5sum")
 $(generate_hash "SHA1" "sha1sum")
 $(generate_hash "SHA256" "sha256sum")
 EOF
-cat ./aptcvecli/dists/stable/Release
+cat Release
