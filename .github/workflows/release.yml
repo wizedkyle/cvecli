@@ -271,6 +271,11 @@ jobs:
           find ./archives -type f -exec sha256sum {} \; > checksums.txt
           cat checksums.txt
           ls -la
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+
 
   release_debian_packages:
     name: Release Debian Packages

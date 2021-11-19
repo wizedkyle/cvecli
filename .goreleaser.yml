@@ -7,6 +7,9 @@ builds:
       - amd64
       - arm64
     main: ./cmd/cvecli
+    ldflags:
+      - -X 'github.com/SumoLogic-Incubator/sumocli/internal/build.Version={{.Version}}'
+      - -X 'github.com/SumoLogic-Incubator/sumocli/internal/build.Date={{.Date}}'
 archives:
   - replacements:
       darwin: Darwin
