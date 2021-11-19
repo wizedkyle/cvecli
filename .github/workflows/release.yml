@@ -33,6 +33,8 @@ jobs:
         env:
           AC_PASSWORD: ${{ secrets.AC_PASSWORD }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VERSION: 0.0.1
+          BUILD: 00001
       - name: Upload Darwin amd64
         uses: actions/upload-artifact@v2
         with:
@@ -164,7 +166,7 @@ jobs:
       - name: Upload signed macOS arm64 dmg
         uses: actions/upload-artifact@v2
         with:
-          name: cvecli_darwin_arm64-signed_dmg
+          name: cvecli_darwin_arm64_signed_dmg
           path: ./cvecli_darwin_arm64.dmg
       - name: Upload signed macOS arm64 zip
         uses: actions/upload-artifact@v2

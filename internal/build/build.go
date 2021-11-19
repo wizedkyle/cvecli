@@ -1,6 +1,6 @@
 package build
 
 var (
-	Date    = "Dev"
+	Build   = "Dev"
 	Version = "Dev"
 )
