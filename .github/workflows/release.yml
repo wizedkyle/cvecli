@@ -71,7 +71,7 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: Set Versio Variable
+      - name: Set Version Variable
         run: |
           echo "TAG=${GITHUB_REF/refs\/tags\/}" >> $GITHUB_ENV
       - name: Checkout
