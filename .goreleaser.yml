@@ -8,7 +8,7 @@ builds:
       - arm64
     main: ./cmd/cvecli
     ldflags:
-      - -s -w -X build.Version={{.Version}}
+      - -s -w -X build.Version={{.Env.VERSION}}
 archives:
   - replacements:
       darwin: Darwin
