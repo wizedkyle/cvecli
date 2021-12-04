@@ -264,10 +264,10 @@ jobs:
       - name: Check Archives
         shell: bash
         run: |
-          ls -la ./cvecli_darwin_arm64
-          ls -la ./cvecli_darwin_arm64/cvecli
-          ls -la ./cvecli_darwin_amd64
-          ls -la ./cvecli_darwin_amd64/cvecli
+          ls -la ./cvecli_linux_arm64
+          ls -la ./cvecli_linux_arm64/cvecli
+          ls -la ./cvecli_linux_amd64
+          ls -la ./cvecli_linux_amd64/cvecli
           ls -la ./cvecli_windows_amd64
       - name: Create installer archives
         shell: bash
