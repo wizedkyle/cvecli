@@ -272,7 +272,7 @@ jobs:
         shell: bash
         run: |
           mkdir archives
-          unzip ./cvecli_darwin_arm64/cvecli/cvecli_darwin_arm64.zip ./cvecli_darwin_arm64/cvecli/cvecli
+          unzip ./cvecli_darwin_arm64/cvecli/cvecli_darwin_arm64.zip -d ./cvecli_darwin_arm64/cvecli
           ls -la cvecli_darwin_amd64/cvecli
           tar -czf ./archives/cvecli_${{ env.TAG }}_darwin_amd64.tar.gz cvecli_darwin_amd64/cvecli
           tar -czf ./archives/cvecli_${{ env.TAG }}_darwin_arm64.tar.gz cvecli_darwin_arm64/cvecli
