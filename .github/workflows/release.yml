@@ -1,12 +1,12 @@
 name: release
 
-#on:
-#  push:
-#    tags:
-#      - '*.*.*'
-
 on:
   push:
+    tags:
+      - '*.*.*'
+
+#on:
+#  push:
 
 permissions:
   contents: write
@@ -33,8 +33,6 @@ jobs:
         env:
           AC_PASSWORD: ${{ secrets.AC_PASSWORD }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          VERSION: 0.0.1
-          BUILD: 00001
       - name: Upload Darwin amd64
         uses: actions/upload-artifact@v2
         with:
@@ -280,7 +278,13 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: |
-
+            ./archives/cvecli_${{ env.TAG }}_darwin_amd64.tar.gz
+            ./archives/cvecli_${{ env.TAG }}_darwin_arm64.tar.gz
+            ./archives/cvecli_${{ env.TAG }}_linux_amd64.tar.gz
+            ./archives/cvecli_${{ env.TAG }}_linux_arm64.tar.gz
+            ./archives/cvecli_${{ env.TAG }}_windows_amd64.zip
+            ./archives/cvecli_${{ env.TAG }}_windows_arm64.zip
+            checksums.txt
 
   release_debian_packages:
     name: Release Debian Packages
