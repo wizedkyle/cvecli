@@ -261,6 +261,10 @@ jobs:
         with:
           name: cvecli_windows_arm64_signed
           path: cvecli_windows_arm64/cvecli.exe
+      - name: Check Archives
+        shell: bash
+        run: |
+          ls -la ./cvecli_darwin_arm64
       - name: Create installer archives
         shell: bash
         run: |
