@@ -265,6 +265,7 @@ jobs:
         shell: bash
         run: |
           ls -la ./cvecli_darwin_arm64
+          ls -la ./cvecli_darwin_arm64/cvecli
       - name: Create installer archives
         shell: bash
         run: |
