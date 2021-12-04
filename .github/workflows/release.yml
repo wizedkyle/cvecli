@@ -264,19 +264,14 @@ jobs:
       - name: Check Archives
         shell: bash
         run: |
-          ls -la ./cvecli_linux_arm64
-          ls -la ./cvecli_linux_arm64/cvecli
-          ls -la ./cvecli_linux_amd64
-          ls -la ./cvecli_linux_amd64/cvecli
           ls -la ./cvecli_windows_amd64
+          ls -la ./cvecli_windows_amd64/cvecli.exe
       - name: Create installer archives
         shell: bash
         run: |
           mkdir archives
           unzip ./cvecli_darwin_amd64/cvecli/cvecli_darwin_amd64.zip -d ./cvecli_darwin_amd64/cvecli
           unzip ./cvecli_darwin_arm64/cvecli/cvecli_darwin_arm64.zip -d ./cvecli_darwin_arm64/cvecli
-          unzip ./cvecli_linux_amd64/cvecli/cvecli_linux_amd64.zip -d ./cvecli_linux_amd64/cvecli
-          unzip ./cvecli_linux_arm64/cvecli/cvecli_linux_arm64.zip -d ./cvecli_linux_arm64/cvecli
           tar -czf ./archives/cvecli_${{ env.TAG }}_darwin_amd64.tar.gz cvecli_darwin_amd64/cvecli/cvecli
           tar -czf ./archives/cvecli_${{ env.TAG }}_darwin_arm64.tar.gz cvecli_darwin_arm64/cvecli/cvecli
           tar -czf ./archives/cvecli_${{ env.TAG }}_linux_amd64.tar.gz cvecli_linux_amd64/cvecli/cvecli
