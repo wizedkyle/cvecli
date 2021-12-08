@@ -268,6 +268,8 @@ jobs:
           ls -la ./cvecli_darwin_amd64/cvecli
           unzip ./cvecli_darwin_amd64/cvecli/cvecli_darwin_amd64.zip -d ./cvecli_darwin_amd64/cvecli
           unzip ./cvecli_darwin_arm64/cvecli/cvecli_darwin_arm64.zip -d ./cvecli_darwin_arm64/cvecli
+          ls -la ./cvecli_darwin_arm64/cvecli
+          ls -la ./cvecli_darwin_arm64/cvecli/cvecli
           tar -czf ./archives/cvecli_${{ env.TAG }}_darwin_amd64.tar.gz cvecli_darwin_amd64/cvecli/cvecli
           tar -czf ./archives/cvecli_${{ env.TAG }}_darwin_arm64.tar.gz cvecli_darwin_arm64/cvecli/cvecli
           tar -czf ./archives/cvecli_${{ env.TAG }}_linux_amd64.tar.gz cvecli_linux_amd64/cvecli/cvecli
