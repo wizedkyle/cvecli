@@ -265,6 +265,7 @@ jobs:
         shell: bash
         run: |
           mkdir archives
+          ls -la ./cvecli_darwin_amd64/cvecli
           unzip ./cvecli_darwin_amd64/cvecli/cvecli_darwin_amd64.zip -d ./cvecli_darwin_amd64/cvecli
           unzip ./cvecli_darwin_arm64/cvecli/cvecli_darwin_arm64.zip -d ./cvecli_darwin_arm64/cvecli
           tar -czf ./archives/cvecli_${{ env.TAG }}_darwin_amd64.tar.gz cvecli_darwin_amd64/cvecli/cvecli
@@ -326,3 +327,10 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+
+  update_homebrew_formula:
+    name: Update Hombrew Formula
+    needs: [build, upload_assets_to_release]
+    runs-on: macos-latest
+    steps:
+      - name:
