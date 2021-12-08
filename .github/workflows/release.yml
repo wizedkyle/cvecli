@@ -333,4 +333,7 @@ jobs:
     needs: [build, upload_assets_to_release]
     runs-on: macos-latest
     steps:
-      - name:
+      - name: Test
+        shell: bash
+        run: |
+          echo "test"
