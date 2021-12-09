@@ -332,7 +332,7 @@ jobs:
   update_homebrew_formula:
     name: Update Hombrew Formula
     needs: [build, upload_assets_to_release]
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     steps:
       - name: Set Version Variable
         run: |
