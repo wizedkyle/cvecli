@@ -338,7 +338,7 @@ jobs:
         run: |
           echo "TAG=${GITHUB_REF/refs\/tags\/}" >> $GITHUB_ENV
       - name: Download Darwin AMD asset
-        uses: dsaltares/fetch-gh-release-asset
+        uses: dsaltares/fetch-gh-release-asset@master
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           file: cvecli_${{ env.TAG }}_darwin_amd64.tar.gz
