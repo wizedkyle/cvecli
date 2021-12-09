@@ -337,6 +337,10 @@ jobs:
       - name: Set Version Variable
         run: |
           echo "TAG=${GITHUB_REF/refs\/tags\/}" >> $GITHUB_ENV
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
       - name: Download Darwin AMD asset
         uses: dsaltares/fetch-gh-release-asset@master
         with:
