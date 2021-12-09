@@ -334,7 +334,23 @@ jobs:
     needs: [build, upload_assets_to_release]
     runs-on: macos-latest
     steps:
-      - name: Test
+      - name: Set Version Variable
+        run: |
+          echo "TAG=${GITHUB_REF/refs\/tags\/}" >> $GITHUB_ENV
+      - name: Download Darwin AMD asset
+        uses: dsaltares/fetch-gh-release-asset
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          file: cvecli_${{ env.TAG }}_darwin_amd64.tar.gz
+          version: tags/${{ env.TAG }}
+          target: cvecli_${{ env.TAG }}_darwin_amd64.tar.gz
+      - name: Generate homebrew formula
         shell: bash
         run: |
-          echo "test"
+          chmod +x ./scripts/create-brewformula.sh
+          ./scripts/create-brewformula.sh -v ${{ env.TAG }}
+      - name: Check homebrew formula
+        shell: bash
+        run: |
+          ls -la
+          cat cvecli.rb
