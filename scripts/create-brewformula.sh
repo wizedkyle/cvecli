@@ -4,7 +4,7 @@ version=""
 
 generate_hash() {
   file=$1
-  sha256sum "$file"
+  sha256sum "$file" | cut -d" " -f1
 }
 
 while getopts ":v:" options; do
