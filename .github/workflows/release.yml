@@ -382,7 +382,6 @@ jobs:
       - name: Update homebrew formula
         shell: bash
         run: |
-          gh auth login --with-token ${{ secrets.REPO_TOKEN }}
           gh repo clone wizedkyle/homebrew-tap
           cd homebrew-tap
           git checkout -b "${{ env.TAG }}-update"
@@ -396,4 +395,4 @@ jobs:
           gh pr create --title "Update cvecli formula to ${{ env.TAG }}" --repo wizedkyle/homebrew-tap
           gh pr merge --repo wizedkyle/homebrew-tap --squash --delete-branch
         env:
-          GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.REPO_KEY }}
