@@ -40,7 +40,7 @@ class Cvecli < Formula
 
     if Hardware::CPU.arm?
       url "https://github.com/wizedkyle/cvecli/releases/download/$version/cvecli_${version}_darwin_arm64.tar.gz"
-      sha256 ""
+      sha256 "$(generate_hash "cvecli_${version}_darwin_arm64.tar.gz")"
 
       def install
         bin.install "cvecli"
@@ -50,7 +50,7 @@ class Cvecli < Formula
   on_linux do
     if Hardware::CPU.intel?
       url "https://github.com/wizedkyle/cvecli/releases/download/$version/cvecli_${version}_linux_amd64.tar.gz"
-      sha256 ""
+      sha256 "$(generate_hash "cvecli_${version}_linux_amd64.tar.gz")"
 
       def install
         bin.install "cvecli"
@@ -59,7 +59,7 @@ class Cvecli < Formula
 
     if Hardware::CPU.arm?
       url "https://github.com/wizedkyle/cvecli/releases/download/0.1.0/cvecli_${version}_linux_amd64.tar.gz"
-      sha256 ""
+      sha256 "$(generate_hash "cvecli_${version}_linux_arm64.tar.gz")"
 
       def install
         bin.install "cvecli"
