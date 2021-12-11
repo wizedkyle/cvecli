@@ -383,7 +383,7 @@ jobs:
         shell: bash
         run: |
           gh repo clone wizedkyle/homebrew-tap
-          git config --global user.email ${{ secrets.EMAIAL }}
+          git config --global user.email ${{ secrets.EMAIL }}
           git config --global user.name ${{ secrets.NAME }}
           cd homebrew-tap
           git checkout -b "${{ env.TAG }}-update"
@@ -398,3 +398,4 @@ jobs:
           gh pr merge --repo wizedkyle/homebrew-tap --squash --delete-branch
         env:
           GITHUB_TOKEN: ${{ secrets.REPO_KEY }}
+
