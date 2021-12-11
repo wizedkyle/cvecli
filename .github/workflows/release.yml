@@ -383,15 +383,13 @@ jobs:
         shell: bash
         run: |
           gh repo clone wizedkyle/homebrew-tap
-          ls -la
-          ls -la ./homebrew-tap
           cd homebrew-tap
           git checkout -b "${{ env.TAG }}-update"
           cd ..
-          rm ./homebrew-tap/formula/cvecli.rb
-          mv ./cvecli.rb ./homebrew-tap/formula/cvecli.rb
+          rm ./homebrew-tap/Formula/cvecli.rb
+          mv ./cvecli.rb ./homebrew-tap/Formula/cvecli.rb
           cd homebrew-tap
-          git add ./formula/cvecli.rb
+          git add ./Formula/cvecli.rb
           git commit -m "Updating cvecli formula to ${{ env.TAG }}
           git push
           gh pr create --title "Update cvecli formula to ${{ env.TAG }}" --repo wizedkyle/homebrew-tap
