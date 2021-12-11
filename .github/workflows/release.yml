@@ -386,10 +386,11 @@ jobs:
           cd homebrew-tap
           git checkout -b "${{ env.TAG }}-update"
           cd ..
-          rm ./homebrew-tap/cvecli.rb
-          mv ./cvecli.rb ./homebrew-tap/cvecli.rb
+          rm ./homebrew-tap/formula/cvecli.rb
+          mv ./cvecli.rb ./homebrew-tap/formula/cvecli.rb
           cd homebrew-tap
-          git commit .
+          git add ./formula/cvecli.rb
+          git commit -m "Updating cvecli formula to ${{ env.TAG }}
           git push
           gh pr create --title "Update cvecli formula to ${{ env.TAG }}" --repo wizedkyle/homebrew-tap
           gh pr merge --repo wizedkyle/homebrew-tap --squash --delete-branch
