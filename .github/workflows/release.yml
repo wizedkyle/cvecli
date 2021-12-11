@@ -392,7 +392,7 @@ jobs:
           git add ./formula/cvecli.rb
           git commit -m "Updating cvecli formula to ${{ env.TAG }}
           git push
-          gh auth login --with-token $GITHUB_TOKEN
+          gh auth login --with-token ${{ secrets.REPO_TOKEN }}
           gh pr create --title "Update cvecli formula to ${{ env.TAG }}" --repo wizedkyle/homebrew-tap
           gh pr merge --repo wizedkyle/homebrew-tap --squash --delete-branch
         env:
