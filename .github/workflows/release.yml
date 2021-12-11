@@ -383,6 +383,8 @@ jobs:
         shell: bash
         run: |
           gh repo clone wizedkyle/homebrew-tap
+          ls -la
+          ls -la ./homebrew-tap
           cd homebrew-tap
           git checkout -b "${{ env.TAG }}-update"
           cd ..
