@@ -337,6 +337,10 @@ jobs:
       - name: Set Version Variable
         run: |
           echo "TAG=${GITHUB_REF/refs\/tags\/}" >> $GITHUB_ENV
+      - name: Set SSH Key
+        uses: webfactory/ssh-agent@v0.5.4
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
       - name: Checkout
         uses: actions/checkout@v2
         with:
@@ -382,7 +386,7 @@ jobs:
       - name: Update homebrew formula
         shell: bash
         run: |
-          gh repo clone wizedkyle/homebrew-tap
+          git clone git@github.com:wizedkyle/homebrew-tap.git
           git config --global user.email ${{ secrets.EMAIL }}
           git config --global user.name ${{ secrets.NAME }}
           cd homebrew-tap
