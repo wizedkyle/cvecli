@@ -46,6 +46,7 @@ class Cvecli < Formula
         bin.install "cvecli"
       end
     end
+  end
 
   on_linux do
     if Hardware::CPU.intel?
@@ -66,4 +67,5 @@ class Cvecli < Formula
       end
     end
   end
+end
 EOF
