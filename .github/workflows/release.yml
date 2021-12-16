@@ -5,9 +5,6 @@ on:
     tags:
       - '*.*.*'
 
-#on:
-#  push:
-
 permissions:
   contents: write
 
@@ -402,4 +399,3 @@ jobs:
           gh pr merge "$URL" --squash --delete-branch --repo wizedkyle/homebrew-tap
         env:
           GITHUB_TOKEN: ${{ secrets.REPO_KEY }}
-
