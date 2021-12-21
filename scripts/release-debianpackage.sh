@@ -70,7 +70,9 @@ for architecture in "${architectures[@]}"; do
     echo "=> ./aptcvecli/dists/stable/main/binary-$architecture/Packages.gz does not exist"
   fi
   echo "=> Generate new $architecture package file"
-  dpkg-scanpackages --arch "$architecture" ./aptcvecli/pool/ > "./aptcvecli/dists/stable/main/binary-$architecture/Packages"
+  cd ./aptcvecli || exit
+  dpkg-scanpackages --arch "$architecture" pool/ > "./aptcvecli/dists/stable/main/binary-$architecture/Packages"
+  cd ..
   echo "=> Compressing $architecture package file"
   gzip -k "./aptcvecli/dists/stable/main/binary-$architecture/Packages"
 done
