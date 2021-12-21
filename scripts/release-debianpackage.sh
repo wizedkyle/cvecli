@@ -71,8 +71,9 @@ for architecture in "${architectures[@]}"; do
   fi
   echo "=> Generate new $architecture package file"
   cd ./aptcvecli || exit
-  dpkg-scanpackages --arch "$architecture" pool/ > "./aptcvecli/dists/stable/main/binary-$architecture/Packages"
+  dpkg-scanpackages --arch "$architecture" pool/ > "./aptcvecli/Packages"
   cd ..
+  mv "./aptcvecli/Packages" "./aptcvecli/dists/stable/main/binary-$architecture/Packages"
   echo "=> Compressing $architecture package file"
   gzip -k "./aptcvecli/dists/stable/main/binary-$architecture/Packages"
 done
