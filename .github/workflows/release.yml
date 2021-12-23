@@ -91,8 +91,6 @@ jobs:
           chmod +x ./scripts/build-debianpackage.sh
           ./scripts/build-debianpackage.sh -a amd64 -v ${{ env.TAG }}
           ./scripts/build-debianpackage.sh -a arm64 -v ${{ env.TAG }}
-          ls -la deb
-          ls -la scripts
       - name: Upload debian amd package asset
         uses: actions/upload-artifact@v2
         with:
