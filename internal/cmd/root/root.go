@@ -5,7 +5,6 @@ import (
 	"github.com/wizedkyle/cvecli/config"
 	NewCmdCheckIdQuota "github.com/wizedkyle/cvecli/internal/cmd/check_id_quota"
 	configureCmd "github.com/wizedkyle/cvecli/internal/cmd/configure"
-	NewCmdCreateCveEntry "github.com/wizedkyle/cvecli/internal/cmd/create_cve_entry"
 	NewCmdCreateUser "github.com/wizedkyle/cvecli/internal/cmd/create_user"
 	NewCmdGetOrganizationInfo "github.com/wizedkyle/cvecli/internal/cmd/get_organization_info"
 	NewCmdGetUser "github.com/wizedkyle/cvecli/internal/cmd/get_user"
@@ -28,7 +27,6 @@ func NewCmdRoot() *cobra.Command {
 	client := config.GetClient()
 	cmd.AddCommand(configureCmd.NewCmdConfigure())
 	cmd.AddCommand(NewCmdCreateUser.NewCmdCreateUser(client))
-	cmd.AddCommand(NewCmdCreateCveEntry.NewCmdCreateCveEntry(client))
 	cmd.AddCommand(NewCmdGetOrganizationInfo.NewCmdGetOrganizationInfo(client))
 	cmd.AddCommand(NewCmdGetUser.NewCmdGetUser(client))
 	cmd.AddCommand(NewCmdCheckIdQuota.NewCmdCheckIdQuota(client))

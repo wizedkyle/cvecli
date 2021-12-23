@@ -30,8 +30,7 @@ func GetCVEServicesSDKConfig() *cveservices_go_sdk.APIClient {
 				APIUser: apiUser,
 				APIKey:  apiKey,
 			},
-			// TODO: Need to add support to choose which environment
-			BasePath:     "https://cveawg-test.mitre.org/api",
+			BasePath:     getCveServicesEnvironment(),
 			Organization: organization,
 			UserAgent:    "cvecli",
 			HTTPClient: &http.Client{
@@ -60,21 +59,10 @@ func ReadAuthCredentials() (string, string, string) {
 	}
 }
 
-func ReadGitHubCredentials(username bool, pat bool) string {
-	viper.SetConfigName("creds")
-	viper.AddConfigPath(filepath.Dir(config.Path(true, false)))
-	err := viper.ReadInConfig()
-	if err != nil {
-		logging.ConsoleLogger().Error().Err(err).Msg("failed to read credentials file located at " + config.Path(true, false))
-		return ""
-	} else if username == true {
-		githubUsername := viper.GetString("githubUsername")
-		githubUsernameDecrypted := encryption.DecryptData(githubUsername)
-		return githubUsernameDecrypted
-	} else if pat == true {
-		githubPat := viper.GetString("githubPat")
-		githubPatDecrypted := encryption.DecryptData(githubPat)
-		return githubPatDecrypted
+func getCveServicesEnvironment() string {
+	if config.ProductionEnvironment == true {
+		return config.CveServicesProdUrl
+	} else {
+		return config.CveServicesDevUrl
 	}
-	return ""
 }

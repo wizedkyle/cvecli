@@ -34,6 +34,10 @@ func NewCmdConfigure() *cobra.Command {
 
 func SetCredentials() {
 	var credentials config.CredentialFile
+	promptEnvironment := promptui.Prompt{
+		Label:     "Do you want to access the production CVE Servers environment? If you select no the test environment will be used.",
+		IsConfirm: true,
+	}
 	promptApiUser := promptui.Prompt{
 		Label: "Please enter your api username",
 	}
@@ -44,12 +48,9 @@ func SetCredentials() {
 	promptOrganization := promptui.Prompt{
 		Label: "Please enter your CNA organization name",
 	}
-	promptGitHubUsername := promptui.Prompt{
-		Label: "Please enter your GitHub username (this is optional and only used for the create-cve-entry command)",
-	}
-	promptGitHubPat := promptui.Prompt{
-		Label: "Please enter a GitHub Personal Access Token (this is optional and only used for the create-cve-entry command)",
-		Mask:  '*',
+	environment, err := promptEnvironment.Run()
+	if err != nil {
+		logging.ConsoleLogger().Error().Err(err).Msg("failed to prompt for environment")
 	}
 	apiUser, err := promptApiUser.Run()
 	if err != nil {
@@ -63,19 +64,14 @@ func SetCredentials() {
 	if err != nil {
 		logging.ConsoleLogger().Error().Err(err).Msg("failed to prompt for an organization")
 	}
-	githubUsername, err := promptGitHubUsername.Run()
-	if err != nil {
-		logging.ConsoleLogger().Error().Err(err).Msg("failed to prompt for a GitHub username")
-	}
-	githubPat, err := promptGitHubPat.Run()
-	if err != nil {
-		logging.ConsoleLogger().Error().Err(err).Msg("failed to prompt for a GitHub PAT")
+	if strings.ToLower(environment) == "y" {
+		config.ProductionEnvironment = true
+	} else {
+		config.ProductionEnvironment = false
 	}
 	credentials.APIUser = encryption.EncryptData(apiUser)
 	credentials.APIKey = encryption.EncryptData(apiKey)
 	credentials.Organization = encryption.EncryptData(organization)
-	credentials.GitHubUsername = encryption.EncryptData(githubUsername)
-	credentials.GitHubPat = encryption.EncryptData(githubPat)
 	configFilePath := filepath.Dir(config.Path(true, false))
 	if _, err := os.Stat(configFilePath); os.IsNotExist(err) {
 		err := os.MkdirAll(configFilePath, 0755)
