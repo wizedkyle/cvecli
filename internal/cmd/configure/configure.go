@@ -66,7 +66,7 @@ func SetCredentials() {
 	}
 	if strings.ToLower(environment) == "y" {
 		config.ProductionEnvironment = true
-	} else {
+	} else if strings.ToLower(environment) == "n" {
 		config.ProductionEnvironment = false
 	}
 	credentials.APIUser = encryption.EncryptData(apiUser)
