@@ -20,7 +20,7 @@ jobs:
       - name: Setup Go
         uses: actions/setup-go@v2
         with:
-          go-version: 1.17.2
+          go-version: 1.17.5
       - name: Run GoReleaser
         uses: goreleaser/goreleaser-action@v2
         with:
@@ -78,7 +78,7 @@ jobs:
         with:
           name: cvecli_linux_amd64
           path: ./cvecli_linux_amd64/cvecli
-      - name: Download linux amd64 artifact
+      - name: Download linux arm64 artifact
         uses: actions/download-artifact@v2
         with:
           name: cvecli_linux_arm64
@@ -86,6 +86,8 @@ jobs:
       - name: Run debian package script
         shell: bash
         run: |
+          ls -la ./cvecli_linux_amd64
+          ls -la ./cvecli_linux_amd64/cvecli
           chmod +x ./scripts/build-debianpackage.sh
           ./scripts/build-debianpackage.sh -a amd64 -v ${{ env.TAG }}
           ./scripts/build-debianpackage.sh -a arm64 -v ${{ env.TAG }}
