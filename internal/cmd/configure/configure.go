@@ -85,8 +85,10 @@ func SetCredentials() {
 	err = os.WriteFile(config.Path(true, false), credentialsFile, 0644)
 	if err != nil {
 		logging.ConsoleLogger().Error().Err(err).Msg("failed to write credentials file to " + config.Path(true, false))
+		os.Exit(0)
 	} else {
 		fmt.Println("Credentials file saved to: " + config.Path(true, false))
+		os.Exit(0)
 	}
 }
 
