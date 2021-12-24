@@ -23,14 +23,14 @@ func CheckCredentialsPath() bool {
 }
 
 func GetCVEServicesSDKConfig() *cveservices_go_sdk.APIClient {
-	apiUser, apiKey, organization := ReadAuthCredentials()
+	apiUser, apiKey, organization, environment := ReadAuthCredentials()
 	client := cveservices_go_sdk.APIClient{
 		Cfg: &cveservices_go_sdk.Configuration{
 			Authentication: cveservices_go_sdk.BasicAuth{
 				APIUser: apiUser,
 				APIKey:  apiKey,
 			},
-			BasePath:     getCveServicesEnvironment(),
+			BasePath:     environment,
 			Organization: organization,
 			UserAgent:    "cvecli",
 			HTTPClient: &http.Client{
@@ -41,28 +41,21 @@ func GetCVEServicesSDKConfig() *cveservices_go_sdk.APIClient {
 	return &client
 }
 
-func ReadAuthCredentials() (string, string, string) {
+func ReadAuthCredentials() (string, string, string, string) {
 	viper.SetConfigName("creds")
 	viper.AddConfigPath(filepath.Dir(config.Path(true, false)))
 	err := viper.ReadInConfig()
 	if err != nil {
 		logging.ConsoleLogger().Error().Err(err).Msg("failed to read credentials file located at " + config.Path(true, false))
-		return "", "", ""
+		return "", "", "", ""
 	} else {
 		apiUser := viper.GetString("apiUser")
 		apiKey := viper.GetString("apiKey")
 		organization := viper.GetString("organization")
+		environment := viper.GetString("environment")
 		apiUserDecrypted := encryption.DecryptData(apiUser)
 		apiKeyDecrypted := encryption.DecryptData(apiKey)
 		organizationDecrypted := encryption.DecryptData(organization)
-		return apiUserDecrypted, apiKeyDecrypted, organizationDecrypted
-	}
-}
-
-func getCveServicesEnvironment() string {
-	if config.ProductionEnvironment == true {
-		return config.CveServicesProdUrl
-	} else {
-		return config.CveServicesDevUrl
+		return apiUserDecrypted, apiKeyDecrypted, organizationDecrypted, environment
 	}
 }

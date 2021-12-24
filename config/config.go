@@ -11,6 +11,7 @@ type CredentialFile struct {
 	APIUser      string `json:"apiUser"`
 	APIKey       string `json:"apiKey"`
 	Organization string `json:"organization"`
+	Environment  string `json:"environment"`
 }
 
 var (

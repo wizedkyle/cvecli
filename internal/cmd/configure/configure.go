@@ -48,9 +48,13 @@ func SetCredentials() {
 	promptOrganization := promptui.Prompt{
 		Label: "Please enter your CNA organization name",
 	}
-	environment, err := promptEnvironment.Run()
+	_, err := promptEnvironment.Run()
 	if err != nil {
-		logging.ConsoleLogger().Error().Err(err).Msg("failed to prompt for environment")
+		fmt.Println("Using the CVE Services test environment")
+		credentials.Environment = config.CveServicesDevUrl
+	} else {
+		fmt.Println("Using the CVE Services production environment")
+		credentials.Environment = config.CveServicesProdUrl
 	}
 	apiUser, err := promptApiUser.Run()
 	if err != nil {
@@ -63,11 +67,6 @@ func SetCredentials() {
 	organization, err := promptOrganization.Run()
 	if err != nil {
 		logging.ConsoleLogger().Error().Err(err).Msg("failed to prompt for an organization")
-	}
-	if strings.ToLower(environment) == "y" {
-		config.ProductionEnvironment = true
-	} else if strings.ToLower(environment) == "n" {
-		config.ProductionEnvironment = false
 	}
 	credentials.APIUser = encryption.EncryptData(apiUser)
 	credentials.APIKey = encryption.EncryptData(apiKey)
@@ -98,13 +97,12 @@ func userConfirmation() bool {
 	}
 	result, err := prompt.Run()
 	if err != nil {
-		logging.ConsoleLogger().Error().Err(err).Msg("failed to prompt for confirmation")
+		fmt.Println("Configuration cancelled")
+		return false
 	}
 	resultLower := strings.ToLower(result)
 	if resultLower == "y" {
 		return true
-	} else {
-		fmt.Println("Configuration cancelled")
-		return false
 	}
+	return false
 }
