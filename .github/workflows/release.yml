@@ -394,7 +394,7 @@ jobs:
           cd homebrew-tap
           git add ./Formula/cvecli.rb
           git commit -m "Updating cvecli formula to ${{ env.TAG }}"
-          git push --set-upstream origin 0.1.0-update
+          git push --set-upstream origin ${env.TAG}-update
           URL=$(gh pr create --title "Update cvecli formula to ${{ env.TAG }}" --body "Updates cvecli homebrew formula to version ${{ env.TAG }}" --repo wizedkyle/homebrew-tap)
           gh pr merge "$URL" --squash --delete-branch --repo wizedkyle/homebrew-tap
         env:
