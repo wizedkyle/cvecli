@@ -63,7 +63,7 @@ The contents of the credential file is as follows:
 {
   "apiUser": "abcefghi",
   "apiKey": "AbCeFG123",
-  "organization": "<regioncode>",
+  "organization": "<organization name>",
 }
 ```
 
