@@ -2,7 +2,7 @@
 
 invalidationid=$(aws cloudfront create-invalidation --distribution-id "$DISTRIBUTIONID" --paths "/*" | jq -r .Invalidation.Id)
 invalidationstatus=$(aws cloudfront get-invalidation --id "$invalidationid" --distribution-id "$DISTRIBUTIONID" | jq -r .Invalidation.Status)
-echo "invalidating cloudfront cache"
+echo "invalidating cloudfront cache (invalidation id: $invalidationid"
 while [ "$invalidationstatus" == "InProgress" ]
 do
   echo "checking cloudfront invalidation status"
