@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"github.com/manifoldco/promptui"
 	"github.com/spf13/cobra"
-	"github.com/wizedkyle/cvesub/config"
-	"github.com/wizedkyle/cvesub/internal/encryption"
-	"github.com/wizedkyle/cvesub/internal/logging"
+	"github.com/wizedkyle/cvecli/config"
+	"github.com/wizedkyle/cvecli/internal/encryption"
+	"github.com/wizedkyle/cvecli/internal/logging"
 	"os"
 	"path/filepath"
 	"strings"
@@ -34,6 +34,10 @@ func NewCmdConfigure() *cobra.Command {
 
 func SetCredentials() {
 	var credentials config.CredentialFile
+	promptEnvironment := promptui.Prompt{
+		Label:     "Do you want to access the production CVE Servers environment? If you select no the test environment will be used.",
+		IsConfirm: true,
+	}
 	promptApiUser := promptui.Prompt{
 		Label: "Please enter your api username",
 	}
@@ -44,12 +48,13 @@ func SetCredentials() {
 	promptOrganization := promptui.Prompt{
 		Label: "Please enter your CNA organization name",
 	}
-	promptGitHubUsername := promptui.Prompt{
-		Label: "Please enter your GitHub username",
-	}
-	promptGitHubPat := promptui.Prompt{
-		Label: "Please enter a GitHub Personal Access Token (PAT)",
-		Mask:  '*',
+	_, err := promptEnvironment.Run()
+	if err != nil {
+		fmt.Println("Using the CVE Services test environment")
+		credentials.Environment = config.CveServicesDevUrl
+	} else {
+		fmt.Println("Using the CVE Services production environment")
+		credentials.Environment = config.CveServicesProdUrl
 	}
 	apiUser, err := promptApiUser.Run()
 	if err != nil {
@@ -63,19 +68,9 @@ func SetCredentials() {
 	if err != nil {
 		logging.ConsoleLogger().Error().Err(err).Msg("failed to prompt for an organization")
 	}
-	githubUsername, err := promptGitHubUsername.Run()
-	if err != nil {
-		logging.ConsoleLogger().Error().Err(err).Msg("failed to prompt for a GitHub username")
-	}
-	githubPat, err := promptGitHubPat.Run()
-	if err != nil {
-		logging.ConsoleLogger().Error().Err(err).Msg("failed to prompt for a GitHub PAT")
-	}
 	credentials.APIUser = encryption.EncryptData(apiUser)
 	credentials.APIKey = encryption.EncryptData(apiKey)
 	credentials.Organization = encryption.EncryptData(organization)
-	credentials.GitHubUsername = encryption.EncryptData(githubUsername)
-	credentials.GitHubPat = encryption.EncryptData(githubPat)
 	configFilePath := filepath.Dir(config.Path(true, false))
 	if _, err := os.Stat(configFilePath); os.IsNotExist(err) {
 		err := os.MkdirAll(configFilePath, 0755)
@@ -90,24 +85,26 @@ func SetCredentials() {
 	err = os.WriteFile(config.Path(true, false), credentialsFile, 0644)
 	if err != nil {
 		logging.ConsoleLogger().Error().Err(err).Msg("failed to write credentials file to " + config.Path(true, false))
+		os.Exit(0)
 	} else {
 		fmt.Println("Credentials file saved to: " + config.Path(true, false))
+		os.Exit(0)
 	}
 }
 
 func userConfirmation() bool {
 	prompt := promptui.Prompt{
-		Label: "Do you want to proceed (yes/no)?",
+		Label:     "Do you want to proceed",
+		IsConfirm: true,
 	}
 	result, err := prompt.Run()
 	if err != nil {
-		logging.ConsoleLogger().Error().Err(err).Msg("failed to prompt for confirmation")
-	}
-	resultLower := strings.ToLower(result)
-	if resultLower == "yes" {
-		return true
-	} else {
 		fmt.Println("Configuration cancelled")
 		return false
 	}
+	resultLower := strings.ToLower(result)
+	if resultLower == "y" {
+		return true
+	}
+	return false
 }

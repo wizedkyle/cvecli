@@ -1,4 +1,4 @@
-module github.com/wizedkyle/cvesub
+module github.com/wizedkyle/cvecli
 
 go 1.17
 

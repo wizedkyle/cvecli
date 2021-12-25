@@ -2,7 +2,7 @@ package cmdutils
 
 import (
 	"encoding/json"
-	"github.com/wizedkyle/cvesub/internal/logging"
+	"github.com/wizedkyle/cvecli/internal/logging"
 )
 
 func OutputJson(data interface{}) []byte {

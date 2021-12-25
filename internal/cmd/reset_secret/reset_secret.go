@@ -3,8 +3,8 @@ package reset_secret
 import (
 	"fmt"
 	"github.com/spf13/cobra"
+	"github.com/wizedkyle/cvecli/internal/cmdutils"
 	"github.com/wizedkyle/cveservices-go-sdk"
-	"github.com/wizedkyle/cvesub/internal/cmdutils"
 )
 
 func NewCmdResetSecret(client *cveservices_go_sdk.APIClient) *cobra.Command {

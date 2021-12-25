@@ -1,0 +1,36 @@
+builds:
+  - goos:
+      - darwin
+      - linux
+      - windows
+    goarch:
+      - amd64
+      - arm64
+    main: ./cmd/cvecli
+    ldflags:
+      - -X 'github.com/wizedkyle/cvecli/internal/build.Build={{.Commit}}'
+      - -X 'github.com/wizedkyle/cvecli/internal/build.Date={{.Date}}'
+      - -X 'github.com/wizedkyle/cvecli/internal/build.Version={{.Version}}'
+archives:
+  - replacements:
+      darwin: Darwin
+      linux: Linux
+      windows: Windows
+      386: i386
+      amd64: x86_64
+
+    format_overrides:
+      - goos: windows
+        format: zip
+release:
+  disable: true
+checksum:
+  name_template: 'checksums.txt'
+snapshot:
+  name_template: "{{ incpatch .Version }}-next"
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - '^docs:'
+      - '^test:'

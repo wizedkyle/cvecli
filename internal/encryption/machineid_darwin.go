@@ -2,7 +2,7 @@ package encryption
 
 import (
 	"bytes"
-	"github.com/wizedkyle/cvesub/internal/logging"
+	"github.com/wizedkyle/cvecli/internal/logging"
 	"io"
 	"os"
 	"os/exec"
