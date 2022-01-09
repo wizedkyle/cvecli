@@ -11,7 +11,7 @@ import (
 )
 
 func main() {
-	if authentication.CheckCredentialsPath() == false {
+	if authentication.CheckCredentialsPath() == false && authentication.CheckEnvironmentVariables() == false {
 		pterm.Warning.Println("There are no credentials set or accessible.")
 		promptAccept := promptui.Prompt{
 			Label:     "Would you like to set credentials now",

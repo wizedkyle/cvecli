@@ -9,6 +9,14 @@ As more features are released in CVE Services, `cvecli` will be updated to suppo
 
 ## Installation
 
+### Container Image
+
+Container images for `cvecli` are hosted in GitHub Packages and can be pulled with the following command:
+
+```shell
+docker pull ghcr.io/wizedkyle/cvecli:$VERSION-$ARCHITECTURE
+```
+
 ### Linux
 
 You can install `cvecli` via apt on debian based linux distributions by running the following commands:
@@ -39,13 +47,35 @@ You can build `cvecli` from source using the following commands:
 
 ```shell
 git clone https://github.com/wizedkyle/cvecli.git
-
 ```
 
 ## Authentication
 
-`cvecli` uses a credential file stored on disk to authenticate which can be generated interactively using `cvecli configure`.
-All details in the credentails file is encrypted at rest using AES256 encryption.
+`cvecli` supports two authentication methods:
+1. Environment Variables which are useful when using `cvecli` without user interaction
+2. Credentails File which is preferred when using `cvecli` with user interaction
+
+### Environment Variables
+
+Environment variable authentication is useful when running cvecli in a CI/CD pipeline. The following environment variables need to be set to allow for proper authentication.
+
+```
+CVE_API_USER: example@example.com
+
+CVE_API_KEY: AbCeFG123
+
+CVE_ORGANIZATION: OrganizationName
+
+CVE_ENVIRONMENT: https://cveawg.mitre.org/api or https://cveawg-test.mitre.org/api
+```
+The CVE Services environment URLs are as follows:
+* Production: https://cveawg.mitre.org/api
+* Test: https://cveawg-test.mitre.org/api
+
+### Credentials File
+
+`cvecli` can use a credential file stored on disk to authenticate which can be generated interactively using `cvecli configure`.
+All details in the credentials file is encrypted at rest using AES256 encryption.
 
 The credential file is stored in the following locations depending on your operating system.
 

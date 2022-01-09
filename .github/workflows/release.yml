@@ -7,6 +7,10 @@ on:
 
 permissions:
   contents: write
+  packages: write
+
+env:
+  GOVERSION: '1.17.6'
 
 jobs:
   build:
@@ -20,16 +24,26 @@ jobs:
       - name: Setup Go
         uses: actions/setup-go@v2
         with:
-          go-version: 1.17.5
+          go-version: ${{ env.GOVERSION }}
+      - name: Setup Podman
+        run: |
+          brew install podman
+          podman machine init --cpus 1 --memory 2048 --disk-size 10
+          podman machine start
+          podman info
+      - name: Container Registry Login
+        run: |
+          podman login -u ${{ github.repository_owner }} -p ${{ secrets.GITHUB_TOKEN }} ghcr.io
+      - name: Install GoReleaser Pro
+        run: |
+          brew install goreleaser/tap/goreleaser-pro
       - name: Run GoReleaser
-        uses: goreleaser/goreleaser-action@v2
-        with:
-          distribution: goreleaser
-          version: latest
-          args: release -f .goreleaser.yml --rm-dist
+        run: |
+          goreleaser release -f .goreleaser.yml --rm-dist
         env:
           AC_PASSWORD: ${{ secrets.AC_PASSWORD }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GORELEASER_KEY: ${{ secrets.GORELEASER_KEY }}
       - name: Upload Darwin amd64
         uses: actions/upload-artifact@v2
         with:
