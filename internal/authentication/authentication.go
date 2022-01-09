@@ -4,12 +4,24 @@ import (
 	"github.com/spf13/viper"
 	"github.com/wizedkyle/cvecli/config"
 	"github.com/wizedkyle/cvecli/internal/encryption"
-	"github.com/wizedkyle/cvecli/internal/logging"
 	"github.com/wizedkyle/cveservices-go-sdk"
 	"net/http"
 	"path/filepath"
 	"time"
 )
+
+func CheckEnvironmentVariables() bool {
+	viper.AutomaticEnv()
+	apiUser := viper.GetString("CVE_API_USER")
+	apiKey := viper.GetString("CVE_API_KEY")
+	organization := viper.GetString("CVE_ORGANIZATION")
+	environment := viper.GetString("CVE_ENVIRONMENT")
+	if apiUser == "" || apiKey == "" || organization == "" || environment == "" {
+		return false
+	} else {
+		return true
+	}
+}
 
 func CheckCredentialsPath() bool {
 	viper.SetConfigName("creds")
@@ -44,10 +56,14 @@ func GetCVEServicesSDKConfig() *cveservices_go_sdk.APIClient {
 func ReadAuthCredentials() (string, string, string, string) {
 	viper.SetConfigName("creds")
 	viper.AddConfigPath(filepath.Dir(config.Path(true, false)))
+	viper.AutomaticEnv()
 	err := viper.ReadInConfig()
 	if err != nil {
-		logging.ConsoleLogger().Error().Err(err).Msg("failed to read credentials file located at " + config.Path(true, false))
-		return "", "", "", ""
+		apiUser := viper.GetString("CVE_API_USER")
+		apiKey := viper.GetString("CVE_API_KEY")
+		organization := viper.GetString("CVE_ORGANIZATION")
+		environment := viper.GetString("CVE_ENVIRONMENT")
+		return apiUser, apiKey, organization, environment
 	} else {
 		apiUser := viper.GetString("apiUser")
 		apiKey := viper.GetString("apiKey")

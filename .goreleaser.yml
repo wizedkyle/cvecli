@@ -11,6 +11,29 @@ builds:
       - -X 'github.com/wizedkyle/cvecli/internal/build.Build={{.Commit}}'
       - -X 'github.com/wizedkyle/cvecli/internal/build.Date={{.Date}}'
       - -X 'github.com/wizedkyle/cvecli/internal/build.Version={{.Version}}'
+dockers:
+  - image_templates:
+      - "ghcr.io/wizedkyle/cvecli:{{.Version}}-amd64"
+    goos: linux
+    goarch: amd64
+    build_flag_templates:
+      - --label=org.opencontainers.image.title={{.ProjectName}}
+      - --label=org.opencontainers.image.source=https://github.com/wizedkyle/cvecli
+      - --label=org.opencontainers.image.version={{.Version}}
+      - --label=org.opencontainers.image.revision={{.FullCommit}}
+    skip_push: false
+    use: podman
+  - image_templates:
+      - "ghcr.io/wizedkyle/cvecli:{{.Version}}-arm64"
+    goos: linux
+    goarch: arm64
+    build_flag_templates:
+      - --label=org.opencontainers.image.title={{.ProjectName}}
+      - --label=org.opencontainers.image.source=https://github.com/wizedkyle/cvecli
+      - --label=org.opencontainers.image.version={{.Version}}
+      - --label=org.opencontainers.image.revision={{.FullCommit}}
+    skip_push: false
+    use: podman
 archives:
   - replacements:
       darwin: Darwin
