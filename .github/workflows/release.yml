@@ -28,7 +28,7 @@ jobs:
       - name: Setup Podman
         run: |
           brew install podman
-          podman machine init
+          podman machine init --cpus 1 --memory 2048 --disk-size 10
           podman machine start
           podman info
       - name: Container Registry Login
