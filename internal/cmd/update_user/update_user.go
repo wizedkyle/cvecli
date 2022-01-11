@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/antihax/optional"
 	"github.com/spf13/cobra"
+	"github.com/wizedkyle/cvecli/internal/authentication"
 	"github.com/wizedkyle/cvecli/internal/cmdutils"
 	"github.com/wizedkyle/cvecli/internal/logging"
 	"github.com/wizedkyle/cveservices-go-sdk"
@@ -29,6 +30,7 @@ func NewCmdUpdateUser(client *cveservices_go_sdk.APIClient) *cobra.Command {
 		Use:   "update-user",
 		Short: "Updates a user record from the organization.",
 		Run: func(cmd *cobra.Command, args []string) {
+			authentication.ConfirmCredentialsSet(client)
 			updateUser(client, active, firstName, lastName, middleName, newUsername, output, username, suffix, roleToAdd, roleToRemove)
 		},
 	}

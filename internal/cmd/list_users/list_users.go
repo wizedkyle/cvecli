@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/antihax/optional"
 	"github.com/spf13/cobra"
+	"github.com/wizedkyle/cvecli/internal/authentication"
 	"github.com/wizedkyle/cvecli/internal/cmdutils"
 	"github.com/wizedkyle/cvecli/internal/logging"
 	"github.com/wizedkyle/cvecli/internal/validation"
@@ -19,6 +20,7 @@ func NewCmdListUsers(client *cveservices_go_sdk.APIClient) *cobra.Command {
 		Use:   "list-users",
 		Short: "Retrieves all users from the organization.",
 		Run: func(cmd *cobra.Command, args []string) {
+			authentication.ConfirmCredentialsSet(client)
 			listUsers(client, output)
 		},
 	}

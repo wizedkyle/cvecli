@@ -3,6 +3,7 @@ package reset_secret
 import (
 	"fmt"
 	"github.com/spf13/cobra"
+	"github.com/wizedkyle/cvecli/internal/authentication"
 	"github.com/wizedkyle/cvecli/internal/cmdutils"
 	"github.com/wizedkyle/cveservices-go-sdk"
 )
@@ -14,6 +15,7 @@ func NewCmdResetSecret(client *cveservices_go_sdk.APIClient) *cobra.Command {
 		Short: "Resets the secret for a user in the organization.",
 		Long:  "The user account that is being used to authenticate needs to have the ADMIN role to perform this action.",
 		Run: func(cmd *cobra.Command, args []string) {
+			authentication.ConfirmCredentialsSet(client)
 			resetSecret(client, username)
 		},
 	}

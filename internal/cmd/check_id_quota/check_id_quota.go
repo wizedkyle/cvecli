@@ -3,6 +3,7 @@ package check_id_quota
 import (
 	"fmt"
 	"github.com/spf13/cobra"
+	"github.com/wizedkyle/cvecli/internal/authentication"
 	"github.com/wizedkyle/cvecli/internal/cmdutils"
 	"github.com/wizedkyle/cveservices-go-sdk"
 	"strconv"
@@ -19,6 +20,7 @@ func NewCmdCheckIdQuota(client *cveservices_go_sdk.APIClient) *cobra.Command {
 		Short: "Checks the ID quotas for the organization.",
 		Long:  "By default the command returns all values however, you can choose to return just the available, quota or totalReserved values.",
 		Run: func(cmd *cobra.Command, args []string) {
+			authentication.ConfirmCredentialsSet(client)
 			checkIdQuota(client, available, quota, totalReserved)
 		},
 	}

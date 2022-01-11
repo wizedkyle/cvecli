@@ -2,7 +2,7 @@ package root
 
 import (
 	"github.com/spf13/cobra"
-	"github.com/wizedkyle/cvecli/config"
+	"github.com/wizedkyle/cvecli/internal/authentication"
 	NewCmdCheckIdQuota "github.com/wizedkyle/cvecli/internal/cmd/check_id_quota"
 	configureCmd "github.com/wizedkyle/cvecli/internal/cmd/configure"
 	NewCmdCreateUser "github.com/wizedkyle/cvecli/internal/cmd/create_user"
@@ -24,7 +24,7 @@ func NewCmdRoot() *cobra.Command {
 			"This tool currently supports the ID Reservation Service.",
 		TraverseChildren: true,
 	}
-	client := config.GetClient()
+	client := authentication.GetCVEServicesSDKConfig()
 	cmd.AddCommand(configureCmd.NewCmdConfigure())
 	cmd.AddCommand(NewCmdCreateUser.NewCmdCreateUser(client))
 	cmd.AddCommand(NewCmdGetOrganizationInfo.NewCmdGetOrganizationInfo(client))

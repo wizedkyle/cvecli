@@ -2,6 +2,7 @@ package create_user
 
 import (
 	"fmt"
+	"github.com/wizedkyle/cvecli/internal/authentication"
 	"github.com/wizedkyle/cvecli/internal/logging"
 	"os"
 
@@ -26,6 +27,7 @@ func NewCmdCreateUser(client *cveservices_go_sdk.APIClient) *cobra.Command {
 		Short: "Create a new user in the organization.",
 		Long:  "The user account that is being used to authenticate needs to have the ADMIN role to perform this action.",
 		Run: func(cmd *cobra.Command, args []string) {
+			authentication.ConfirmCredentialsSet(client)
 			createUser(client, firstName, lastName, middleName, roles, suffix, username, output)
 		},
 	}

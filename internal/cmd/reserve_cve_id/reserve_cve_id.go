@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/antihax/optional"
 	"github.com/spf13/cobra"
+	"github.com/wizedkyle/cvecli/internal/authentication"
 	"github.com/wizedkyle/cvecli/internal/cmdutils"
 	"github.com/wizedkyle/cvecli/internal/logging"
 	"github.com/wizedkyle/cveservices-go-sdk"
@@ -23,6 +24,7 @@ func NewCmdReserveCveId(client *cveservices_go_sdk.APIClient) *cobra.Command {
 		Use:   "reserve-cve-id",
 		Short: "Reserves a CVE ID for the organization.",
 		Run: func(cmd *cobra.Command, args []string) {
+			authentication.ConfirmCredentialsSet(client)
 			reserveCveId(client, amount, cveYear, nonSequential, sequential, cveIdOutput)
 		},
 	}

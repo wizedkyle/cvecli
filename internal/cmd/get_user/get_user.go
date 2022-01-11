@@ -3,6 +3,7 @@ package get_user
 import (
 	"fmt"
 	"github.com/spf13/cobra"
+	"github.com/wizedkyle/cvecli/internal/authentication"
 	"github.com/wizedkyle/cvecli/internal/cmdutils"
 	"github.com/wizedkyle/cvecli/internal/logging"
 	"github.com/wizedkyle/cvecli/internal/validation"
@@ -19,6 +20,7 @@ func NewCmdGetUser(client *cveservices_go_sdk.APIClient) *cobra.Command {
 		Use:   "get-user",
 		Short: "Retrieves information about a user in the organization.",
 		Run: func(cmd *cobra.Command, args []string) {
+			authentication.ConfirmCredentialsSet(client)
 			getUser(client, username, output)
 		},
 	}
