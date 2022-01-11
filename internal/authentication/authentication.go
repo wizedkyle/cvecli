@@ -1,36 +1,22 @@
 package authentication
 
 import (
+	"fmt"
 	"github.com/spf13/viper"
 	"github.com/wizedkyle/cvecli/config"
+	"github.com/wizedkyle/cvecli/internal/build"
 	"github.com/wizedkyle/cvecli/internal/encryption"
 	"github.com/wizedkyle/cveservices-go-sdk"
 	"net/http"
+	"os"
 	"path/filepath"
 	"time"
 )
 
-func CheckEnvironmentVariables() bool {
-	viper.AutomaticEnv()
-	apiUser := viper.GetString("CVE_API_USER")
-	apiKey := viper.GetString("CVE_API_KEY")
-	organization := viper.GetString("CVE_ORGANIZATION")
-	environment := viper.GetString("CVE_ENVIRONMENT")
-	if apiUser == "" || apiKey == "" || organization == "" || environment == "" {
-		return false
-	} else {
-		return true
-	}
-}
-
-func CheckCredentialsPath() bool {
-	viper.SetConfigName("creds")
-	viper.AddConfigPath(filepath.Dir(config.Path(true, false)))
-	err := viper.ReadInConfig()
-	if err != nil {
-		return false
-	} else {
-		return true
+func ConfirmCredentialsSet(client *cveservices_go_sdk.APIClient) {
+	if client.Cfg.Authentication.APIUser == "" || client.Cfg.Authentication.APIKey == "" || client.Cfg.BasePath == "" || client.Cfg.Organization == "" {
+		fmt.Println("No authentication credentials set, please run cvecli configure or set environment variables.")
+		os.Exit(1)
 	}
 }
 
@@ -44,7 +30,7 @@ func GetCVEServicesSDKConfig() *cveservices_go_sdk.APIClient {
 			},
 			BasePath:     environment,
 			Organization: organization,
-			UserAgent:    "cvecli",
+			UserAgent:    "cvecli " + build.Version,
 			HTTPClient: &http.Client{
 				Timeout: time.Second * 20,
 			},

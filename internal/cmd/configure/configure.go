@@ -23,7 +23,7 @@ func NewCmdConfigure() *cobra.Command {
 				"cvecli will encrypt and store the api user, api key, organization, GitHub username and GitHub PAT in " +
 				"the following file for use by subsequent commands: " + config.Path(true, false))
 			if userConfirmation() == true {
-				SetCredentials()
+				setCredentials()
 			} else {
 				os.Exit(1)
 			}
@@ -32,7 +32,7 @@ func NewCmdConfigure() *cobra.Command {
 	return cmd
 }
 
-func SetCredentials() {
+func setCredentials() {
 	var credentials config.CredentialFile
 	promptEnvironment := promptui.Prompt{
 		Label:     "Do you want to access the production CVE Servers environment? If you select no the test environment will be used.",

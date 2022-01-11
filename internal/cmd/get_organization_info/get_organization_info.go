@@ -3,6 +3,7 @@ package get_organization_info
 import (
 	"fmt"
 	"github.com/spf13/cobra"
+	"github.com/wizedkyle/cvecli/internal/authentication"
 	"github.com/wizedkyle/cvecli/internal/cmdutils"
 	"github.com/wizedkyle/cvecli/internal/logging"
 	"github.com/wizedkyle/cveservices-go-sdk"
@@ -15,6 +16,7 @@ func NewCmdGetOrganizationInfo(client *cveservices_go_sdk.APIClient) *cobra.Comm
 		Use:   "get-organization-info",
 		Short: "Retrieves information about the organization the user authenticating is apart of.",
 		Run: func(cmd *cobra.Command, args []string) {
+			authentication.ConfirmCredentialsSet(client)
 			getOrganizationInfo(client, output)
 		},
 	}
