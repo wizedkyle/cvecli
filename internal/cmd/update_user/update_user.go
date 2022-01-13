@@ -34,18 +34,18 @@ func NewCmdUpdateUser(client *cveservices_go_sdk.APIClient) *cobra.Command {
 			updateUser(client, active, firstName, lastName, middleName, newUsername, output, username, suffix, roleToAdd, roleToRemove)
 		},
 	}
-	cmd.Flags().BoolVar(&active, "active", true, "Set to false if you want to disable the user.")
-	cmd.Flags().StringVar(&firstName, "firstname", "", "Specify the first name of the user.")
-	cmd.Flags().StringVar(&lastName, "lastname", "", "Specify the last name of the user.")
-	cmd.Flags().StringVar(&middleName, "middlename", "", "Specify the middle name of the user (if applicable).")
-	cmd.Flags().StringVar(&newUsername, "newusername", "", "Specify the new email address of the user.")
-	cmd.Flags().StringVar(&username, "username", "", "Specify the current email address of the user.")
-	cmd.Flags().StringVar(&output, "output", "", "Specify a specific value to output. Accepted values are: "+
+	cmd.Flags().BoolVarP(&active, "enabled", "e", true, "Set to false if you want to disable the user.")
+	cmd.Flags().StringVarP(&firstName, "first-name", "f", "", "Specify the first name of the user.")
+	cmd.Flags().StringVarP(&lastName, "last-name", "l", "", "Specify the last name of the user.")
+	cmd.Flags().StringVarP(&middleName, "middle-name", "m", "", "Specify the middle name of the user (if applicable).")
+	cmd.Flags().StringVarP(&newUsername, "new-username", "n", "", "Specify the new email address of the user.")
+	cmd.Flags().StringVarP(&username, "username", "u", "", "Specify the current email address of the user.")
+	cmd.Flags().StringVarP(&output, "output", "o", "", "Specify a specific value to output. Accepted values are: "+
 		"all, uuid")
-	cmd.Flags().StringVar(&suffix, "suffix", "", "Specify the suffix of the user (if applicable).")
-	cmd.Flags().StringVar(&roleToAdd, "roleToAdd", "", "Specify the role for the user. "+
+	cmd.Flags().StringVarP(&suffix, "suffix", "s", "", "Specify the suffix of the user (if applicable).")
+	cmd.Flags().StringVarP(&roleToAdd, "role-to-add", "a", "", "Specify the role for the user. "+
 		"Valid roles are: 'ADMIN'. Only add the user as an ADMIN if you want them to have control over the organization.")
-	cmd.Flags().StringVar(&roleToRemove, "roleToRemove", "", "Specify the role to remove from the user. "+
+	cmd.Flags().StringVarP(&roleToRemove, "role-to-remove", "r", "", "Specify the role to remove from the user. "+
 		"Valid roles are: 'ADMIN'.")
 	return cmd
 }

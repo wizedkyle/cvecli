@@ -34,7 +34,7 @@ Version: $version
 Maintainer: kyle@thepublicclouds.com
 Architecture: $architecture
 Homepage: https://github.com/wizedkyle/cvecli
-Description: A CLI tool that allows CNAs to manage their organisation and submit CVEs
+Description: A CLI tool that allows CNAs to manage their organization and submit CVEs
 EOF
 echo "=> Building debian package"
 dpkg --build "./deb/cvecli_$version-1_$architecture"

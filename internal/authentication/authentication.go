@@ -1,11 +1,13 @@
 package authentication
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/spf13/viper"
 	"github.com/wizedkyle/cvecli/config"
 	"github.com/wizedkyle/cvecli/internal/build"
 	"github.com/wizedkyle/cvecli/internal/encryption"
+	"github.com/wizedkyle/cvecli/internal/logging"
 	"github.com/wizedkyle/cveservices-go-sdk"
 	"net/http"
 	"os"
@@ -39,9 +41,24 @@ func GetCVEServicesSDKConfig() *cveservices_go_sdk.APIClient {
 	return &client
 }
 
+func ReadApiUser() string {
+	viper.SetConfigName("creds")
+	viper.AddConfigPath(filepath.Dir(config.Path(true)))
+	viper.AutomaticEnv()
+	err := viper.ReadInConfig()
+	if err != nil {
+		fmt.Println("No authentication credentials, please run cvecli configure.")
+		return ""
+	} else {
+		apiUser := viper.GetString("apiUser")
+		apiUserDecrypted := encryption.DecryptData(apiUser)
+		return apiUserDecrypted
+	}
+}
+
 func ReadAuthCredentials() (string, string, string, string) {
 	viper.SetConfigName("creds")
-	viper.AddConfigPath(filepath.Dir(config.Path(true, false)))
+	viper.AddConfigPath(filepath.Dir(config.Path(true)))
 	viper.AutomaticEnv()
 	err := viper.ReadInConfig()
 	if err != nil {
@@ -59,5 +76,49 @@ func ReadAuthCredentials() (string, string, string, string) {
 		apiKeyDecrypted := encryption.DecryptData(apiKey)
 		organizationDecrypted := encryption.DecryptData(organization)
 		return apiUserDecrypted, apiKeyDecrypted, organizationDecrypted, environment
+	}
+}
+
+func ReadOrganization() string {
+	viper.SetConfigName("creds")
+	viper.AddConfigPath(filepath.Dir(config.Path(true)))
+	viper.AutomaticEnv()
+	err := viper.ReadInConfig()
+	if err != nil {
+		fmt.Println("No authentication credentials, please run cvecli configure.")
+		return ""
+	} else {
+		organization := viper.GetString("organization")
+		organizationDecrypted := encryption.DecryptData(organization)
+		return organizationDecrypted
+	}
+}
+
+func WriteCredentialsFile(apiUser string, apiKey string, organization string, environment string) {
+	var credentials config.CredentialFile
+	credentials.APIUser = encryption.EncryptData(apiUser)
+	credentials.APIKey = encryption.EncryptData(apiKey)
+	credentials.Organization = encryption.EncryptData(organization)
+	credentials.Environment = environment
+	configFilePath := filepath.Dir(config.Path(true))
+	if _, err := os.Stat(configFilePath); os.IsNotExist(err) {
+		err := os.MkdirAll(configFilePath, 0755)
+		if err != nil {
+			logging.ConsoleLogger().Error().Err(err).Msg("failed to create folder structure for credentials file")
+			os.Exit(1)
+		}
+	}
+	credentialsFile, err := json.MarshalIndent(credentials, "", "    ")
+	if err != nil {
+		logging.ConsoleLogger().Error().Err(err).Msg("failed to marshal credentials")
+		os.Exit(1)
+	}
+	err = os.WriteFile(config.Path(true), credentialsFile, 0644)
+	if err != nil {
+		logging.ConsoleLogger().Error().Err(err).Msg("failed to write credentials file to " + config.Path(true))
+		os.Exit(1)
+	} else {
+		fmt.Println("Credentials file saved to: " + config.Path(true))
+		os.Exit(0)
 	}
 }

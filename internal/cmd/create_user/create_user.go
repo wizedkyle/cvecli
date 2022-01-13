@@ -31,17 +31,17 @@ func NewCmdCreateUser(client *cveservices_go_sdk.APIClient) *cobra.Command {
 			createUser(client, firstName, lastName, middleName, roles, suffix, username, output)
 		},
 	}
-	cmd.Flags().StringVar(&firstName, "firstname", "", "Specify the first name of the user.")
-	cmd.Flags().StringVar(&lastName, "lastname", "", "Specify the last name of the user.")
-	cmd.Flags().StringVar(&middleName, "middlename", "", "Specify the middle name of the user (if applicable).")
-	cmd.Flags().StringSliceVar(&roles, "roles", []string{}, "Specify the roles for the user comma separated. "+
+	cmd.Flags().StringVarP(&firstName, "first-name", "f", "", "Specify the first name of the user.")
+	cmd.Flags().StringVarP(&lastName, "last-name", "l", "", "Specify the last name of the user.")
+	cmd.Flags().StringVarP(&middleName, "middle-name", "m", "", "Specify the middle name of the user (if applicable).")
+	cmd.Flags().StringSliceVarP(&roles, "roles", "r", []string{}, "Specify the roles for the user comma separated. "+
 		"Valid roles are: 'ADMIN'. Only add the user as an ADMIN if you want them to have control over the organization.")
-	cmd.Flags().StringVar(&suffix, "suffix", "", "Specify the suffix of the user (if applicable).")
-	cmd.Flags().StringVar(&username, "username", "", "Specify the email address of the user.")
-	cmd.Flags().StringVar(&output, "output", "", "Specify a specific value to output. Accepted values are: "+
+	cmd.Flags().StringVarP(&suffix, "suffix", "s", "", "Specify the suffix of the user (if applicable).")
+	cmd.Flags().StringVarP(&username, "username", "u", "", "Specify the email address of the user.")
+	cmd.Flags().StringVarP(&output, "output", "o", "", "Specify a specific value to output. Accepted values are: "+
 		"uuid, secret")
-	cmd.MarkFlagRequired("firstName")
-	cmd.MarkFlagRequired("lastName")
+	cmd.MarkFlagRequired("first-name")
+	cmd.MarkFlagRequired("last-name")
 	cmd.MarkFlagRequired("username")
 	return cmd
 }

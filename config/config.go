@@ -15,15 +15,13 @@ type CredentialFile struct {
 }
 
 var (
-	client                *cveservices_go_sdk.APIClient
-	CveServicesProdUrl    = "https://cveawg.mitre.org/api"
-	CveServicesDevUrl     = "https://cveawg-test.mitre.org/api"
-	credentialFilePath    = ".cvecli/credentials/creds.json"
-	ProductionEnvironment = false
-	repoFilePath          = ".cvecli/repos"
+	client             *cveservices_go_sdk.APIClient
+	CveServicesProdUrl = "https://cveawg.mitre.org/api"
+	CveServicesDevUrl  = "https://cveawg-test.mitre.org/api"
+	credentialFilePath = ".cvecli/credentials/creds.json"
 )
 
-func Path(credentialFile bool, repoPath bool) string {
+func Path(credentialFile bool) string {
 	homeDirectory, err := os.UserHomeDir()
 	if err != nil {
 		logging.ConsoleLogger().Error().Err(err).Msg("unable to retrieve user home directory")
@@ -31,17 +29,6 @@ func Path(credentialFile bool, repoPath bool) string {
 	if credentialFile == true {
 		configFile := filepath.Join(homeDirectory, credentialFilePath)
 		return configFile
-	} else if repoPath == true {
-		configFile := filepath.Join(homeDirectory, repoFilePath)
-		return configFile
 	}
 	return ""
-}
-
-func GetClient() *cveservices_go_sdk.APIClient {
-	return client
-}
-
-func SetClient(newClient *cveservices_go_sdk.APIClient) {
-	client = newClient
 }

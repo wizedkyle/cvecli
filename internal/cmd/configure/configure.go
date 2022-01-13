@@ -1,27 +1,49 @@
 package configure
 
 import (
-	"encoding/json"
 	"fmt"
 	"github.com/manifoldco/promptui"
 	"github.com/spf13/cobra"
 	"github.com/wizedkyle/cvecli/config"
-	"github.com/wizedkyle/cvecli/internal/encryption"
+	"github.com/wizedkyle/cvecli/internal/authentication"
 	"github.com/wizedkyle/cvecli/internal/logging"
 	"os"
-	"path/filepath"
 	"strings"
 )
 
 func NewCmdConfigure() *cobra.Command {
+	var (
+		showApiUser      bool
+		showOrganization bool
+	)
 	cmd := &cobra.Command{
 		Use:   "configure",
 		Short: "Sets credentials that cvecli requires",
 		Long:  "Interactively sets the cvecli API user, API key, organization information and GitHub credentials.",
 		Run: func(cmd *cobra.Command, args []string) {
-			fmt.Println("cvecli requires and api user, api key, organization, GitHub Username and GitHub PAT for correct functioning. " +
-				"cvecli will encrypt and store the api user, api key, organization, GitHub username and GitHub PAT in " +
-				"the following file for use by subsequent commands: " + config.Path(true, false))
+			if showApiUser == true && showOrganization == true {
+				fmt.Println("Please select either show-api-user or show-organization.")
+				os.Exit(1)
+			} else if showApiUser == true {
+				apiUser := authentication.ReadApiUser()
+				if apiUser != "" {
+					fmt.Println("The API user currently configured for authentication is: " + apiUser)
+					os.Exit(0)
+				} else {
+					os.Exit(0)
+				}
+			} else if showOrganization == true {
+				organization := authentication.ReadOrganization()
+				if organization != "" {
+					fmt.Println("The organization currently configured for authentication is: " + organization)
+					os.Exit(0)
+				} else {
+					os.Exit(0)
+				}
+			}
+			fmt.Println("cvecli requires and api user, api key and organization for correct functioning. " +
+				"cvecli will encrypt and store the api user, api key and organization in " +
+				"the following file for use by subsequent commands: " + config.Path(true))
 			if userConfirmation() == true {
 				setCredentials()
 			} else {
@@ -29,11 +51,15 @@ func NewCmdConfigure() *cobra.Command {
 			}
 		},
 	}
+	cmd.Flags().BoolVarP(&showApiUser, "show-api-user", "u", false, "Shows the plain text API user. This command "+
+		"is useful for identifying which API user is being used. If this flag is set you cannot configure credentials.")
+	cmd.Flags().BoolVarP(&showOrganization, "show-organization", "o", false, "Shows the plaintext organization name. This command "+
+		"is useful for identifying which CVE CNA organization is being used. If this flag is set you cannot configure credentials.")
 	return cmd
 }
 
 func setCredentials() {
-	var credentials config.CredentialFile
+	var environment string
 	promptEnvironment := promptui.Prompt{
 		Label:     "Do you want to access the production CVE Servers environment? If you select no the test environment will be used.",
 		IsConfirm: true,
@@ -51,10 +77,10 @@ func setCredentials() {
 	_, err := promptEnvironment.Run()
 	if err != nil {
 		fmt.Println("Using the CVE Services test environment")
-		credentials.Environment = config.CveServicesDevUrl
+		environment = config.CveServicesDevUrl
 	} else {
 		fmt.Println("Using the CVE Services production environment")
-		credentials.Environment = config.CveServicesProdUrl
+		environment = config.CveServicesProdUrl
 	}
 	apiUser, err := promptApiUser.Run()
 	if err != nil {
@@ -68,28 +94,7 @@ func setCredentials() {
 	if err != nil {
 		logging.ConsoleLogger().Error().Err(err).Msg("failed to prompt for an organization")
 	}
-	credentials.APIUser = encryption.EncryptData(apiUser)
-	credentials.APIKey = encryption.EncryptData(apiKey)
-	credentials.Organization = encryption.EncryptData(organization)
-	configFilePath := filepath.Dir(config.Path(true, false))
-	if _, err := os.Stat(configFilePath); os.IsNotExist(err) {
-		err := os.MkdirAll(configFilePath, 0755)
-		if err != nil {
-			logging.ConsoleLogger().Error().Err(err).Msg("failed to create folder structure for credentials file")
-		}
-	}
-	credentialsFile, err := json.MarshalIndent(credentials, "", "    ")
-	if err != nil {
-		logging.ConsoleLogger().Error().Err(err).Msg("failed to marshal credentials")
-	}
-	err = os.WriteFile(config.Path(true, false), credentialsFile, 0644)
-	if err != nil {
-		logging.ConsoleLogger().Error().Err(err).Msg("failed to write credentials file to " + config.Path(true, false))
-		os.Exit(0)
-	} else {
-		fmt.Println("Credentials file saved to: " + config.Path(true, false))
-		os.Exit(0)
-	}
+	authentication.WriteCredentialsFile(apiUser, apiKey, organization, environment)
 }
 
 func userConfirmation() bool {

@@ -105,7 +105,7 @@ Codename: stable
 Version: $version
 Architectures: $releaseArchitectures
 Components: main
-Description: A CLI tool that allows CNAs to manage their organisation and submit CVEs.
+Description: A CLI tool that allows CNAs to manage their organization and submit CVEs.
 Date: $(date -Ru)
 $(generate_hash "MD5Sum" "md5sum")
 $(generate_hash "SHA1" "sha1sum")
