@@ -9,6 +9,9 @@ jobs:
   run_tests:
     name: Run Cvecli Linux Tests
     runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
     steps:
       - name: Setup Go Environment
         uses: actions/setup-go@v2
