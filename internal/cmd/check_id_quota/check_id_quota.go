@@ -24,9 +24,9 @@ func NewCmdCheckIdQuota(client *cveservices_go_sdk.APIClient) *cobra.Command {
 			checkIdQuota(client, available, quota, totalReserved)
 		},
 	}
-	cmd.Flags().BoolVar(&available, "available", false, "Returns the available CVE IDs for the CNA.")
-	cmd.Flags().BoolVar(&quota, "quota", false, "Returns the quota of CVE IDs for the CNA.")
-	cmd.Flags().BoolVar(&totalReserved, "totalReserved", false, "Returns the total number of reserved CVE IDs for the CNA.")
+	cmd.Flags().BoolVarP(&available, "available", "a", false, "Returns the available CVE IDs for the CNA.")
+	cmd.Flags().BoolVarP(&quota, "quota", "q", false, "Returns the quota of CVE IDs for the CNA.")
+	cmd.Flags().BoolVarP(&totalReserved, "total-reserved", "t", false, "Returns the total number of reserved CVE IDs for the CNA.")
 	return cmd
 }
 

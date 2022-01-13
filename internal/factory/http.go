@@ -1,5 +1,0 @@
-package factory
-
-func PrepareRequest() {
-
-}

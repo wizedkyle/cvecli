@@ -27,10 +27,10 @@ func NewCmdListCveIds(client *cveservices_go_sdk.APIClient) *cobra.Command {
 			listCveIds(client, cveIdYear, output, state)
 		},
 	}
-	cmd.Flags().StringVar(&state, "state", "", "Specify the state of the CVE ID. "+
+	cmd.Flags().StringVarP(&state, "state", "s", "", "Specify the state of the CVE ID. "+
 		"Valid values are: RESERVED, PUBLISHED, REJECTED.")
-	cmd.Flags().Int32Var(&cveIdYear, "cveIdYear", 0, "Specify the year of the CVE ID.")
-	cmd.Flags().StringVar(&output, "output", "", "Specify a specific value to output. Accepted values are: cveid")
+	cmd.Flags().Int32VarP(&cveIdYear, "cve-id-year", "c", 0, "Specify the year of the CVE ID.")
+	cmd.Flags().StringVarP(&output, "output", "o", "", "Specify a specific value to output. Accepted values are: cve-id")
 	return cmd
 }
 
@@ -51,15 +51,16 @@ func listCveIds(client *cveservices_go_sdk.APIClient, cveIdYear int32, output st
 			options.State = optional.NewString(state)
 		} else {
 			fmt.Println("Please enter a valid CVE ID state. Valid states are: RESERVED, PUBLISHED, REJECTED.")
+			os.Exit(1)
 		}
 	}
 	data, response, err := client.ListCveIds(&options)
 	if err != nil {
 		cmdutils.OutputError(response, err)
 	} else {
-		if output == "cveid" {
-			for _, cveid := range *data.CveIds {
-				fmt.Println(cveid.CveId)
+		if output == "cve-id" {
+			for _, cveId := range *data.CveIds {
+				fmt.Println(cveId.CveId)
 			}
 		} else {
 			fmt.Println(string(cmdutils.OutputJson(data)))
@@ -78,9 +79,9 @@ func listCveIdsPagination(client *cveservices_go_sdk.APIClient, options types.Li
 	if err != nil {
 		cmdutils.OutputError(response, err)
 	} else {
-		if output == "cveid" {
-			for _, cveid := range *data.CveIds {
-				fmt.Println(cveid.CveId)
+		if output == "cve-id" {
+			for _, cveId := range *data.CveIds {
+				fmt.Println(cveId.CveId)
 			}
 		} else {
 			fmt.Println(string(cmdutils.OutputJson(data)))
@@ -104,7 +105,7 @@ func stateValidation(state string) bool {
 func outputValidation(output string) bool {
 	switch output {
 	case
-		"cveid":
+		"cve-id":
 		return true
 	}
 	return false

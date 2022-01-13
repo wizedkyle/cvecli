@@ -10,6 +10,7 @@ import (
 	"github.com/wizedkyle/cvecli/internal/logging"
 	"github.com/wizedkyle/cveservices-go-sdk"
 	"github.com/wizedkyle/cveservices-go-sdk/types"
+	"time"
 )
 
 func NewCmdReserveCveId(client *cveservices_go_sdk.APIClient) *cobra.Command {
@@ -28,15 +29,13 @@ func NewCmdReserveCveId(client *cveservices_go_sdk.APIClient) *cobra.Command {
 			reserveCveId(client, amount, cveYear, nonSequential, sequential, cveIdOutput)
 		},
 	}
-	cmd.Flags().Int32Var(&amount, "amount", 0, "The number of CVE IDs to reserve.")
-	cmd.Flags().BoolVar(&cveIdOutput, "cveIdOutput", false, "Outputs only the CVE IDs.")
-	cmd.Flags().Int32Var(&cveYear, "cveYear", 0, "The year the CVE IDs will be reserved for.")
-	cmd.Flags().BoolVar(&nonSequential, "nonSequential", false, "If the amount of CVE IDs is greater than 1 "+
+	cmd.Flags().Int32VarP(&amount, "amount", "a", 1, "The number of CVE IDs to reserve.")
+	cmd.Flags().BoolVarP(&cveIdOutput, "cve-id-output", "o", false, "Outputs only the CVE IDs.")
+	cmd.Flags().Int32VarP(&cveYear, "cve-year", "y", 0, "The year the CVE IDs will be reserved for. If this is not set it will default to the current year.")
+	cmd.Flags().BoolVarP(&nonSequential, "non-sequential", "n", false, "If the amount of CVE IDs is greater than 1 "+
 		"the IDs will be assigned non sequentially.")
-	cmd.Flags().BoolVar(&sequential, "sequential", false, "If the amount of CVE IDs is greater than 1 "+
+	cmd.Flags().BoolVarP(&sequential, "sequential", "s", false, "If the amount of CVE IDs is greater than 1 "+
 		"the IDs will be assigned sequentially.")
-	cmd.MarkFlagRequired("amount")
-	cmd.MarkFlagRequired("cveYear")
 	return cmd
 }
 
@@ -50,6 +49,11 @@ func reserveCveId(client *cveservices_go_sdk.APIClient, amount int32, cveYear in
 		} else if sequential == true {
 			options.BatchType = optional.NewString("sequential")
 		}
+	}
+	if cveYear == 0 {
+		fmt.Println(cveYear)
+		cveYear = int32(time.Now().Year())
+		fmt.Println(cveYear)
 	}
 	data, response, err := client.ReserveCveId(amount, cveYear, &options)
 	if err != nil {

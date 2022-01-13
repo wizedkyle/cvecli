@@ -24,9 +24,9 @@ func NewCmdGetUser(client *cveservices_go_sdk.APIClient) *cobra.Command {
 			getUser(client, username, output)
 		},
 	}
-	cmd.Flags().StringVar(&username, "username", "", "Specify the username of the user to retrieve.")
-	cmd.Flags().StringVar(&output, "output", "", "Specify a specific value to output. Accepted values are: "+
-		"active, activeroles, name, orguuid, username, uuid")
+	cmd.Flags().StringVarP(&username, "username", "u", "", "Specify the username of the user to retrieve.")
+	cmd.Flags().StringVarP(&output, "output", "o", "", "Specify a specific value to output. Accepted values are: "+
+		"active, active-roles, name, org-uuid, username, uuid")
 	cmd.MarkFlagRequired("username")
 	return cmd
 }
@@ -42,7 +42,7 @@ func getUser(client *cveservices_go_sdk.APIClient, username string, output strin
 	} else {
 		if output == "active" {
 			fmt.Println(data.Active)
-		} else if output == "activerole" {
+		} else if output == "active-role" {
 			for _, role := range data.Authority.ActiveRoles {
 				fmt.Println(role)
 			}
@@ -61,7 +61,7 @@ func getUser(client *cveservices_go_sdk.APIClient, username string, output strin
 				name = name + data.Name.Last
 			}
 			fmt.Println(name)
-		} else if output == "orguuid" {
+		} else if output == "org-uuid" {
 			fmt.Println(data.OrgUUID)
 		} else if output == "username" {
 			fmt.Println(data.Username)

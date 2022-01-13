@@ -20,8 +20,8 @@ func NewCmdGetOrganizationInfo(client *cveservices_go_sdk.APIClient) *cobra.Comm
 			getOrganizationInfo(client, output)
 		},
 	}
-	cmd.Flags().StringVar(&output, "output", "", "Specify a specific value to output. Accepted values are: "+
-		"activeroles, idquota, name, shortname, uuid")
+	cmd.Flags().StringVarP(&output, "output", "o", "", "Specify a specific value to output. Accepted values are: "+
+		"active-roles, id-quota, name, shortname, uuid")
 	return cmd
 }
 
@@ -34,11 +34,11 @@ func getOrganizationInfo(client *cveservices_go_sdk.APIClient, output string) {
 	if err != nil {
 		cmdutils.OutputError(response, err)
 	} else {
-		if output == "activeroles" {
+		if output == "active-roles" {
 			for _, role := range data.Authority.ActiveRoles {
 				fmt.Println(role)
 			}
-		} else if output == "idquota" {
+		} else if output == "id-quota" {
 			fmt.Println(data.Policies.IdQuota)
 		} else if output == "name" {
 			fmt.Println(data.Name)
@@ -55,8 +55,8 @@ func getOrganizationInfo(client *cveservices_go_sdk.APIClient, output string) {
 func outputValidation(output string) bool {
 	switch output {
 	case
-		"activeroles",
-		"idquota",
+		"active-roles",
+		"id-quota",
 		"name",
 		"shortname",
 		"uuid":

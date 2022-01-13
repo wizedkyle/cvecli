@@ -19,7 +19,7 @@ func NewCmdResetSecret(client *cveservices_go_sdk.APIClient) *cobra.Command {
 			resetSecret(client, username)
 		},
 	}
-	cmd.Flags().StringVar(&username, "username", "", "Specify the username which needs the secret reset.")
+	cmd.Flags().StringVarP(&username, "username", "u", "", "Specify the username which needs the secret reset.")
 	cmd.MarkFlagRequired("username")
 	return cmd
 }

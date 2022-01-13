@@ -24,8 +24,8 @@ func NewCmdListUsers(client *cveservices_go_sdk.APIClient) *cobra.Command {
 			listUsers(client, output)
 		},
 	}
-	cmd.Flags().StringVar(&output, "output", "", "Specify a specific value to output. Accepted values are: "+
-		"active, activeroles, name, uuid")
+	cmd.Flags().StringVarP(&output, "output", "o", "", "Specify a specific value to output. Accepted values are: "+
+		"active, active-roles, name, uuid")
 	return cmd
 }
 
@@ -46,7 +46,7 @@ func listUsers(client *cveservices_go_sdk.APIClient, output string) {
 		for _, user := range *data.Users {
 			if outputLower == "active" {
 				fmt.Println(user.Username, user.Active)
-			} else if outputLower == "activeroles" {
+			} else if outputLower == "active-roles" {
 				fmt.Println(user.Username, user.Authority.ActiveRoles)
 			} else if outputLower == "name" {
 				var name string
@@ -86,7 +86,7 @@ func listUsersPagination(client *cveservices_go_sdk.APIClient, options types.Lis
 		for _, user := range *data.Users {
 			if outputLower == "active" {
 				fmt.Println(user.Username, user.Active)
-			} else if outputLower == "activeroles" {
+			} else if outputLower == "active-roles" {
 				fmt.Println(user.Username, user.Authority.ActiveRoles)
 			} else if outputLower == "name" {
 				var name string
