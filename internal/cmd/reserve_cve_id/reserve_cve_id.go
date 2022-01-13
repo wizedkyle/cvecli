@@ -51,9 +51,7 @@ func reserveCveId(client *cveservices_go_sdk.APIClient, amount int32, cveYear in
 		}
 	}
 	if cveYear == 0 {
-		fmt.Println(cveYear)
 		cveYear = int32(time.Now().Year())
-		fmt.Println(cveYear)
 	}
 	data, response, err := client.ReserveCveId(amount, cveYear, &options)
 	if err != nil {
