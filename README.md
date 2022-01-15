@@ -1,4 +1,8 @@
-# CVECLI
+<p align="center">
+  <img alt="cvecli Logo" src="https://user-images.githubusercontent.com/58360154/149598450-84c5925a-6e18-4496-936d-8f187110c097.png" />
+</p>
+
+---
 
 `cvecli` allows you to interact with the [CVE Services API](https://github.com/CVEProject/cve-services) via the command line. 
 It currently supports the following functionality for CNAs:
