@@ -1,0 +1,63 @@
+site_name: CVECLI
+site_url: https://cvecli.app
+site_description:
+copyright:
+repo_name: wizedkyle/cvecli
+repo_url: https://github.com/wizedkyle/cvecli
+
+theme:
+  name: material
+  favicon: static/favicon.ico
+  language: en
+  logo: static/cvecli.png
+  icon:
+    repo: fontawesome/brands/github
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      toggle:
+        icon: material/lightbulb-outline
+        name: Switch to light mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: light blue
+      accent: indigo
+      toggle:
+        icon: material/lightbulb
+        name: Switch to dark mode
+
+plugins:
+  - search
+
+extra:
+  social:
+    - icon: fontawesome/brands/github-alt
+      link: https://github.com/wizedkyle
+
+nav:
+- Home: index.md
+- install.md
+- authentication.md
+- Command Line Usage:
+  - cvecli: cmd/cvecli.md
+  - cvecli check-id-quota: cmd/cve-ids/cvecli_check_id_quota.md
+  - cvecli completion: cmd/cvecli_completion.md
+  - cvecli configure: cmd/cvecli_configure.md
+  - cvecli create-user: cmd/users/cvecli_create_user.md
+  - cvecli get-organization-info: cmd/organization/cvecli_get_organization_info.md
+  - cvecli get-user: cmd/users/cvecli_get_user.md
+  - cvecli list-cve-ids: cmd/cve-ids/cvecli_list_cve_ids.md
+  - cvecli list-users: cmd/users/cvecli_list_users.md
+  - cvecli reservice-cve-id: cmd/cve-ids/cvecli_reserve_cve_id.md
+  - cvecli reset-secret: cmd/users/cvecli_reset_secret.md
+  - cvecli update-user: cmd/users/cvecli_update_user.md
+
+markdown_extensions:
+  - admonition
+  - codehilite
+  - meta
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.superfences
+  - toc:
+      permalink: true
