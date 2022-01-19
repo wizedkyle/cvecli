@@ -3,6 +3,7 @@ package root
 import (
 	"github.com/spf13/cobra"
 	"github.com/wizedkyle/cvecli/internal/authentication"
+	"github.com/wizedkyle/cvecli/internal/build"
 	NewCmdCheckIdQuota "github.com/wizedkyle/cvecli/internal/cmd/check_id_quota"
 	configureCmd "github.com/wizedkyle/cvecli/internal/cmd/configure"
 	NewCmdCreateUser "github.com/wizedkyle/cvecli/internal/cmd/create_user"
@@ -13,7 +14,6 @@ import (
 	NewCmdReserveCveId "github.com/wizedkyle/cvecli/internal/cmd/reserve_cve_id"
 	NewCmdResetSecret "github.com/wizedkyle/cvecli/internal/cmd/reset_secret"
 	NewCmdUpdateUser "github.com/wizedkyle/cvecli/internal/cmd/update_user"
-	NewCmdVersion "github.com/wizedkyle/cvecli/internal/cmd/version"
 )
 
 func NewCmdRoot() *cobra.Command {
@@ -23,6 +23,7 @@ func NewCmdRoot() *cobra.Command {
 		Long: "A CLI tool that allows easy submissions of CVEs to MITREs GitHub repo (for CNAs). " +
 			"This tool currently supports the ID Reservation Service.",
 		TraverseChildren: true,
+		Version:          build.GetVersion(),
 	}
 	client := authentication.GetCVEServicesSDKConfig()
 	cmd.AddCommand(configureCmd.NewCmdConfigure())
@@ -35,6 +36,5 @@ func NewCmdRoot() *cobra.Command {
 	cmd.AddCommand(NewCmdReserveCveId.NewCmdReserveCveId(client))
 	cmd.AddCommand(NewCmdResetSecret.NewCmdResetSecret(client))
 	cmd.AddCommand(NewCmdUpdateUser.NewCmdUpdateUser(client))
-	cmd.AddCommand(NewCmdVersion.NewCmdVersion())
 	return cmd
 }

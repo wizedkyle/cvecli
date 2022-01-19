@@ -5,3 +5,7 @@ var (
 	Date    = "Dev"
 	Version = "Dev"
 )
+
+func GetVersion() string {
+	return Version + " " + Build + " " + Date
+}
