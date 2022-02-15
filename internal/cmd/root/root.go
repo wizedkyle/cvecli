@@ -16,25 +16,30 @@ import (
 	NewCmdUpdateUser "github.com/wizedkyle/cvecli/internal/cmd/update_user"
 )
 
+var (
+	jsonOutput bool
+)
+
 func NewCmdRoot() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "cvecli",
 		Short: "CVE Submission CLI",
-		Long: "A CLI tool that allows easy submissions of CVEs to MITREs GitHub repo (for CNAs). " +
+		Long: "A CLI tool that allows CNAs to manage their organisation and CVEs. " +
 			"This tool currently supports the ID Reservation Service.",
 		TraverseChildren: true,
 		Version:          build.GetVersion(),
 	}
 	client := authentication.GetCVEServicesSDKConfig()
 	cmd.AddCommand(configureCmd.NewCmdConfigure())
-	cmd.AddCommand(NewCmdCreateUser.NewCmdCreateUser(client))
-	cmd.AddCommand(NewCmdGetOrganizationInfo.NewCmdGetOrganizationInfo(client))
-	cmd.AddCommand(NewCmdGetUser.NewCmdGetUser(client))
-	cmd.AddCommand(NewCmdCheckIdQuota.NewCmdCheckIdQuota(client))
-	cmd.AddCommand(NewCmdListCveIds.NewCmdListCveIds(client))
-	cmd.AddCommand(NewCmdListUsers.NewCmdListUsers(client))
-	cmd.AddCommand(NewCmdReserveCveId.NewCmdReserveCveId(client))
+	cmd.AddCommand(NewCmdCreateUser.NewCmdCreateUser(client, &jsonOutput))
+	cmd.AddCommand(NewCmdGetOrganizationInfo.NewCmdGetOrganizationInfo(client, &jsonOutput))
+	cmd.AddCommand(NewCmdGetUser.NewCmdGetUser(client, &jsonOutput))
+	cmd.AddCommand(NewCmdCheckIdQuota.NewCmdCheckIdQuota(client, &jsonOutput))
+	cmd.AddCommand(NewCmdListCveIds.NewCmdListCveIds(client, &jsonOutput))
+	cmd.AddCommand(NewCmdListUsers.NewCmdListUsers(client, &jsonOutput))
+	cmd.AddCommand(NewCmdReserveCveId.NewCmdReserveCveId(client, &jsonOutput))
 	cmd.AddCommand(NewCmdResetSecret.NewCmdResetSecret(client))
-	cmd.AddCommand(NewCmdUpdateUser.NewCmdUpdateUser(client))
+	cmd.AddCommand(NewCmdUpdateUser.NewCmdUpdateUser(client, &jsonOutput))
+	cmd.PersistentFlags().BoolVarP(&jsonOutput, "json", "p", false, "Outputs the response in json")
 	return cmd
 }
