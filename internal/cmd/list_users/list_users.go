@@ -2,15 +2,16 @@ package list_users
 
 import (
 	"fmt"
+	"os"
+	"strconv"
+	"text/tabwriter"
+
 	"github.com/antihax/optional"
 	"github.com/spf13/cobra"
 	"github.com/wizedkyle/cvecli/internal/authentication"
 	"github.com/wizedkyle/cvecli/internal/cmdutils"
-	"github.com/wizedkyle/cveservices-go-sdk"
+	cveservices_go_sdk "github.com/wizedkyle/cveservices-go-sdk"
 	"github.com/wizedkyle/cveservices-go-sdk/types"
-	"os"
-	"strconv"
-	"text/tabwriter"
 )
 
 func NewCmdListUsers(client *cveservices_go_sdk.APIClient, jsonOutput *bool) *cobra.Command {
@@ -34,7 +35,7 @@ func listUsers(client *cveservices_go_sdk.APIClient, jsonOutput *bool) {
 	if err != nil {
 		cmdutils.OutputError(response, err)
 	} else {
-		if *jsonOutput == false {
+		if !*jsonOutput {
 			writer := tabwriter.NewWriter(os.Stdout, 0, 8, 1, '\t', tabwriter.AlignRight)
 			fmt.Fprintln(writer, "FIRST NAME\tLAST NAME\tUSERNAME\tUUID\tACTIVE")
 			for i := 0; i < len(*data.Users); i++ {
@@ -59,7 +60,7 @@ func listUsersPagination(client *cveservices_go_sdk.APIClient, options types.Lis
 	if err != nil {
 		cmdutils.OutputError(response, err)
 	} else {
-		if *jsonOutput == false {
+		if !*jsonOutput {
 			writer := tabwriter.NewWriter(os.Stdout, 0, 8, 1, '\t', tabwriter.AlignRight)
 			for i := 0; i < len(*data.Users); i++ {
 				fmt.Fprintln(writer, (*data.Users)[i].Name.First+"\t"+(*data.Users)[i].Name.Last+"\t"+(*data.Users)[i].Username+

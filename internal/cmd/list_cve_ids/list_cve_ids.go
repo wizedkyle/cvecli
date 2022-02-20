@@ -2,15 +2,16 @@ package list_cve_ids
 
 import (
 	"fmt"
+	"os"
+	"strings"
+	"text/tabwriter"
+
 	"github.com/antihax/optional"
 	"github.com/spf13/cobra"
 	"github.com/wizedkyle/cvecli/internal/authentication"
 	"github.com/wizedkyle/cvecli/internal/cmdutils"
-	"github.com/wizedkyle/cveservices-go-sdk"
+	cveservices_go_sdk "github.com/wizedkyle/cveservices-go-sdk"
 	"github.com/wizedkyle/cveservices-go-sdk/types"
-	"os"
-	"strings"
-	"text/tabwriter"
 )
 
 func NewCmdListCveIds(client *cveservices_go_sdk.APIClient, jsonOutput *bool) *cobra.Command {
@@ -52,7 +53,7 @@ func listCveIds(client *cveservices_go_sdk.APIClient, cveIdYear int32, state str
 	if err != nil {
 		cmdutils.OutputError(response, err)
 	} else {
-		if *jsonOutput == false {
+		if !*jsonOutput {
 			writer := tabwriter.NewWriter(os.Stdout, 0, 8, 1, '\t', tabwriter.AlignRight)
 			fmt.Fprintln(writer, "CVE ID\tCVE YEAR\tSTATE\tOWNING CNA\tRESERVED DATE")
 			for i := 0; i < len(*data.CveIds); i++ {
@@ -77,7 +78,7 @@ func listCveIdsPagination(client *cveservices_go_sdk.APIClient, options types.Li
 	if err != nil {
 		cmdutils.OutputError(response, err)
 	} else {
-		if *jsonOutput == false {
+		if !*jsonOutput {
 			writer := tabwriter.NewWriter(os.Stdout, 0, 8, 1, '\t', tabwriter.AlignRight)
 			for i := 0; i < len(*data.CveIds); i++ {
 				fmt.Fprintln(writer, (*data.CveIds)[i].CveId+"\t"+(*data.CveIds)[i].CveYear+"\t"+(*data.CveIds)[i].State+"\t"+(*data.CveIds)[i].OwningCNA+"\t"+(*data.CveIds)[i].Reserved.String())

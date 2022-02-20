@@ -2,16 +2,17 @@ package reserve_cve_id
 
 import (
 	"fmt"
+	"os"
+	"text/tabwriter"
+	"time"
+
 	"github.com/antihax/optional"
 	"github.com/spf13/cobra"
 	"github.com/wizedkyle/cvecli/internal/authentication"
 	"github.com/wizedkyle/cvecli/internal/cmdutils"
 	"github.com/wizedkyle/cvecli/internal/logging"
-	"github.com/wizedkyle/cveservices-go-sdk"
+	cveservices_go_sdk "github.com/wizedkyle/cveservices-go-sdk"
 	"github.com/wizedkyle/cveservices-go-sdk/types"
-	"os"
-	"text/tabwriter"
-	"time"
 )
 
 func NewCmdReserveCveId(client *cveservices_go_sdk.APIClient, jsonOutput *bool) *cobra.Command {
@@ -29,12 +30,12 @@ func NewCmdReserveCveId(client *cveservices_go_sdk.APIClient, jsonOutput *bool) 
 			reserveCveId(client, amount, cveYear, nonSequential, sequential, jsonOutput)
 		},
 	}
-	cmd.Flags().Int32VarP(&amount, "amount", "a", 1, "The number of CVE IDs to reserve.")
-	cmd.Flags().Int32VarP(&cveYear, "cve-year", "y", 0, "The year the CVE IDs will be reserved for. If this is not set it will default to the current year.")
+	cmd.Flags().Int32VarP(&amount, "amount", "a", 1, "The number of CVE IDs to reserve")
+	cmd.Flags().Int32VarP(&cveYear, "cve-year", "y", 0, "The year the CVE IDs will be reserved for. If this is not set it will default to the current year")
 	cmd.Flags().BoolVarP(&nonSequential, "non-sequential", "n", false, "If the amount of CVE IDs is greater than 1 "+
-		"the IDs will be assigned non sequentially.")
+		"the IDs will be assigned non sequentially")
 	cmd.Flags().BoolVarP(&sequential, "sequential", "s", false, "If the amount of CVE IDs is greater than 1 "+
-		"the IDs will be assigned sequentially.")
+		"the IDs will be assigned sequentially")
 	return cmd
 }
 
@@ -59,7 +60,7 @@ func reserveCveId(client *cveservices_go_sdk.APIClient, amount int32, cveYear in
 	if err != nil {
 		cmdutils.OutputError(response, err)
 	} else {
-		if *jsonOutput == false {
+		if !*jsonOutput {
 			writer := tabwriter.NewWriter(os.Stdout, 0, 8, 1, '\t', tabwriter.AlignRight)
 			fmt.Fprintln(writer, "CVE ID\tCVE YEAR\tSTATE\tOWNING CNA\tREQUESTED BY\tRESERVED DATE")
 			for i := 0; i < len(*data.CveIds); i++ {

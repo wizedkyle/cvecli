@@ -2,13 +2,14 @@ package get_user
 
 import (
 	"fmt"
-	"github.com/spf13/cobra"
-	"github.com/wizedkyle/cvecli/internal/authentication"
-	"github.com/wizedkyle/cvecli/internal/cmdutils"
-	"github.com/wizedkyle/cveservices-go-sdk"
 	"os"
 	"strconv"
 	"text/tabwriter"
+
+	"github.com/spf13/cobra"
+	"github.com/wizedkyle/cvecli/internal/authentication"
+	"github.com/wizedkyle/cvecli/internal/cmdutils"
+	cveservices_go_sdk "github.com/wizedkyle/cveservices-go-sdk"
 )
 
 func NewCmdGetUser(client *cveservices_go_sdk.APIClient, jsonOutput *bool) *cobra.Command {
@@ -33,7 +34,7 @@ func getUser(client *cveservices_go_sdk.APIClient, username string, jsonOutput *
 	if err != nil {
 		cmdutils.OutputError(response, err)
 	} else {
-		if *jsonOutput == false {
+		if !*jsonOutput {
 			writer := tabwriter.NewWriter(os.Stdout, 0, 8, 1, '\t', tabwriter.AlignRight)
 			fmt.Fprintln(writer, "FIRST NAME\tLAST NAME\tUSERNAME\tUUID\tACTIVE")
 			fmt.Fprintln(writer, data.Name.First+"\t"+data.Name.Last+"\t"+data.Username+"\t"+data.UUID+"\t"+strconv.FormatBool(data.Active))

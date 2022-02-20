@@ -2,11 +2,12 @@ package check_id_quota
 
 import (
 	"fmt"
+	"strconv"
+
 	"github.com/spf13/cobra"
 	"github.com/wizedkyle/cvecli/internal/authentication"
 	"github.com/wizedkyle/cvecli/internal/cmdutils"
-	"github.com/wizedkyle/cveservices-go-sdk"
-	"strconv"
+	cveservices_go_sdk "github.com/wizedkyle/cveservices-go-sdk"
 )
 
 func NewCmdCheckIdQuota(client *cveservices_go_sdk.APIClient, jsonOutput *bool) *cobra.Command {
@@ -35,7 +36,7 @@ func checkIdQuota(client *cveservices_go_sdk.APIClient, available bool, quota bo
 	if err != nil {
 		cmdutils.OutputError(response, err)
 	} else {
-		if *jsonOutput == false {
+		if !*jsonOutput {
 			if available == true {
 				fmt.Println(data.Available)
 			} else if quota == true {

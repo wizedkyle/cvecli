@@ -41,14 +41,13 @@ nav:
 - Command Line Usage:
   - cvecli: cmd/cvecli.md
   - cvecli check-id-quota: cmd/cve-ids/cvecli_check_id_quota.md
-  - cvecli completion: cmd/cvecli_completion.md
   - cvecli configure: cmd/cvecli_configure.md
   - cvecli create-user: cmd/users/cvecli_create_user.md
   - cvecli get-organization-info: cmd/organization/cvecli_get_organization_info.md
   - cvecli get-user: cmd/users/cvecli_get_user.md
   - cvecli list-cve-ids: cmd/cve-ids/cvecli_list_cve_ids.md
   - cvecli list-users: cmd/users/cvecli_list_users.md
-  - cvecli reservice-cve-id: cmd/cve-ids/cvecli_reserve_cve_id.md
+  - cvecli reserve-cve-id: cmd/cve-ids/cvecli_reserve_cve_id.md
   - cvecli reset-secret: cmd/users/cvecli_reset_secret.md
   - cvecli update-user: cmd/users/cvecli_update_user.md
 

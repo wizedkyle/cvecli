@@ -21,10 +21,6 @@ If there is no pre-compiled binaries that meet your requirements you can build `
     apt-get install cvecli
     ```
 
-=== "dpm"
-    ```shell
-    ```
-
 ### macOS
 
 `cvecli` supports both Apple Silicon and Intel Macs, brew will install the correct binary for your operating system.
@@ -55,6 +51,8 @@ You can install pre-compiled binaries for `cvecli` by navigating to the [release
     Example usage:
     
     ```shell
+    docker pull ghcr.io/wizedkyle/cvecli:$VERSION-$ARCHITECTURE
+    docker run --env CVE_API_USER:test@test.com --env CVE_API_KEY:abc123 --env CVE_ORGANIZATION:Organization --env CVE_ENVIRONMENT:environment ghcr.io/wizedkyle/cvecli:$VERSION-$ARCHITECTURE get-organization-info
     ```
 
 === "podman"
@@ -65,6 +63,8 @@ You can install pre-compiled binaries for `cvecli` by navigating to the [release
     Example usage:
     
     ```shell
+    podman pull ghcr.io/wizedkyle/cvecli:$VERSION-$ARCHITECETURE
+    podman run --env CVE_API_USER:test@test.com --env CVE_API_KEY:abc123 --env CVE_ORGANIZATION:Organization --env CVE_ENVIRONMENT:environment ghcr.io/wizedkyle/cvecli:$VERSION-$ARCHITECTURE get-organization-info
     ```
 
 ## Compiling from source

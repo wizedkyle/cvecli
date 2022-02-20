@@ -38,7 +38,7 @@ func NewCmdRoot() *cobra.Command {
 	cmd.AddCommand(NewCmdListCveIds.NewCmdListCveIds(client, &jsonOutput))
 	cmd.AddCommand(NewCmdListUsers.NewCmdListUsers(client, &jsonOutput))
 	cmd.AddCommand(NewCmdReserveCveId.NewCmdReserveCveId(client, &jsonOutput))
-	cmd.AddCommand(NewCmdResetSecret.NewCmdResetSecret(client))
+	cmd.AddCommand(NewCmdResetSecret.NewCmdResetSecret(client, &jsonOutput))
 	cmd.AddCommand(NewCmdUpdateUser.NewCmdUpdateUser(client, &jsonOutput))
 	cmd.PersistentFlags().BoolVarP(&jsonOutput, "json", "p", false, "Outputs the response in json")
 	return cmd
