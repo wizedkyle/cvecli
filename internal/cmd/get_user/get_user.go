@@ -2,71 +2,43 @@ package get_user
 
 import (
 	"fmt"
+	"os"
+	"strconv"
+	"text/tabwriter"
+
 	"github.com/spf13/cobra"
 	"github.com/wizedkyle/cvecli/internal/authentication"
 	"github.com/wizedkyle/cvecli/internal/cmdutils"
-	"github.com/wizedkyle/cvecli/internal/logging"
-	"github.com/wizedkyle/cvecli/internal/validation"
-	"github.com/wizedkyle/cveservices-go-sdk"
-	"os"
+	cveservices_go_sdk "github.com/wizedkyle/cveservices-go-sdk"
 )
 
-func NewCmdGetUser(client *cveservices_go_sdk.APIClient) *cobra.Command {
+func NewCmdGetUser(client *cveservices_go_sdk.APIClient, jsonOutput *bool) *cobra.Command {
 	var (
 		username string
-		output   string
 	)
 	cmd := &cobra.Command{
 		Use:   "get-user",
-		Short: "Retrieves information about a user in the organization.",
+		Short: "Retrieves information about a user in the organization",
 		Run: func(cmd *cobra.Command, args []string) {
 			authentication.ConfirmCredentialsSet(client)
-			getUser(client, username, output)
+			getUser(client, username, jsonOutput)
 		},
 	}
 	cmd.Flags().StringVarP(&username, "username", "u", "", "Specify the username of the user to retrieve.")
-	cmd.Flags().StringVarP(&output, "output", "o", "", "Specify a specific value to output. Accepted values are: "+
-		"active, active-roles, name, org-uuid, username, uuid")
 	cmd.MarkFlagRequired("username")
 	return cmd
 }
 
-func getUser(client *cveservices_go_sdk.APIClient, username string, output string) {
-	if output != "" && validation.UserOutputValidation(output) == false {
-		logging.ConsoleLogger().Error().Msg("Please select a valid output.")
-		os.Exit(1)
-	}
+func getUser(client *cveservices_go_sdk.APIClient, username string, jsonOutput *bool) {
 	data, response, err := client.GetUser(username)
 	if err != nil {
 		cmdutils.OutputError(response, err)
 	} else {
-		if output == "active" {
-			fmt.Println(data.Active)
-		} else if output == "active-role" {
-			for _, role := range data.Authority.ActiveRoles {
-				fmt.Println(role)
-			}
-		} else if output == "name" {
-			var name string
-			if data.Name.Suffix != "" {
-				name = name + data.Name.Suffix + " "
-			}
-			if data.Name.First != "" {
-				name = name + data.Name.First + " "
-			}
-			if data.Name.Middle != "" {
-				name = name + data.Name.Middle + " "
-			}
-			if data.Name.Last != "" {
-				name = name + data.Name.Last
-			}
-			fmt.Println(name)
-		} else if output == "org-uuid" {
-			fmt.Println(data.OrgUUID)
-		} else if output == "username" {
-			fmt.Println(data.Username)
-		} else if output == "uuid" {
-			fmt.Println(data.UUID)
+		if !*jsonOutput {
+			writer := tabwriter.NewWriter(os.Stdout, 0, 8, 1, '\t', tabwriter.AlignRight)
+			fmt.Fprintln(writer, "FIRST NAME\tLAST NAME\tUSERNAME\tUUID\tACTIVE")
+			fmt.Fprintln(writer, data.Name.First+"\t"+data.Name.Last+"\t"+data.Username+"\t"+data.UUID+"\t"+strconv.FormatBool(data.Active))
+			writer.Flush()
 		} else {
 			fmt.Println(string(cmdutils.OutputJson(data)))
 		}

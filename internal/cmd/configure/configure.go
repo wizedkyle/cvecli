@@ -18,8 +18,8 @@ func NewCmdConfigure() *cobra.Command {
 	)
 	cmd := &cobra.Command{
 		Use:   "configure",
-		Short: "Sets credentials that cvecli requires",
-		Long:  "Interactively sets the cvecli API user, API key, organization information and GitHub credentials.",
+		Short: "Sets credentials for cvecli",
+		Long:  "Interactively sets the cvecli API user, API key, organization information.",
 		Run: func(cmd *cobra.Command, args []string) {
 			if showApiUser == true && showOrganization == true {
 				fmt.Println("Please select either show-api-user or show-organization.")
@@ -51,10 +51,10 @@ func NewCmdConfigure() *cobra.Command {
 			}
 		},
 	}
-	cmd.Flags().BoolVarP(&showApiUser, "show-api-user", "u", false, "Shows the plain text API user. This command "+
-		"is useful for identifying which API user is being used. If this flag is set you cannot configure credentials.")
 	cmd.Flags().BoolVarP(&showOrganization, "show-organization", "o", false, "Shows the plaintext organization name. This command "+
 		"is useful for identifying which CVE CNA organization is being used. If this flag is set you cannot configure credentials.")
+	cmd.Flags().BoolVarP(&showApiUser, "show-api-user", "u", false, "Shows the plain text API user. This command "+
+		"is useful for identifying which API user is being used. If this flag is set you cannot configure credentials.")
 	return cmd
 }
 
