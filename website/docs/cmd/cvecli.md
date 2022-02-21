@@ -26,6 +26,7 @@ A CLI tool that allows CNAs to manage their organisation and CVEs.
 * [cvecli check-id-quota](/cmd/cve-ids/cvecli_check_id_quota/) - Checks the CVE ID quotas for the organization
 * [cvecli configure](/cmd/cvecli_configure) - Sets credentials for `cvecli`
 * [cvecli create-user](/cmd/users/cvecli_create_user) - Creates a new user in the organization
+* [cvecli get-cve-id](/cmd/cve-ids/cvecli_get_cve_id/) - Retrieves a CVE ID record by the ID
 * [cvecli get-organization-info](/cmd/organization/cvecli_get_organization_info) - Retrieves information about the organization the user authenticating is apart of
 * [cvecli get-user](/cmd/users/cvecli_get_user) - Retrieves information about a user in the organization
 * [cvecli list-cve-ids](/cmd/cve-ids/cvecli_list_cve_ids) - Lists all CVE Ids associated to an organization.

@@ -7,6 +7,7 @@ import (
 	NewCmdCheckIdQuota "github.com/wizedkyle/cvecli/internal/cmd/check_id_quota"
 	configureCmd "github.com/wizedkyle/cvecli/internal/cmd/configure"
 	NewCmdCreateUser "github.com/wizedkyle/cvecli/internal/cmd/create_user"
+	NewCmdGetCveId "github.com/wizedkyle/cvecli/internal/cmd/get_cve_id"
 	NewCmdGetOrganizationInfo "github.com/wizedkyle/cvecli/internal/cmd/get_organization_info"
 	NewCmdGetUser "github.com/wizedkyle/cvecli/internal/cmd/get_user"
 	NewCmdListCveIds "github.com/wizedkyle/cvecli/internal/cmd/list_cve_ids"
@@ -32,6 +33,7 @@ func NewCmdRoot() *cobra.Command {
 	client := authentication.GetCVEServicesSDKConfig()
 	cmd.AddCommand(configureCmd.NewCmdConfigure())
 	cmd.AddCommand(NewCmdCreateUser.NewCmdCreateUser(client, &jsonOutput))
+	cmd.AddCommand(NewCmdGetCveId.NewCmdGetCveId(client, &jsonOutput))
 	cmd.AddCommand(NewCmdGetOrganizationInfo.NewCmdGetOrganizationInfo(client, &jsonOutput))
 	cmd.AddCommand(NewCmdGetUser.NewCmdGetUser(client, &jsonOutput))
 	cmd.AddCommand(NewCmdCheckIdQuota.NewCmdCheckIdQuota(client, &jsonOutput))
