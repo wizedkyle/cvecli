@@ -10,7 +10,7 @@ permissions:
   packages: write
 
 env:
-  GOVERSION: '1.17.6'
+  GOVERSION: '1.17.7'
 
 jobs:
   build:

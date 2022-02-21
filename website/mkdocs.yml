@@ -43,6 +43,7 @@ nav:
   - cvecli check-id-quota: cmd/cve-ids/cvecli_check_id_quota.md
   - cvecli configure: cmd/cvecli_configure.md
   - cvecli create-user: cmd/users/cvecli_create_user.md
+  - cvecli get-cve-id: cmd/cve-ids/cvecli_get_cve_id.md
   - cvecli get-organization-info: cmd/organization/cvecli_get_organization_info.md
   - cvecli get-user: cmd/users/cvecli_get_user.md
   - cvecli list-cve-ids: cmd/cve-ids/cvecli_list_cve_ids.md
