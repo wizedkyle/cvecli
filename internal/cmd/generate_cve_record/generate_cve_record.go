@@ -37,7 +37,7 @@ func NewCmdGenerateCveRecord(client *cveservices_go_sdk.APIClient) *cobra.Comman
 		Use:   "generate-cve-record",
 		Short: "Generates a CVE record based on the JSON 5 schema",
 		Long: "This command will generate and complete the bare minimum requirements for a CVE record entry. You can specify custom values for fields by using the accepted flags. " +
-			"Once the CVE record has been generated it is recommended to review the contents prior to submitting using cveli create-cve-id-record.",
+			"Once the CVE record has been generated it is recommended to review the contents prior to submitting using cveli create-cve-record.",
 		Run: func(cmd *cobra.Command, args []string) {
 			generateCveSchema(advanced, basic, cveId, description, getAssignerId, language, lessThanVersion, lessThanOrEqualVersion,
 				path, problemTypeDescription, productName, referenceUrl, version, vendorName, versionType, client)

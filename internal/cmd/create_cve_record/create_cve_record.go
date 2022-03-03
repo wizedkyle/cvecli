@@ -19,6 +19,7 @@ func NewCmdCreateCveRecord(client *cveservices_go_sdk.APIClient, jsonOutput *boo
 	cmd := &cobra.Command{
 		Use:   "create-cve-record",
 		Short: "Creates a new CVE record",
+		Long:  "To create the CVE json file you can use the cvecli generate-cve-record.",
 		Run: func(cmd *cobra.Command, args []string) {
 			authentication.ConfirmCredentialsSet(client)
 			createCveRecord(client, cveId, path, jsonOutput)
