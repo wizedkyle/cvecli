@@ -5,6 +5,9 @@
 *.dll
 *.so
 *.dylib
+cvecli
+cvecli.exe
+test.json
 
 # Test binary, built with `go test -c`
 *.test
