@@ -6,6 +6,7 @@ cvecli allows you to interact with the [CVE Services API](https://github.com/CVE
 
 - Manage users in CNA organisation
 - Manage CVE IDs 
+- Manage CVE records
 
 
 

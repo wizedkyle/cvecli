@@ -63,7 +63,7 @@ You can install pre-compiled binaries for `cvecli` by navigating to the [release
     Example usage:
     
     ```shell
-    podman pull ghcr.io/wizedkyle/cvecli:$VERSION-$ARCHITECETURE
+    podman pull ghcr.io/wizedkyle/cvecli:$VERSION-$ARCHITECTURE
     podman run --env CVE_API_USER:test@test.com --env CVE_API_KEY:abc123 --env CVE_ORGANIZATION:Organization --env CVE_ENVIRONMENT:environment ghcr.io/wizedkyle/cvecli:$VERSION-$ARCHITECTURE get-organization-info
     ```
 
