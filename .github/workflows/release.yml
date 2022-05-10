@@ -34,12 +34,12 @@ jobs:
       - name: Container Registry Login
         run: |
           podman login -u ${{ github.repository_owner }} -p ${{ secrets.GITHUB_TOKEN }} ghcr.io
-      - name: Install GoReleaser Pro
-        run: |
-          brew install goreleaser/tap/goreleaser-pro
       - name: Run GoReleaser
-        run: |
-          goreleaser release -f .goreleaser.yml --rm-dist
+        uses: goreleaser/goreleaser-action@v2
+        with:
+          distribution: goreleaser-pro
+          version: latest
+          args: release -f .goreleaser.yml --rm-dist
         env:
           AC_PASSWORD: ${{ secrets.AC_PASSWORD }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
