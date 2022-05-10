@@ -48,7 +48,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: cvecli_darwin_amd64
-          path: ./dist/cvecli_darwin_amd64/cvecli
+          path: ./dist/cvecli_darwin_amd64_v1/cvecli
       - name: Upload Darwin arm64
         uses: actions/upload-artifact@v2
         with:
@@ -58,7 +58,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: cvecli_linux_amd64
-          path: ./dist/cvecli_linux_amd64/cvecli
+          path: ./dist/cvecli_linux_amd64_v1/cvecli
       - name: Upload linux arm64
         uses: actions/upload-artifact@v2
         with:
@@ -68,7 +68,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: cvecli_windows_amd64
-          path: ./dist/cvecli_windows_amd64/cvecli.exe
+          path: ./dist/cvecli_windows_amd64_v1/cvecli.exe
       - name: Upload Windows arm64
         uses: actions/upload-artifact@v2
         with:
