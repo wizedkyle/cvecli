@@ -3,7 +3,7 @@ name: Cvecli Tests
 on: [pull_request, push]
 
 env:
-  GOVERSION: '1.17.7'
+  GOVERSION: '1.18.1'
 
 jobs:
   run_tests:

@@ -1,6 +1,6 @@
 module github.com/wizedkyle/cvecli
 
-go 1.17
+go 1.18
 
 require (
 	github.com/antihax/optional v1.0.0
