@@ -22,6 +22,7 @@ import (
 )
 
 var (
+	debug      bool
 	jsonOutput bool
 )
 
@@ -38,7 +39,7 @@ func NewCmdRoot() *cobra.Command {
 	cmd.AddCommand(configureCmd.NewCmdConfigure())
 	cmd.AddCommand(NewCmdCreateCveRecord.NewCmdCreateCveRecord(client, &jsonOutput))
 	cmd.AddCommand(NewCmdCreateUser.NewCmdCreateUser(client, &jsonOutput))
-	cmd.AddCommand(NewCmdGenerateCveRecord.NewCmdGenerateCveRecord(client))
+	cmd.AddCommand(NewCmdGenerateCveRecord.NewCmdGenerateCveRecord(client, &debug))
 	cmd.AddCommand(NewCmdGetCveId.NewCmdGetCveId(client, &jsonOutput))
 	cmd.AddCommand(NewCmdGetCveRecord.NewCmdGetCveRecord(client, &jsonOutput))
 	cmd.AddCommand(NewCmdGetOrganizationInfo.NewCmdGetOrganizationInfo(client, &jsonOutput))
@@ -46,10 +47,11 @@ func NewCmdRoot() *cobra.Command {
 	cmd.AddCommand(NewCmdCheckIdQuota.NewCmdCheckIdQuota(client, &jsonOutput))
 	cmd.AddCommand(NewCmdListCveIds.NewCmdListCveIds(client, &jsonOutput))
 	cmd.AddCommand(NewCmdListUsers.NewCmdListUsers(client, &jsonOutput))
-	cmd.AddCommand(NewCmdReserveCveId.NewCmdReserveCveId(client, &jsonOutput))
+	cmd.AddCommand(NewCmdReserveCveId.NewCmdReserveCveId(client, &debug, &jsonOutput))
 	cmd.AddCommand(NewCmdResetSecret.NewCmdResetSecret(client, &jsonOutput))
 	cmd.AddCommand(NewCmdUpdateCveRecord.NewCmdUpdateCveRecord(client, &jsonOutput))
 	cmd.AddCommand(NewCmdUpdateUser.NewCmdUpdateUser(client, &jsonOutput))
+	cmd.PersistentFlags().BoolVar(&debug, "debug", false, "Sets the log level to debug")
 	cmd.PersistentFlags().BoolVar(&jsonOutput, "json", false, "Outputs the response in json")
 	return cmd
 }

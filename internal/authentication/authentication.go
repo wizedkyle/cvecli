@@ -3,16 +3,17 @@ package authentication
 import (
 	"encoding/json"
 	"fmt"
+	"net/http"
+	"os"
+	"path/filepath"
+	"time"
+
 	"github.com/spf13/viper"
 	"github.com/wizedkyle/cvecli/config"
 	"github.com/wizedkyle/cvecli/internal/build"
 	"github.com/wizedkyle/cvecli/internal/encryption"
 	"github.com/wizedkyle/cvecli/internal/logging"
-	"github.com/wizedkyle/cveservices-go-sdk"
-	"net/http"
-	"os"
-	"path/filepath"
-	"time"
+	cveservices_go_sdk "github.com/wizedkyle/cveservices-go-sdk"
 )
 
 func ConfirmCredentialsSet(client *cveservices_go_sdk.APIClient) {
@@ -104,18 +105,18 @@ func WriteCredentialsFile(apiUser string, apiKey string, organization string, en
 	if _, err := os.Stat(configFilePath); os.IsNotExist(err) {
 		err := os.MkdirAll(configFilePath, 0755)
 		if err != nil {
-			logging.ConsoleLogger().Error().Err(err).Msg("failed to create folder structure for credentials file")
+			logging.Console().Error().Err(err).Msg("failed to create folder structure for credentials file")
 			os.Exit(1)
 		}
 	}
 	credentialsFile, err := json.MarshalIndent(credentials, "", "    ")
 	if err != nil {
-		logging.ConsoleLogger().Error().Err(err).Msg("failed to marshal credentials")
+		logging.Console().Error().Err(err).Msg("failed to marshal credentials")
 		os.Exit(1)
 	}
 	err = os.WriteFile(config.Path(true), credentialsFile, 0644)
 	if err != nil {
-		logging.ConsoleLogger().Error().Err(err).Msg("failed to write credentials file to " + config.Path(true))
+		logging.Console().Error().Err(err).Msg("failed to write credentials file to " + config.Path(true))
 		os.Exit(1)
 	} else {
 		fmt.Println("Credentials file saved to: " + config.Path(true))

@@ -1,10 +1,11 @@
 package config
 
 import (
-	"github.com/wizedkyle/cvecli/internal/logging"
-	"github.com/wizedkyle/cveservices-go-sdk"
 	"os"
 	"path/filepath"
+
+	"github.com/wizedkyle/cvecli/internal/logging"
+	cveservices_go_sdk "github.com/wizedkyle/cveservices-go-sdk"
 )
 
 type CredentialFile struct {
@@ -24,7 +25,7 @@ var (
 func Path(credentialFile bool) string {
 	homeDirectory, err := os.UserHomeDir()
 	if err != nil {
-		logging.ConsoleLogger().Error().Err(err).Msg("unable to retrieve user home directory")
+		logging.Console().Error().Err(err).Msg("unable to retrieve user home directory")
 	}
 	if credentialFile == true {
 		configFile := filepath.Join(homeDirectory, credentialFilePath)

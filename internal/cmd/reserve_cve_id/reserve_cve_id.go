@@ -15,7 +15,7 @@ import (
 	"github.com/wizedkyle/cveservices-go-sdk/types"
 )
 
-func NewCmdReserveCveId(client *cveservices_go_sdk.APIClient, jsonOutput *bool) *cobra.Command {
+func NewCmdReserveCveId(client *cveservices_go_sdk.APIClient, debug *bool, jsonOutput *bool) *cobra.Command {
 	var (
 		amount        int32
 		cveYear       int32
@@ -25,9 +25,12 @@ func NewCmdReserveCveId(client *cveservices_go_sdk.APIClient, jsonOutput *bool) 
 	cmd := &cobra.Command{
 		Use:   "reserve-cve-id",
 		Short: "Reserves a CVE ID for the organization",
+		PreRun: func(cmd *cobra.Command, args []string) {
+			logging.SetLoggingLevel(debug)
+		},
 		Run: func(cmd *cobra.Command, args []string) {
 			authentication.ConfirmCredentialsSet(client)
-			reserveCveId(client, amount, cveYear, nonSequential, sequential, jsonOutput)
+			reserveCveId(client, amount, cveYear, nonSequential, sequential, jsonOutput, debug)
 		},
 	}
 	cmd.Flags().Int32VarP(&amount, "amount", "a", 1, "The number of CVE IDs to reserve")
@@ -39,17 +42,17 @@ func NewCmdReserveCveId(client *cveservices_go_sdk.APIClient, jsonOutput *bool) 
 	return cmd
 }
 
-func reserveCveId(client *cveservices_go_sdk.APIClient, amount int32, cveYear int32, nonSequential bool, sequential bool, jsonOutput *bool) {
+func reserveCveId(client *cveservices_go_sdk.APIClient, amount int32, cveYear int32, nonSequential bool, sequential bool, jsonOutput *bool, debug *bool) {
 	var options types.ReserveCveIdOpts
-	if amount > 1 && nonSequential == false && sequential == false {
-		logging.ConsoleLogger().Fatal().Msg("When amount is greater than 1 please specify either non-sequential or sequential.")
+	if amount > 1 && !nonSequential && !sequential {
+		logging.Console().Fatal().Msg("When amount is greater than 1 please specify either non-sequential or sequential.")
 	}
 	if amount > 1 {
-		if nonSequential == true && sequential == true {
-			logging.ConsoleLogger().Fatal().Msg("Please select either nonSequential or sequential and try again")
-		} else if nonSequential == true {
+		if nonSequential && sequential {
+			logging.Console().Fatal().Msg("Please select either nonSequential or sequential and try again")
+		} else if nonSequential {
 			options.BatchType = optional.NewString("non-sequential")
-		} else if sequential == true {
+		} else if sequential {
 			options.BatchType = optional.NewString("sequential")
 		}
 	}
@@ -57,6 +60,9 @@ func reserveCveId(client *cveservices_go_sdk.APIClient, amount int32, cveYear in
 		cveYear = int32(time.Now().Year())
 	}
 	data, response, err := client.ReserveCveId(amount, cveYear, &options)
+	if *debug {
+		logging.DebugHttpResponse(response)
+	}
 	if err != nil {
 		cmdutils.OutputError(response, err)
 	} else {
@@ -65,7 +71,7 @@ func reserveCveId(client *cveservices_go_sdk.APIClient, amount int32, cveYear in
 			fmt.Fprintln(writer, "CVE ID\tCVE YEAR\tSTATE\tOWNING CNA\tREQUESTED BY\tRESERVED DATE")
 			for i := 0; i < len(*data.CveIds); i++ {
 				fmt.Fprintln(writer, (*data.CveIds)[i].CveId+"\t"+(*data.CveIds)[i].CveYear+"\t"+(*data.CveIds)[i].State+
-					"\t"+(*data.CveIds)[i].OwningCna+"\t"+(*data.CveIds)[i].Reserved.String())
+					"\t"+(*data.CveIds)[i].OwningCna+"\t"+(*data.CveIds)[i].RequestedBy.User+"\t"+(*data.CveIds)[i].Reserved.String())
 			}
 			writer.Flush()
 		} else {

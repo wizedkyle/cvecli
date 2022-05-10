@@ -2,13 +2,14 @@ package configure
 
 import (
 	"fmt"
+	"os"
+	"strings"
+
 	"github.com/manifoldco/promptui"
 	"github.com/spf13/cobra"
 	"github.com/wizedkyle/cvecli/config"
 	"github.com/wizedkyle/cvecli/internal/authentication"
 	"github.com/wizedkyle/cvecli/internal/logging"
-	"os"
-	"strings"
 )
 
 func NewCmdConfigure() *cobra.Command {
@@ -84,15 +85,15 @@ func setCredentials() {
 	}
 	apiUser, err := promptApiUser.Run()
 	if err != nil {
-		logging.ConsoleLogger().Error().Err(err).Msg("failed to prompt an api user")
+		logging.Console().Error().Err(err).Msg("failed to prompt an api user")
 	}
 	apiKey, err := promptApiKey.Run()
 	if err != nil {
-		logging.ConsoleLogger().Error().Err(err).Msg("failed to prompt for an api key")
+		logging.Console().Error().Err(err).Msg("failed to prompt for an api key")
 	}
 	organization, err := promptOrganization.Run()
 	if err != nil {
-		logging.ConsoleLogger().Error().Err(err).Msg("failed to prompt for an organization")
+		logging.Console().Error().Err(err).Msg("failed to prompt for an organization")
 	}
 	authentication.WriteCredentialsFile(apiUser, apiKey, organization, environment)
 }

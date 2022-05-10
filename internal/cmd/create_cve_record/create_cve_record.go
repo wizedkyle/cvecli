@@ -13,8 +13,7 @@ import (
 
 func NewCmdCreateCveRecord(client *cveservices_go_sdk.APIClient, jsonOutput *bool) *cobra.Command {
 	var (
-		cveId string
-		path  string
+		path string
 	)
 	cmd := &cobra.Command{
 		Use:   "create-cve-record",
@@ -22,21 +21,19 @@ func NewCmdCreateCveRecord(client *cveservices_go_sdk.APIClient, jsonOutput *boo
 		Long:  "To create the CVE json file you can use the cvecli generate-cve-record.",
 		Run: func(cmd *cobra.Command, args []string) {
 			authentication.ConfirmCredentialsSet(client)
-			createCveRecord(client, cveId, path, jsonOutput)
+			createCveRecord(client, path, jsonOutput)
 		},
 	}
-	cmd.Flags().StringVarP(&cveId, "cve-id", "c", "", "Specify the CVE ID to create a record for")
 	cmd.Flags().StringVarP(&path, "path", "p", "", "Specify the path of the CVE json file")
-	cmd.MarkFlagRequired("cve-id")
 	cmd.MarkFlagRequired("path")
 	return cmd
 }
 
-func createCveRecord(client *cveservices_go_sdk.APIClient, cveId string, path string, jsonOutput *bool) {
+func createCveRecord(client *cveservices_go_sdk.APIClient, path string, jsonOutput *bool) {
 	var body types.CveJson5
 	fileData := cmdutils.ReadFile(path)
 	json.Unmarshal(fileData, &body)
-	data, response, err := client.CreateCveRecord(body, cveId)
+	data, response, err := client.CreateCveRecord(body, body.CveMetadata.CveId)
 	if err != nil {
 		cmdutils.OutputError(response, err)
 	} else {

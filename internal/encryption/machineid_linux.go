@@ -17,7 +17,7 @@ func getMachineId() string {
 		machineId, err = os.ReadFile(dbusPathEtc)
 	}
 	if err != nil {
-		logging.ConsoleLogger().Error().Err(err).Msg("failed to retrieve machine id")
+		logging.Console().Error().Err(err).Msg("failed to retrieve machine id")
 	}
 	return trim(string(machineId))
 }

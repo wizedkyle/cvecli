@@ -2,11 +2,12 @@ package encryption
 
 import (
 	"bytes"
-	"github.com/wizedkyle/cvecli/internal/logging"
 	"io"
 	"os"
 	"os/exec"
 	"strings"
+
+	"github.com/wizedkyle/cvecli/internal/logging"
 )
 
 func extractId(lines string) string {
@@ -25,11 +26,11 @@ func getMachineId() string {
 	buffer := &bytes.Buffer{}
 	err := runCommand(buffer, os.Stderr, "ioreg", "-rd1", "-c", "IOPlatformExpertDevice")
 	if err != nil {
-		logging.ConsoleLogger().Error().Err(err).Msg("failed to run command to get machine id")
+		logging.Console().Error().Err(err).Msg("failed to run command to get machine id")
 	}
 	machineId := extractId(buffer.String())
 	if machineId == "" {
-		logging.ConsoleLogger().Error().Msg("failed to retrieve machine id")
+		logging.Console().Error().Msg("failed to retrieve machine id")
 	}
 	return trim(machineId)
 }

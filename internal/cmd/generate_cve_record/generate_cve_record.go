@@ -15,7 +15,7 @@ import (
 	"github.com/wizedkyle/cveservices-go-sdk/types"
 )
 
-func NewCmdGenerateCveRecord(client *cveservices_go_sdk.APIClient) *cobra.Command {
+func NewCmdGenerateCveRecord(client *cveservices_go_sdk.APIClient, debug *bool) *cobra.Command {
 	var (
 		advanced               bool
 		basic                  bool
@@ -38,6 +38,9 @@ func NewCmdGenerateCveRecord(client *cveservices_go_sdk.APIClient) *cobra.Comman
 		Short: "Generates a CVE record based on the JSON 5 schema",
 		Long: "This command will generate and complete the bare minimum requirements for a CVE record entry. You can specify custom values for fields by using the accepted flags. " +
 			"Once the CVE record has been generated it is recommended to review the contents prior to submitting using cveli create-cve-record.",
+		PreRun: func(cmd *cobra.Command, args []string) {
+			logging.SetLoggingLevel(debug)
+		},
 		Run: func(cmd *cobra.Command, args []string) {
 			generateCveSchema(advanced, basic, cveId, description, getAssignerId, language, lessThanVersion, lessThanOrEqualVersion,
 				path, problemTypeDescription, productName, referenceUrl, version, vendorName, versionType, client)
@@ -76,11 +79,12 @@ func generateCveSchema(advanced bool, basic bool, cveId string, description stri
 		referencesArray          = []types.CveJson5References{}
 		references               = types.CveJson5References{}
 	)
+
 	filePathDirectory := filepath.Dir(path)
 	if _, err := os.Stat(path); os.IsNotExist(err) {
 		err := os.MkdirAll(filePathDirectory, 0755)
 		if err != nil {
-			logging.ConsoleLogger().Error().Err(err).Msg("failed to create folder structure for CVE record file")
+			logging.Console().Error().Err(err).Msg("failed to create folder structure for CVE record file")
 			os.Exit(1)
 		}
 	}
@@ -101,7 +105,7 @@ func generateCveSchema(advanced bool, basic bool, cveId string, description stri
 	basicJsonSchema.CveMetadata.State = "PUBLISHED"
 	if !getAssignerId {
 		basicJsonSchema.CveMetadata.Assigner = "00000000-0000-0000-0000-000000000000"
-		basicJsonSchema.Containers.Cna.ProviderMetadata.Id = "00000000-0000-0000-0000-000000000000"
+		basicJsonSchema.Containers.ProviderMetadata.OrgId = "00000000-0000-0000-0000-000000000000"
 	} else {
 		authentication.ConfirmCredentialsSet(client)
 		data, response, err := client.GetOrganizationRecord()
@@ -109,7 +113,8 @@ func generateCveSchema(advanced bool, basic bool, cveId string, description stri
 			cmdutils.OutputError(response, err)
 		} else {
 			basicJsonSchema.CveMetadata.Assigner = data.UUID
-			basicJsonSchema.Containers.Cna.ProviderMetadata.Id = data.UUID
+			basicJsonSchema.CveMetadata.AssignerOrgId = data.UUID
+			basicJsonSchema.Containers.ProviderMetadata.OrgId = data.UUID
 		}
 	}
 	if cveId != "" {
@@ -177,21 +182,21 @@ func generateCveSchema(advanced bool, basic bool, cveId string, description stri
 	}
 	referencesArray = append(referencesArray, references)
 
-	basicJsonSchema.Containers.Cna.Affected = append(basicJsonSchema.Containers.Cna.Affected, affected)
-	basicJsonSchema.Containers.Cna.Descriptions = append(basicJsonSchema.Containers.Cna.Descriptions, descriptionsArray...)
-	basicJsonSchema.Containers.Cna.ProblemTypes = append(basicJsonSchema.Containers.Cna.ProblemTypes, problemTypesArray...)
-	basicJsonSchema.Containers.Cna.References = append(basicJsonSchema.Containers.Cna.References, referencesArray...)
+	basicJsonSchema.Containers.Affected = append(basicJsonSchema.Containers.Affected, affected)
+	basicJsonSchema.Containers.Descriptions = append(basicJsonSchema.Containers.Descriptions, descriptionsArray...)
+	basicJsonSchema.Containers.ProblemTypes = append(basicJsonSchema.Containers.ProblemTypes, problemTypesArray...)
+	basicJsonSchema.Containers.References = append(basicJsonSchema.Containers.References, referencesArray...)
 
 	// Either export as a basic schema or add the advanced properties
 	if basic {
 		schemaFile, err := json.MarshalIndent(basicJsonSchema, "", "    ")
 		if err != nil {
-			logging.ConsoleLogger().Error().Err(err).Msg("failed to marshal basic schema")
+			logging.Console().Error().Err(err).Msg("failed to marshal basic schema")
 			os.Exit(1)
 		}
 		err = os.WriteFile(path, schemaFile, 0644)
 		if err != nil {
-			logging.ConsoleLogger().Error().Err(err).Msg("failed to write basic schema file to " + path)
+			logging.Console().Error().Err(err).Msg("failed to write basic schema file to " + path)
 			os.Exit(1)
 		} else {
 			fmt.Println("Basic schema file saved to: " + path)
