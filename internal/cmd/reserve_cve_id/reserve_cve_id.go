@@ -65,7 +65,7 @@ func reserveCveId(client *cveservices_go_sdk.APIClient, amount int32, cveYear in
 			fmt.Fprintln(writer, "CVE ID\tCVE YEAR\tSTATE\tOWNING CNA\tREQUESTED BY\tRESERVED DATE")
 			for i := 0; i < len(*data.CveIds); i++ {
 				fmt.Fprintln(writer, (*data.CveIds)[i].CveId+"\t"+(*data.CveIds)[i].CveYear+"\t"+(*data.CveIds)[i].State+
-					"\t"+(*data.CveIds)[i].OwningCna+"\t"+(*data.CveIds)[i].Reserved.String())
+					"\t"+(*data.CveIds)[i].OwningCna+"\t"+(*data.CveIds)[i].RequestedBy.User+"\t"+(*data.CveIds)[i].Reserved.String())
 			}
 			writer.Flush()
 		} else {
